@@ -43,7 +43,7 @@ $scheme-main ?= $white
 $scheme-main-bis ?= $white-bis
 $scheme-main-ter ?= $white-ter
 $scheme-invert ?= $black
-$scheme-invert-bis ?= $black-bis
+$scheme-invert-bis ?= green
 $scheme-invert-ter ?= $black-ter
 
 $background ?= $white-ter
@@ -97,62 +97,63 @@ $size-medium ?= $size-5
 $size-large ?= $size-4
 
 // Lists and maps
+$default-colors ?= {
+	"white": {
+		'1': $white,
+		'2': $black
+	},
+	"black": {
+		'1': $black,
+		'2': $white
+	},
+	"light": {
+		'1': $light,
+		'2': $light-invert
+	},
+	"dark": {
+		'1': $dark,
+		'2': $dark-invert
+	},
+	"primary": {
+		'1': $primary,
+		'2': $primary-invert,
+		'3': $primary-light,
+		'4': $primary-dark
+	},
+	"link": {
+		'1': $link,
+		'2': $link-invert,
+		'3': $link-light,
+		'4': $link-dark
+	},
+	"info": {
+		'1': $info,
+		'2': $info-invert,
+		'3': $info-light,
+		'4': $info-dark
+	},
+	"success": {
+		'1': $success,
+		'2': $success-invert,
+		'3': $success-light,
+		'4': $success-dark
+	},
+	"warning": {
+		'1': $warning,
+		'2': $warning-invert,
+		'3': $warning-light,
+		'4': $warning-dark
+	},
+	"danger": {
+		'1': $danger,
+		'2': $danger-invert,
+		'3': $danger-light,
+		'4': $danger-dark
+	}}
 $custom-colors ?= null
 $custom-shades ?= null
 
-$colors ?= mergeColorMaps({
-  "white": {
-    '1': $white,
-    '2': $black
-  },
-  "black": {
-    '1': $black,
-    '2': $white
-  },
-  "light": {
-    '1': $light,
-    '2': $light-invert
-  },
-  "dark": {
-    '1': $dark,
-    '2': $dark-invert
-  },
-  "primary": {
-    '1': $primary,
-    '2': $primary-invert,
-    '3': $primary-light,
-    '4': $primary-dark
-  },
-  "link": {
-    '1': $link,
-    '2': $link-invert,
-    '3': $link-light,
-    '4': $link-dark
-  },
-  "info": {
-    '1': $info,
-    '2': $info-invert,
-    '3': $info-light,
-    '4': $info-dark
-  },
-  "success": {
-    '1': $success,
-    '2': $success-invert,
-    '3': $success-light,
-    '4': $success-dark
-  },
-  "warning": {
-    '1': $warning,
-    '2': $warning-invert,
-    '3': $warning-light,
-    '4': $warning-dark
-  },
-  "danger": {
-    '1': $danger,
-    '2': $danger-invert,
-    '3': $danger-light,
-    '4': $danger-dark
-  }}, $custom-colors)
+$colors ?= mergeColorMaps($default-colors, $custom-colors)
 $shades ?= mergeColorMaps({"black-bis": $black-bis, "black-ter": $black-ter, "grey-darker": $grey-darker, "grey-dark": $grey-dark, "grey": $grey, "grey-light": $grey-light, "grey-lighter": $grey-lighter, "white-ter": $white-ter, "white-bis": $white-bis}, $custom-shades)
 
 $sizes ?= $size-1 $size-2 $size-3 $size-4 $size-5 $size-6 $size-7

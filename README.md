@@ -3,7 +3,7 @@
 [![npm](https://img.shields.io/npm/v/bulma-stylus.svg)](https://www.npmjs.com/package/bulma-stylus)
 [![npm](https://img.shields.io/npm/dm/bulma-stylus.svg)](https://www.npmjs.com/package/bulma-stylus)
 
-This is a 1:1 Stylus translation of the [Bulma](http://bulma.io) CSS framework.
+**This is fork** of 1:1 Stylus translation of the [Bulma](http://bulma.io) CSS framework. Contains some fixes, enhancments and additions.
 
 ![Bulma Stylus: a Stylus translation of a Flexbox CSS framework](http://i.imgur.com/CemfgQf.png)
 
