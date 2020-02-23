@@ -92,7 +92,7 @@ colorLuminance($color, $formula= $colorContrastFormula)
 			$color-rgb[$name] = $value
 		return (($color-rgb['red'] * .2126) + ($color-rgb['green'] * .7152) + ($color-rgb['blue'] * .0722))
 
-findColorInvert($color, $tint= true)
+findColorInvert($color, $tint= false)
 	$ratio= $colorContrastFormula = 'YIQ' or 'yiq' ? 0.5 : 0.55
 	if colorLuminance($color) > $ratio
 		if $tint
