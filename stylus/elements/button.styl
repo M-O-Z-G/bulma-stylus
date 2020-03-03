@@ -12,7 +12,7 @@ $button-border-width ?= $control-border-width
 $button-padding-vertical ?= "calc(0.5em - %s)" % $button-border-width
 $button-padding-horizontal ?= 1em
 
-$button-hover-background-color ?= $button-solid ? bulma-stylus-darken($button-solid-background-color, 3.5%) : transparent
+$button-hover-background-color ?= $button-solid ? bulma-stylus-darken($button-solid-background-color, 2.5%) : transparent
 $button-hover-color ?= $button-solid ? findColorInvert($button-solid-background-color) : $link-hover
 $button-hover-border-color ?= $button-solid ? transparent : $link-hover-border
 
@@ -132,7 +132,7 @@ button-large()
 			color $color-invert
 			&:hover,
 			&.is-hovered
-				background-color bulma-stylus-darken($color, 3.5%)
+				background-color bulma-stylus-darken($color, 2.5%)
 				border-color transparent
 				color $color-invert
 			&:focus,

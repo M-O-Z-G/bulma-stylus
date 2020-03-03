@@ -24,29 +24,16 @@
 typography-size($target = '')
 	for $size in $sizes
 		$i = index($sizes, $size) + 1
-		$target-suffix = $target == '' ? '' : '-' + $target
+		$target-suffix = $target == '' ? '' : '-' + sanitizeName($target,'')
 		.is-size-{$i}{$target-suffix}
 			font-size $size !important
 
 typography-size()
 
-+mobile()
-	typography-size('mobile')
-
-+tablet()
-	typography-size('tablet')
-
-+touch()
-	typography-size('touch')
-
-+desktop()
-	typography-size('desktop')
-
-+widescreen()
-	typography-size('widescreen')
-
-+fullhd()
-	typography-size('fullhd')
+for $device in $devices
+	if !match('-only$', sanitizeName($device, ''))
+		+$device()
+			typography-size($device)
 
 $alignments = {'centered': center, 'justified': justify, 'left': left, 'right': right}
 
@@ -55,33 +42,10 @@ for $alignment, $text-align in $alignments
 		text-align $text-align !important
 
 for $alignment, $text-align in $alignments
-	+mobile()
-		.has-text-{$alignment}-mobile
-			text-align $text-align !important
-	+tablet()
-		.has-text-{$alignment}-tablet
-			text-align $text-align !important
-	+tablet-only()
-		.has-text-{$alignment}-tablet-only
-			text-align $text-align !important
-	+touch()
-		.has-text-{$alignment}-touch
-			text-align $text-align !important
-	+desktop()
-		.has-text-{$alignment}-desktop
-			text-align $text-align !important
-	+desktop-only()
-		.has-text-{$alignment}-desktop-only
-			text-align $text-align !important
-	+widescreen()
-		.has-text-{$alignment}-widescreen
-			text-align $text-align !important
-	+widescreen-only()
-		.has-text-{$alignment}-widescreen-only
-			text-align $text-align !important
-	+fullhd()
-		.has-text-{$alignment}-fullhd
-			text-align $text-align !important
+	for $device in $devices
+		+$device()
+			.has-text-{$alignment}-{$device}
+				text-align $text-align !important
 
 .is-capitalized
 	text-transform capitalize !important
@@ -145,33 +109,10 @@ $displays = block flex inline inline-block inline-flex
 for $display in $displays
 	.is-{$display}
 		display $display !important
-	+mobile()
-		.is-{$display}-mobile
-			display $display !important
-	+tablet()
-		.is-{$display}-tablet
-			display $display !important
-	+tablet-only()
-		.is-{$display}-tablet-only
-			display $display !important
-	+touch()
-		.is-{$display}-touch
-			display $display !important
-	+desktop()
-		.is-{$display}-desktop
-			display $display !important
-	+desktop-only()
-		.is-{$display}-desktop-only
-			display $display !important
-	+widescreen()
-		.is-{$display}-widescreen
-			display $display !important
-	+widescreen-only()
-		.is-{$display}-widescreen-only
-			display $display !important
-	+fullhd()
-		.is-{$display}-fullhd
-			display $display !important
+	for $device in $devices
+		+$device()
+			.is-{$display}-{$device}
+				display $display !important
 
 .is-hidden
 	display none !important
@@ -186,80 +127,17 @@ for $display in $displays
 	white-space nowrap !important
 	width 0.01em !important
 
-+mobile()
-	.is-hidden-mobile
-		display none !important
-
-+tablet()
-	.is-hidden-tablet
-		display none !important
-
-+tablet-only()
-	.is-hidden-tablet-only
-		display none !important
-
-+touch()
-	.is-hidden-touch
-		display none !important
-
-+desktop()
-	.is-hidden-desktop
-		display none !important
-
-+desktop-only()
-	.is-hidden-desktop-only
-		display none !important
-
-+widescreen()
-	.is-hidden-widescreen
-		display none !important
-
-+widescreen-only()
-	.is-hidden-widescreen-only
-		display none !important
-
-+fullhd()
-	.is-hidden-fullhd
-		display none !important
+for $device in $devices
+	+$device()
+		.is-hidden-{$device}
+			display none !important
 
 .is-invisible
 	visibility hidden !important
-
-+mobile()
-	.is-invisible-mobile
-		visibility hidden !important
-
-+tablet()
-	.is-invisible-tablet
-		visibility hidden !important
-
-+tablet-only()
-	.is-invisible-tablet-only
-		visibility hidden !important
-
-+touch()
-	.is-invisible-touch
-		visibility hidden !important
-
-+desktop()
-	.is-invisible-desktop
-		visibility hidden !important
-
-+desktop-only()
-	.is-invisible-desktop-only
-		visibility hidden !important
-
-+widescreen()
-	.is-invisible-widescreen
-		visibility hidden !important
-
-+widescreen-only()
-	.is-invisible-widescreen-only
-		visibility hidden !important
-
-+fullhd()
-	.is-invisible-fullhd
-		visibility hidden !important
+	for $device in $devices
+		+$device()
+			&-{$device}
+				visibility hidden !important
 
 // Other
 

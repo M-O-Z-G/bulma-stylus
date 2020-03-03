@@ -1,5 +1,40 @@
 # Changelog
 
+## UNRELEASED
+
+### Added
+
+- All selector names now supports custom prefix with variable `$prefix` to prevent conflicts with anything else. `''` by default.
+- [**BEM 101**](http://getbem.com/introduction/) naming methodology for all *components*, *elements* and *helpers*. Could be set with variable `$naming-methodology`.
+- `$naming-methodology` string variable. `'SMACSS'` by default. Any value other than `'BEM'` returns Bulma's default behavior.
+- Each default selector name for *component*, *element* of *helper* can be redefined manually with variable, _see `initial-variables.styl:85` for examples_.
+- Shaded and pseudo-3D styles for buttons.
+- Extra animation rules.
+
+### Changed
+
+- *Components*, *helpers* and *elements* now abstracted and could be called as mixins. You could even disable auto-generated rules for them, but keep them available for use.
+- `$default-color` now doesn't require numerical string names for nested hash arrays.
+
+## 0.8.2 - 2020-03-03
+
+### Added
+
+- `$devices` indent variable is the list of all media query mixins like: `mobile`, `tablet-only`, `fullhd`, etc. By default: `mobile tablet tablet-only touch desktop desktop-only widescreen widescreen-only fullhd`. It can be shortened or expanded at your discretion. But a mixin for each name **must exist before the variable is declared**. Used for all repeatable media query rules such like _columns_.
+- `lengthList()` function, because actual Stylus built-in `length` function works in a weird way with lists that contain one item. _This's **just a fix** for partial cases. Could be deprecated with a next Stylus release._
+
+### Changed
+
+- The maximum number of columns per row now optional and defined with variable `$columns-max`. 12 by default.
+- Selector names for ratio sized columns now stored within hash array and supports any number of aliases for each of them. For instance: `.is-three-quarters` now is `.is-3of4` also.
+- Repeatable media rules for `helpers` and `columns` now generated within loop mixins. _Use conditional statements, if you need some exceptions. `@extend` directive works as usual._
+
+### Fixed
+
+- `$scheme-invert-bis` returned to original default value `$black-bis`.
+- `colorLuminance` syntax error. All generated colors returned to initial values.
+- Hovered button color lightness set to original 2.5% instead 3.5% from last commits. It was a mistake.
+
 ## 0.8.1.1 - 2020-02-23
 
 ### Added

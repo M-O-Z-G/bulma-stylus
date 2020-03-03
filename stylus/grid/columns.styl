@@ -1,4 +1,70 @@
+$columns-max ?= 12
 $column-gap ?= 0.75rem
+
+column-ratios ?= {
+	narrow:        { names: 'narrow' },
+	full:          { names: 'full',                     value: 100%                      }, // 100%
+	threeQuarters: { names: ('three-quarters' '3of4'),  value: round(percentage(3/4), 4) }, // 75%
+	twoThird:      { names: ('two-thirds' '2of3' ),     value: round(percentage(2/3), 4) }, // 66.6667%
+	half:          { names: ('half' '1of2' ),           value: round(percentage(1/2), 4) }, // 50%
+	oneThird:      { names: ('one-third' '1of3' ),      value: round(percentage(1/3), 4) }, // 33.3333%
+	oneQuarter:    { names: ('one-quarter' '1of4' ),    value: round(percentage(1/4), 4) }, // 25%
+	oneFifth:      { names: ('one-fifth' '1of5' ),      value: round(percentage(1/5), 4) }, // 20%
+	twoFifth:      { names: ('two-fifths' '2of5' ),     value: round(percentage(2/5), 4) }, // 40%
+	threeFifth:    { names: ('three-fifths' '3of5' ),   value: round(percentage(3/5), 4) }, // 60%
+	fourFifth:     { names: ('four-fifths' '4of5' ),    value: round(percentage(4/5), 4) }, // 80%
+}
+columnWidthRule($preface= '&.is-', $device= false, $leadDevice= tablet, $offset= false)
+	$prop= $offset ? 'margin-left' : 'width';
+	$offsetNameSegment= $offset ? 'offset-' : '';
+	$device= sanitizeName($device,'') if $device
+
+	if !match('-only$', sanitizeName($device, ''))
+		for $ratio in column-ratios
+			$selector= ''
+			$names= column-ratios[$ratio].names
+			$length= lengthList($names)-1
+			$count= $device and ($device == $leadDevice) ? 1 : 0
+
+			for $name in $names
+				$i= index($names, $name)+1
+				for $c in 0..$count
+					$deviceNameSegment= (($device and $count == 0) or ($device and $count != 0 and $c > 0 )) ? '-' + $device : ''
+					$separator= (($i < $length) or ($count > 0 and $c < $count)) ? ',' : ''
+					if ($offset and $ratio != narrow and $ratio != full) or !$offset
+						$selector= $selector + $preface + $offsetNameSegment + $name + $deviceNameSegment + $separator
+
+			if $selector != ''
+				$value= column-ratios[$ratio][value]
+				{$selector}
+					if !$offset
+						{block}
+						flex none
+					{$prop}: $value if $value
+
+columnGridRule($preface= '&.is-', $device= false, $leadDevice= tablet)
+	$deviceNameSegment= $device ? '-' + sanitizeName($device, '') : ''
+	$device= sanitizeName($device,'') if $device
+
+	if !match('-only$', sanitizeName($device, ''))
+		for $i in 0..$columns-max
+			for $o in 0..1
+				$prop= $o > 0 ? 'margin-left' : 'width';
+				$offsetNameSegment= $o > 0 ? 'offset-' : '';
+				$count= $device and ($device == $leadDevice) ? 1 : 0;
+				$selector= '';
+
+				for $c in 0..$count
+					$selector-grid= '';
+					$deviceNameSegment= (($device and $count == 0) or ($device and $count != 0 and $c > 0 )) ? '-' + $device : ''
+					$separator= ($count > 0 and $c < $count) ? ',' : ''
+					$selector= $selector + $preface + $offsetNameSegment + $i + $deviceNameSegment + $separator
+
+				{$selector}
+					if $o <= 0
+						{block}
+						flex none
+					{$prop}: round(percentage($i / $columns-max), 4)
 
 .column
 	display block
@@ -6,570 +72,16 @@ $column-gap ?= 0.75rem
 	flex-grow 1
 	flex-shrink 1
 	padding $column-gap
-	.columns.is-mobile > &.is-narrow
-		flex none
-	.columns.is-mobile > &.is-full
-		flex none
-		width 100%
-	.columns.is-mobile > &.is-three-quarters,
-	.columns.is-mobile > &.is-3of4
-		flex none
-		width 75%
-	.columns.is-mobile > &.is-two-thirds,
-	.columns.is-mobile > &.is-2of3
-		flex none
-		width 66.6666%
-	.columns.is-mobile > &.is-half,
-	.columns.is-mobile > &.is-1of2
-		flex none
-		width 50%
-	.columns.is-mobile > &.is-one-third,
-	.columns.is-mobile > &.is-1of3
-		flex none
-		width 33.3333%
-	.columns.is-mobile > &.is-one-quarter,
-	.columns.is-mobile > &.is-1of4
-		flex none
-		width 25%
-	.columns.is-mobile > &.is-one-fifth,
-	.columns.is-mobile > &.is-1of5
-		flex none
-		width 20%
-	.columns.is-mobile > &.is-two-fifths,
-	.columns.is-mobile > &.is-2of5
-		flex none
-		width 40%
-	.columns.is-mobile > &.is-three-fifths,
-	.columns.is-mobile > &.is-3of5
-		flex none
-		width 60%
-	.columns.is-mobile > &.is-four-fifths,
-	.columns.is-mobile > &.is-4of5
-		flex none
-		width 80%
-	.columns.is-mobile > &.is-offset-three-quarters,
-	.columns.is-mobile > &.is-offset-3of4
-		margin-left 75%
-	.columns.is-mobile > &.is-offset-two-thirds,
-	.columns.is-mobile > &.is-offset-2of3
-		margin-left 66.6666%
-	.columns.is-mobile > &.is-offset-half,
-	.columns.is-mobile > &.is-offset-1of2
-		margin-left 50%
-	.columns.is-mobile > &.is-offset-one-third,
-	.columns.is-mobile > &.is-offset-1of3
-		margin-left 33.3333%
-	.columns.is-mobile > &.is-offset-one-quarter,
-	.columns.is-mobile > &.is-offset-1of4
-		margin-left 25%
-	.columns.is-mobile > &.is-offset-one-fifth,
-	.columns.is-mobile > &.is-offset-1of5
-		margin-left 20%
-	.columns.is-mobile > &.is-offset-two-fifths,
-	.columns.is-mobile > &.is-offset-2of5
-		margin-left 40%
-	.columns.is-mobile > &.is-offset-three-fifths,
-	.columns.is-mobile > &.is-offset-3of5
-		margin-left 60%
-	.columns.is-mobile > &.is-offset-four-fifths,
-	.columns.is-mobile > &.is-offset-4of5
-		margin-left 80%
-	for $i in 0..12
-		.columns.is-mobile > &.is-{$i}
-			flex none
-			width percentage($i / 12)
-		.columns.is-mobile > &.is-offset-{$i}
-			margin-left percentage($i / 12)
-	+mobile()
-		&.is-narrow-mobile
-			flex none
-		&.is-full-mobile
-			flex none
-			width 100%
-		&.is-three-quarters-mobile,
-		&.is-3of4-mobile
-			flex none
-			width 75%
-		&.is-two-thirds-mobile,
-		&.is-2of3-mobile
-			flex none
-			width 66.6666%
-		&.is-half-mobile,
-		&.is-1of2-mobile
-			flex none
-			width 50%
-		&.is-one-third-mobile,
-		&.is-1of3-mobile
-			flex none
-			width 33.3333%
-		&.is-one-quarter-mobile,
-		&.is-1of4-mobile
-			flex none
-			width 25%
-		&.is-one-fifth-mobile,
-		&.is-1of5-mobile
-			flex none
-			width 20%
-		&.is-two-fifths-mobile,
-		&.is-2of5-mobile
-			flex none
-			width 40%
-		&.is-three-fifths-mobile,
-		&.is-3of5-mobile
-			flex none
-			width 60%
-		&.is-four-fifths-mobile,
-		&.is-4of5-mobile
-			flex none
-			width 80%
-		&.is-offset-three-quarters-mobile,
-		&.is-offset-3of4-mobile
-			margin-left 75%
-		&.is-offset-two-thirds-mobile,
-		&.is-offset-2of3-mobile
-			margin-left 66.6666%
-		&.is-offset-half-mobile,
-		&.is-offset-1of2-mobile
-			margin-left 50%
-		&.is-offset-one-third-mobile,
-		&.is-offset-1of3-mobile
-			margin-left 33.3333%
-		&.is-offset-one-quarter-mobile,
-		&.is-offset-1of4-mobile
-			margin-left 25%
-		&.is-offset-one-fifth-mobile,
-		&.is-offset-1of5-mobile
-			margin-left 20%
-		&.is-offset-two-fifths-mobile,
-		&.is-offset-2of5-mobile
-			margin-left 40%
-		&.is-offset-three-fifths-mobile,
-		&.is-offset-3of5-mobile
-			margin-left 60%
-		&.is-offset-four-fifths-mobile,
-		&.is-offset-4of5-mobile
-			margin-left 80%
-		for $i in 0..12
-			&.is-{$i}-mobile
-				flex none
-				width percentage($i / 12)
-			&.is-offset-{$i}-mobile
-				margin-left percentage($i / 12)
-	+tablet()
-		&.is-narrow,
-		&.is-narrow-tablet
-			flex none
-		&.is-full,
-		&.is-full-tablet
-			flex none
-			width 100%
-		&.is-three-quarters,
-		&.is-three-quarters-tablet,
-		&.is-3of4,
-		&.is-3of4-tablet
-			flex none
-			width 75%
-		&.is-two-thirds,
-		&.is-two-thirds-tablet,
-		&.is-2of3,
-		&.is-2of3-tablet
-			flex none
-			width 66.6666%
-		&.is-half,
-		&.is-half-tablet,
-		&.is-1of2,
-		&.is-1of2-tablet
-			flex none
-			width 50%
-		&.is-one-third,
-		&.is-one-third-tablet,
-		&.is-1of3,
-		&.is-1of3-tablet
-			flex none
-			width 33.3333%
-		&.is-one-quarter,
-		&.is-one-quarter-tablet,
-		&.is-1of4,
-		&.is-1of4-tablet
-			flex none
-			width 25%
-		&.is-one-fifth,
-		&.is-one-fifth-tablet,
-		&.is-1of5,
-		&.is-1of5-tablet
-			flex none
-			width 20%
-		&.is-two-fifths,
-		&.is-two-fifths-tablet,
-		&.is-2of5,
-		&.is-2of5-tablet
-			flex none
-			width 40%
-		&.is-three-fifths,
-		&.is-three-fifths-tablet,
-		&.is-3of5,
-		&.is-3of5-tablet
-			flex none
-			width 60%
-		&.is-four-fifths,
-		&.is-four-fifths-tablet,
-		&.is-4of5,
-		&.is-4of5-tablet
-			flex none
-			width 80%
-		&.is-offset-three-quarters,
-		&.is-offset-three-quarters-tablet,
-		&.is-offset-3of4,
-		&.is-offset-3of4-tablet
-			margin-left 75%
-		&.is-offset-two-thirds,
-		&.is-offset-two-thirds-tablet,
-		&.is-offset-2of3,
-		&.is-offset-2of3-tablet
-			margin-left 66.6666%
-		&.is-offset-half,
-		&.is-offset-half-tablet,
-		&.is-offset-1of2,
-		&.is-offset-1of2-tablet
-			margin-left 50%
-		&.is-offset-one-third,
-		&.is-offset-one-third-tablet,
-		&.is-offset-1of3,
-		&.is-offset-1of3-tablet
-			margin-left 33.3333%
-		&.is-offset-one-quarter,
-		&.is-offset-one-quarter-tablet,
-		&.is-offset-1of4,
-		&.is-offset-1of4-tablet
-			margin-left 25%
-		&.is-offset-one-fifth,
-		&.is-offset-one-fifth-tablet,
-		&.is-offset-1of5,
-		&.is-offset-1of5-tablet
-			margin-left 20%
-		&.is-offset-two-fifths,
-		&.is-offset-two-fifths-tablet,
-		&.is-offset-2of5,
-		&.is-offset-2of5-tablet
-			margin-left 40%
-		&.is-offset-three-fifths,
-		&.is-offset-three-fifths-tablet,
-		&.is-offset-3of5,
-		&.is-offset-3of5-tablet
-			margin-left 60%
-		&.is-offset-four-fifths,
-		&.is-offset-four-fifths-tablet,
-		&.is-offset-4of5,
-		&.is-offset-4of5-tablet
-			margin-left 80%
-		for $i in 0..12
-			&.is-{$i},
-			&.is-{$i}-tablet
-				flex none
-				width percentage($i / 12)
-			&.is-offset-{$i},
-			&.is-offset-{$i}-tablet
-				margin-left percentage($i / 12)
-	+touch()
-		&.is-narrow-touch
-			flex none
-		&.is-full-touch
-			flex none
-			width 100%
-		&.is-three-quarters-touch,
-		&.is-3of4-touch
-			flex none
-			width 75%
-		&.is-two-thirds-touch,
-		&.is-2of3-touch
-			flex none
-			width 66.6666%
-		&.is-half-touch,
-		&.is-1of2-touch
-			flex none
-			width 50%
-		&.is-one-third-touch,
-		&.is-1of3-touch
-			flex none
-			width 33.3333%
-		&.is-one-quarter-touch,
-		&.is-1of4-touch
-			flex none
-			width 25%
-		&.is-one-fifth-touch,
-		&.is-1of5-touch
-			flex none
-			width 20%
-		&.is-two-fifths-touch,
-		&.is-2of5-touch
-			flex none
-			width 40%
-		&.is-three-fifths-touch,
-		&.is-3of5-touch
-			flex none
-			width 60%
-		&.is-four-fifths-touch,
-		&.is-4of5-touch
-			flex none
-			width 80%
-		&.is-offset-three-quarters-touch,
-		&.is-offset-3of4-touch
-			margin-left 75%
-		&.is-offset-two-thirds-touch,
-		&.is-offset-2of3-touch
-			margin-left 66.6666%
-		&.is-offset-half-touch,
-		&.is-offset-1of2-touch
-			margin-left 50%
-		&.is-offset-one-third-touch,
-		&.is-offset-1of3-touch
-			margin-left 33.3333%
-		&.is-offset-one-quarter-touch,
-		&.is-offset-1of4-touch
-			margin-left 25%
-		&.is-offset-one-fifth-touch,
-		&.is-offset-1of5-touch
-			margin-left 20%
-		&.is-offset-two-fifths-touch,
-		&.is-offset-2of5-touch
-			margin-left 40%
-		&.is-offset-three-fifths-touch,
-		&.is-offset-3of5-touch
-			margin-left 60%
-		&.is-offset-four-fifths-touch,
-		&.is-offset-4of5-touch
-			margin-left 80%
-		for $i in 0..12
-			&.is-{$i}-touch
-				flex none
-				width percentage($i / 12)
-			&.is-offset-{$i}-touch
-				margin-left percentage($i / 12)
-	+desktop()
-		&.is-narrow-desktop
-			flex none
-		&.is-full-desktop
-			flex none
-			width 100%
-		&.is-three-quarters-desktop,
-		&.is-3of4-desktop
-			flex none
-			width 75%
-		&.is-two-thirds-desktop,
-		&.is-2of3-desktop
-			flex none
-			width 66.6666%
-		&.is-half-desktop,
-		&.is-1of2-desktop
-			flex none
-			width 50%
-		&.is-one-third-desktop,
-		&.is-1of3-desktop
-			flex none
-			width 33.3333%
-		&.is-one-quarter-desktop,
-		&.is-1of4-desktop
-			flex none
-			width 25%
-		&.is-one-fifth-desktop,
-		&.is-1of5-desktop
-			flex none
-			width 20%
-		&.is-two-fifths-desktop,
-		&.is-2of5-desktop
-			flex none
-			width 40%
-		&.is-three-fifths-desktop,
-		&.is-3of5-desktop
-			flex none
-			width 60%
-		&.is-four-fifths-desktop,
-		&.is-4of5-desktop
-			flex none
-			width 80%
-		&.is-offset-three-quarters-desktop,
-		&.is-offset-3of4-desktop
-			margin-left 75%
-		&.is-offset-two-thirds-desktop,
-		&.is-offset-2of3-desktop
-			margin-left 66.6666%
-		&.is-offset-half-desktop,
-		&.is-offset-1of2-desktop
-			margin-left 50%
-		&.is-offset-one-third-desktop,
-		&.is-offset-1of3-desktop
-			margin-left 33.3333%
-		&.is-offset-one-quarter-desktop,
-		&.is-offset-1of4-desktop
-			margin-left 25%
-		&.is-offset-one-fifth-desktop,
-		&.is-offset-1of5-desktop
-			margin-left 20%
-		&.is-offset-two-fifths-desktop,
-		&.is-offset-2of5-desktop
-			margin-left 40%
-		&.is-offset-three-fifths-desktop,
-		&.is-offset-3of5-desktop
-			margin-left 60%
-		&.is-offset-four-fifths-desktop,
-		&.is-offset-4of5-desktop
-			margin-left 80%
-		for $i in 0..12
-			&.is-{$i}-desktop
-				flex none
-				width percentage($i / 12)
-			&.is-offset-{$i}-desktop
-				margin-left percentage($i / 12)
-	+widescreen()
-		&.is-narrow-widescreen
-			flex none
-		&.is-full-widescreen
-			flex none
-			width 100%
-		&.is-three-quarters-widescreen,
-		&.is-3of4-widescreen
-			flex none
-			width 75%
-		&.is-two-thirds-widescreen,
-		&.is-2of3-widescreen
-			flex none
-			width 66.6666%
-		&.is-half-widescreen,
-		&.is-1of2-widescreen
-			flex none
-			width 50%
-		&.is-one-third-widescreen,
-		&.is-1of3-widescreen
-			flex none
-			width 33.3333%
-		&.is-one-quarter-widescreen,
-		&.is-1of4-widescreen
-			flex none
-			width 25%
-		&.is-one-fifth-widescreen,
-		&.is-1of5-widescreen
-			flex none
-			width 20%
-		&.is-two-fifths-widescreen,
-		&.is-2of5-widescreen
-			flex none
-			width 40%
-		&.is-three-fifths-widescreen,
-		&.is-3of5-widescreen
-			flex none
-			width 60%
-		&.is-four-fifths-widescreen,
-		&.is-4of5-widescreen
-			flex none
-			width 80%
-		&.is-offset-three-quarters-widescreen,
-		&.is-offset-3of4-widescreen
-			margin-left 75%
-		&.is-offset-two-thirds-widescreen,
-		&.is-offset-2of3-widescreen
-			margin-left 66.6666%
-		&.is-offset-half-widescreen,
-		&.is-offset-1of2-widescreen
-			margin-left 50%
-		&.is-offset-one-third-widescreen,
-		&.is-offset-1of3-widescreen
-			margin-left 33.3333%
-		&.is-offset-one-quarter-widescreen,
-		&.is-offset-1of4-widescreen
-			margin-left 25%
-		&.is-offset-one-fifth-widescreen,
-		&.is-offset-1of5-widescreen
-			margin-left 20%
-		&.is-offset-two-fifths-widescreen,
-		&.is-offset-2of5-widescreen
-			margin-left 40%
-		&.is-offset-three-fifths-widescreen,
-		&.is-offset-3of5-widescreen
-			margin-left 60%
-		&.is-offset-four-fifths-widescreen,
-		&.is-offset-4of5-widescreen
-			margin-left 80%
-		for $i in 0..12
-			&.is-{$i}-widescreen
-				flex none
-				width percentage($i / 12)
-			&.is-offset-{$i}-widescreen
-				margin-left percentage($i / 12)
-	+fullhd()
-		&.is-narrow-fullhd
-			flex none
-		&.is-full-fullhd
-			flex none
-			width 100%
-		&.is-three-quarters-fullhd,
-		&.is-3of4-fullhd
-			flex none
-			width 75%
-		&.is-two-thirds-fullhd,
-		&.is-2of3-fullhd
-			flex none
-			width 66.6666%
-		&.is-half-fullhd,
-		&.is-1of2-fullhd
-			flex none
-			width 50%
-		&.is-one-third-fullhd,
-		&.is-1of3-fullhd
-			flex none
-			width 33.3333%
-		&.is-one-quarter-fullhd,
-		&.is-1of4-fullhd
-			flex none
-			width 25%
-		&.is-one-fifth-fullhd,
-		&.is-1of5-fullhd
-			flex none
-			width 20%
-		&.is-two-fifths-fullhd,
-		&.is-2of5-fullhd
-			flex none
-			width 40%
-		&.is-three-fifths-fullhd,
-		&.is-3of5-fullhd
-			flex none
-			width 60%
-		&.is-four-fifths-fullhd,
-		&.is-4of5-fullhd
-			flex none
-			width 80%
-		&.is-offset-three-quarters-fullhd,
-		&.is-offset-3of4-fullhd
-			margin-left 75%
-		&.is-offset-two-thirds-fullhd,
-		&.is-offset-2of3-fullhd
-			margin-left 66.6666%
-		&.is-offset-half-fullhd,
-		&.is-offset-1of2-fullhd
-			margin-left 50%
-		&.is-offset-one-third-fullhd,
-		&.is-offset-1of3-fullhd
-			margin-left 33.3333%
-		&.is-offset-one-quarter-fullhd,
-		&.is-offset-1of4-fullhd
-			margin-left 25%
-		&.is-offset-one-fifth-fullhd,
-		&.is-offset-1of5-fullhd
-			margin-left 20%
-		&.is-offset-two-fifths-fullhd,
-		&.is-offset-2of5-fullhd
-			margin-left 40%
-		&.is-offset-three-fifths-fullhd,
-		&.is-offset-3of5-fullhd
-			margin-left 60%
-		&.is-offset-four-fifths-fullhd,
-		&.is-offset-4of5-fullhd
-			margin-left 80%
-		for $i in 0..12
-			&.is-{$i}-fullhd
-				flex none
-				width percentage($i / 12)
-			&.is-offset-{$i}-fullhd
-				margin-left percentage($i / 12)
+	for $device, $i in $devices
+		if $i == 0
+			.columns.is-{$devices[$i]} > &
+				columnWidthRule($leadDevice: 'tablet', $offset: false)
+				columnWidthRule($leadDevice: 'tablet', $offset: true)
+				columnGridRule($device: false, $leadDevice: 'tablet')
+		+$device()
+			columnWidthRule($device: $device, $leadDevice: 'tablet', $offset: false)
+			columnWidthRule($device: $device, $leadDevice: 'tablet', $offset: true)
+			columnGridRule($device: $device, $leadDevice: 'tablet')
 
 .columns
 	margin-left ($column-gap * -1)
@@ -619,30 +131,7 @@ if $variable-columns
 		for $i in 0..8
 			&.is-{$i}
 				--columnGap ($i * 0.25rem)
-			+mobile()
-				&.is-{$i}-mobile
-					--columnGap ($i * 0.25rem)
-			+tablet()
-				&.is-{$i}-tablet
-					--columnGap ($i * 0.25rem)
-			+tablet-only()
-				&.is-{$i}-tablet-only
-					--columnGap ($i * 0.25rem)
-			+touch()
-				&.is-{$i}-touch
-					--columnGap ($i * 0.25rem)
-			+desktop()
-				&.is-{$i}-desktop
-					--columnGap ($i * 0.25rem)
-			+desktop-only()
-				&.is-{$i}-desktop-only
-					--columnGap ($i * 0.25rem)
-			+widescreen()
-				&.is-{$i}-widescreen
-					--columnGap ($i * 0.25rem)
-			+widescreen-only()
-				&.is-{$i}-widescreen-only
-					--columnGap ($i * 0.25rem)
-			+fullhd()
-				&.is-{$i}-fullhd
-					--columnGap ($i * 0.25rem)
+			for $device in $devices
+				+$device()
+					&.is-{$i}-{$device}
+						--columnGap ($i * 0.25rem)

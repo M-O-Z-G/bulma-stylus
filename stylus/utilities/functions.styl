@@ -1,10 +1,23 @@
 $colorContrastFormula ?= 'bulma'
 
+// Actual Stylus built-in `length` function works in a weird way with lists
+// that contain one item. This's just a fix for partial cases.
+lengthList()
+	$i= 0
+	for _void in arguments
+		$i= $i + 1
+
+	return $i
+
+sanitizeName($name, $symbol = '-')
+	return replace('[\.\(\)\,\$#]', $symbol, ""+$name)
+
+
 listTypeofValuesValidator($list, $type= 'rgba|hsla')
-	_void= 0;
+	_void= 0
 	for v, i in $list
 		if match('\b(' + $type + ')\b', typeof(v)) != null
-			_void = _void + 1;
+			_void= _void + 1
 
 	if length($list) != _void
 		error("Unexpected type inside the list.")
@@ -78,7 +91,7 @@ powerNumber($number, $exp)
 
 colorLuminance($color, $formula= $colorContrastFormula)
 	$color-rgb = {'red': red($color),'green': green($color),'blue': blue($color)}
-	if $formula is 'YIQ' or 'yiq'
+	if $formula == 'YIQ' or $formula == 'yiq'
 		return (((0.299 * $color-rgb['red']) + (0.587 * $color-rgb['green']) + (0.114 * $color-rgb['blue'])) / 255)
 	else
 		for $name, $value in $color-rgb
@@ -93,7 +106,7 @@ colorLuminance($color, $formula= $colorContrastFormula)
 		return (($color-rgb['red'] * .2126) + ($color-rgb['green'] * .7152) + ($color-rgb['blue'] * .0722))
 
 findColorInvert($color, $tint= false)
-	$ratio= $colorContrastFormula = 'YIQ' or 'yiq' ? 0.5 : 0.55
+	$ratio= ($colorContrastFormula == 'YIQ' or $colorContrastFormula == 'yiq') ? 0.5 : 0.55
 	if colorLuminance($color) > $ratio
 		if $tint
 			return darken($color, 80%)

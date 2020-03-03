@@ -1,10 +1,11 @@
 {
-  "name": "bulma-stylus",
-  "version": "0.8.1-rc.2",
-  "homepage": "http://github.com/groenroos/bulma-stylus",
+  "name": "bulma-stylus-plus",
+  "version": "0.8.2",
+  "homepage": "https://github.com/M-O-Z-G/bulma-stylus-plus",
   "authors": [
     "jgthms <bbxdesign@gmail.com>",
-    "groenroos <oskari@groenroos.fi>"
+    "groenroos <oskari@groenroos.fi>",
+    "m-o-z-g <aleksandrmozgdikov+github@gmail.com>"
   ],
   "description": "Modern CSS framework based on Flexbox (Stylus)",
   "main": "bulma.styl",

@@ -1,10 +1,11 @@
 {
-  "name": "bulma-stylus",
-  "version": "0.8.1-rc.2",
-  "homepage": "http://github.com/groenroos/bulma-stylus",
-  "author": "Oskari Groenroos <oskari@groenroos.fi> (http://groenroos.fi)",
+  "name": "bulma-stylus-plus",
+  "version": "0.8.2",
+  "homepage": "https://github.com/M-O-Z-G/bulma-stylus-plus",
+  "author": "Aleksandr Dikov <aleksandrmozgdikov+github@gmail.com> (https://mozg-studio.org)",
   "contributors": [
-    "Jeremy Thomas <bbxdesign@gmail.com> (http://jgthms.com)"
+    "Jeremy Thomas <bbxdesign@gmail.com> (http://jgthms.com)",
+    "Oskari Groenroos <oskari@groenroos.fi> (http://groenroos.fi)"
   ],
   "description": "Modern CSS framework based on Flexbox",
   "main": "bulma.styl",
@@ -12,7 +13,7 @@
   "style": "bulma/css/bulma.min.css",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/groenroos/bulma-stylus.git"
+    "url": "git+https://github.com/M-O-Z-G/bulma-stylus-plus.git"
   },
   "license": "MIT",
   "keywords": [
@@ -23,10 +24,10 @@
     "framework"
   ],
   "bugs": {
-    "url": "https://github.com/groenroos/bulma-stylus/issues"
+    "url": "https://github.com/M-O-Z-G/bulma-stylus-plus/issues"
   },
   "devDependencies": {
-    "autoprefixer": "9.6.4",
+    "autoprefixer": "9.7.4",
     "clean-css-cli": "4.3.0",
     "postcss-cli": "6.1.3",
     "rimraf": "2.7.1",

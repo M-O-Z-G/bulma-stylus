@@ -1,45 +1,35 @@
-# Bulma Stylus
+# Bulma Stylus Plus
 
-[![npm](https://img.shields.io/npm/v/bulma-stylus.svg)](https://www.npmjs.com/package/bulma-stylus)
-[![npm](https://img.shields.io/npm/dm/bulma-stylus.svg)](https://www.npmjs.com/package/bulma-stylus)
+![Bulma Stylus Plus: an Improved versions of Stylus translation of a Flexbox CSS framework](https://i.imgur.com/fhM0nae.png)
 
-**This is fork** of 1:1 Stylus translation of the [Bulma](http://bulma.io) CSS framework. Contains some fixes, enhancments and additions. Following the full compliance with the original Bulma is not the goal of this fork, any additions and improvements (including Stylus-only) can be made.
-
-![Bulma Stylus: a Stylus translation of a Flexbox CSS framework](http://i.imgur.com/CemfgQf.png)
-
-Bulma Stylus aims at 1:1 functional parity with the latest tagged version of [the original Sass-based Bulma](https://github.com/jgthms/bulma).
+**Bulma Stylus Plus** is the fork of original [Bulma translation](https://github.com/groenroos/bulma-stylus) by [Oskari Groenroos](https://github.com/groenroos), contains some fixes, enhancements and additions. Following the full compliance with the original [Bulma, Saas-based CSS framework,](https://github.com/jgthms/bulma) is not the goal of this fork, any additions and improvements (including Stylus-only) can be made.
 
 ## Installation
 
-If you simply want to include the built CSS file ([`/css/bulma.css`](https://github.com/groenroos/bulma-stylus/blob/master/css/bulma.css)), you can. However, 10 out of 10 times a better bet is to instead include [built CSS file of the original Bulma](https://github.com/jgthms/bulma/blob/master/css/bulma.css).
+If you simply want to include the built CSS file ([`/css/bulma.css`](https://github.com/m-o-z-g/bulma-stylus-plus/blob/master/css/bulma.css)), you can. However, 10 out of 10 times a better bet is to instead include [built CSS file of the original Bulma](https://github.com/jgthms/bulma/blob/master/css/bulma.css).
 
-However, if you want the Stylus files in order to customize variables and include only certain components, you have two choices:
-
-### Install from npm
-
-```sh
-npm install bulma-stylus
-```
-
-### Install from Bower
-
-```sh
-bower install bulma-stylus
-```
+_* npm verison is not available at the moment._
 
 ## Documentation
 
-Since Bulma Stylus is functionally identical to the original Bulma, you can refer to the original [Bulma documentation](http://bulma.io/documentation/overview/start/) for instructions, examples, syntax and browser support.
+Since Bulma Stylus Plus is functionally identical to the original Bulma mostly, you can refer to the original [Bulma documentation](http://bulma.io/documentation/overview/start/) for instructions, examples, syntax and browser support. Any additions will be outlined in wiki.
 
-All variable and mixin names are the same. The only caveat is that if you wish to customize the `$colors` variable, you must adhere to the Stylus hash format.
+All variable and mixin names mostly are the same.
+
+## Comparsion
+
+| Feature          | Bulma(_-stylus_)                 | Bulma-stylus-plus                                            |
+| ---------------- | -------------------------------- | ------------------------------------------------------------ |
+| Grid columns     | 12                               | **Optional** (_Default: 12_)                                 |
+| Repeatable rules | Separated                        | **Generated** within loop mixins.                            |
+| Column names     | 1 hardcoded name for each ratio. | **Multiple** user defined names.<br />(_Numerical names are included as addition_) |
+| Contrast formula | HSL                              | **HSL** or **YIQ**.                                          |
 
 ## Bugs & support
 
-Any bugs or support requests can be posted into [the GitHub issue tracker](https://github.com/groenroos/bulma-stylus/issues).
+Any bugs or support requests can be posted into [the GitHub issue tracker](https://github.com/M-O-Z-G/bulma-stylus-plus/issues).
 
-**Please note:** Bulma Stylus is simply a translation of Bulma from Sass to Stylus, with no corrections or deviations made. Therefore, before submitting a bug, please make sure the issue is actually related specifically to the translation, and the Sass edition of Bulma does not exhibit the same bug. If it does, please submit your issue to [Bulma's issue tracker](https://github.com/jgthms/bulma/issues) instead.
-
-Similarly, any pull requests should only relate directly to the translation (translate a newer version of Bulma into Stylus, fix syntax errors). Any pull requests for new features or behavior fixes should go [directly to Bulma](https://github.com/jgthms/bulma/pulls).
+**Please note:** Bulma Stylus Plus is a translation of Bulma from Sass to Stylus. Therefore, before submitting a bug, please make sure the issue is actually related specifically to the translation, and the Sass edition of Bulma does not exhibit the same bug. If it does, please submit your issue to [Bulma's issue tracker](https://github.com/jgthms/bulma/issues) instead.
 
 ## License
 
