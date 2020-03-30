@@ -1,0 +1,14 @@
+@import 'mixins'
+
+if $fonts
+	for $i, $font in $fonts
+		$name= $font.name ? $font.name : false
+		$filename= $font.filename ? $font.filename : false
+		$weight= $font.weight ? $font.weight : false
+		$style= $font.style ? $font.style : false
+		$formats= $font.formats ? $font.formats : local eot woff2 woff truetype svg
+		$path= $font.path ? $font.path : $font-path
+		$version= $font.version ? $font.version : false
+		$svg-name= $font.svgFontName ? $font.svgFontName : false
+		$local-name= $font.localFontName ? $font.localFontName : false
+		fontFace($name, $filename, $weight, $style, $formats, $path, $version, $svg-name, $local-name)

@@ -1,0 +1,52 @@
+# https://www.appveyor.com/docs/appveyor-yml
+# https://www.appveyor.com/docs/lang/nodejs-iojs
+
+branches:
+  only:
+  - master
+  - dev
+skip_non_tags: true
+
+environment:
+  matrix:
+    # node.js
+    - nodejs_version: "8"
+    - nodejs_version: "9"
+    - nodejs_version: "10"
+    - nodejs_version: "11"
+    - nodejs_versiop: "12"
+  VERSION_SIMPLE: '{version}'
+  VERSION_INFORMATIONAL: '{version}'
+
+init:
+- ps: |
+    $env:VERSION_SIMPLE = $env:APPVEYOR_BUILD_VERSION.TrimStart("v")
+    $env:VERSION_INFORMATIONAL = "$env:VERSION_SIMPLE"
+    $env:GITHUB_REPO_API = "https://api.github.com/repos/$env:APPVEYOR_REPO_NAME/tags"
+
+    $env:APPVEYOR_REPO_TAG_NAME = $env:APPVEYOR_REPO_TAG_NAME.TrimStart("v")
+    Write-Host "Building a tagged Git commit: $git_current_tag";
+    if ($env:APPVEYOR_REPO_TAG_NAME -match '^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$') {
+        $tag_suffix = $env:APPVEYOR_REPO_TAG_NAME -replace "^([0-9]+)\.([0-9]+)\.([0-9]+)", ''
+        $tag_num = $env:APPVEYOR_REPO_TAG_NAME -replace "(?<=^([0-9]+)\.([0-9]+)\.([0-9]+)).*", ''
+        $tag_ver = [version]$tag_num
+        $tag_simple = "{0}.{1}.{2}" -f $tag_ver.Major, $tag_ver.Minor, $tag_ver.Build
+        $env:VERSION_INFORMATIONAL = "{0}.{1}.{2}{3}" -f $tag_ver.Major, $tag_ver.Minor, $tag_ver.Build, $tag_suffix
+        $env:VERSION_SIMPLE = "$tag_simple.$env:APPVEYOR_BUILD_NUMBER"
+    }
+
+    ### MAKE CALCULATED INFORMATIONAL VERSION THE ACTUAL BUILD VERSION
+    Update-AppveyorBuild -Version $env:VERSION_INFORMATIONAL
+    Write-Host "Using build version: $env:VERSION_SIMPLE"
+    Write-Host "Using (informational) build version: $env:VERSION_INFORMATIONAL"
+
+install:
+  - ps: Install-Product node $env:nodejs_version
+  - npm install
+
+test_script:
+  - node --version
+  - npm --version
+  - cmd: npm run build
+
+build: off

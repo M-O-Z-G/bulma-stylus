@@ -7,69 +7,75 @@ $breadcrumb-item-padding-horizontal ?= 0.75em
 
 $breadcrumb-item-separator-color ?= $border-hover
 
-.breadcrumb
+_breadcrumb()
 	@extend $block
 	@extend $unselectable
-	font-size $size-normal
-	white-space nowrap
+	font-size: $size-normal
+	white-space: nowrap
 	a
-		align-items center
-		color $breadcrumb-item-color
-		display flex
-		justify-content center
-		padding $breadcrumb-item-padding-vertical $breadcrumb-item-padding-horizontal
+		align-items: center
+		color: $breadcrumb-item-color
+		display: flex
+		justify-content: center
+		padding: $breadcrumb-item-padding-vertical $breadcrumb-item-padding-horizontal
 		&:hover
-			color $breadcrumb-item-hover-color
+			color: $breadcrumb-item-hover-color
 	li
-		align-items center
-		display flex
+		align-items: center
+		display: flex
 		&:first-child a
-			padding-left 0
-		&.is-active
+			padding-left: 0
+		&{$active-modifier}
 			a
-				color $breadcrumb-item-active-color
-				cursor default
-				pointer-events none
+				color: $breadcrumb-item-active-color
+				cursor: default
+				pointer-events: none
 		& + li::before
-			color $breadcrumb-item-separator-color
-			content "\0002f"
+			color: $breadcrumb-item-separator-color
+			content: "\0002f"
 	ul,
 	ol
-		align-items flex-start
-		display flex
-		flex-wrap wrap
-		justify-content flex-start
+		align-items: flex-start
+		display: flex
+		flex-wrap: wrap
+		justify-content: flex-start
 	.icon
 		&:first-child
-			margin-right 0.5em
+			margin-right: 0.5em
 		&:last-child
-			margin-left 0.5em
+			margin-left: 0.5em
 	// Alignment
-	&.is-centered
+	&{$centered-modifier}
 		ol,
 		ul
-			justify-content center
-	&.is-right
+			justify-content: center
+	&{$right-modifier}
 		ol,
 		ul
-			justify-content flex-end
+			justify-content: flex-end
 	// Sizes
-	&.is-small
-		font-size $size-small
-	&.is-medium
-		font-size $size-medium
-	&.is-large
-		font-size $size-large
+	&{$small-modifier}
+		font-size: $size-small
+	&{$medium-modifier}
+		font-size: $size-medium
+	&{$large-modifier}
+		font-size: $size-large
 	// Styles
-	&.has-arrow-separator
+	&{$has-arrow-separator-modifier}
 		li + li::before
-			content "\02192"
-	&.has-bullet-separator
+			content: "\02192"
+	&{$has-bullet-separator-modifier}
 		li + li::before
-			content "\02022"
-	&.has-dot-separator
+			content: "\02022"
+	&{$has-dot-separator-modifier}
 		li + li::before
-			content "\000b7"
-	&.has-succeeds-separator
+			content: "\000b7"
+	&{$has-succeeds-separator-modifier}
 		li + li::before
-			content "\0227B"
+			content: "\0227B"
+
+	{block}
+
+if !$silent.components.breadcrumb && !$silent-mode
+	{$breadcrumb-selector}
+		_breadcrumb()

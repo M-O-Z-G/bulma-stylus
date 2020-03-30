@@ -1,6 +1,6 @@
 $modal-z ?= 40
 
-$modal-background-background-color ?= rgba($scheme-invert, 0.86)
+$modal-background-background-color ?= bulmaRgba($scheme-invert, 0.86)
 
 $modal-content-width ?= 640px
 $modal-content-margin-mobile ?= 20px
@@ -28,86 +28,94 @@ $modal-card-foot-border-top ?= 1px solid $border
 $modal-card-body-background-color ?= $scheme-main
 $modal-card-body-padding ?= 20px
 
-.modal
+_modal()
 	@extend $overlay
-	align-items center
-	display none
-	flex-direction column
-	justify-content center
-	overflow hidden
-	position fixed
-	z-index $modal-z
+	align-items: center
+	display: none
+	flex-direction: column
+	justify-content: center
+	overflow: hidden
+	position: fixed
+	z-index: $modal-z
+
 	// Modifiers
-	&.is-active
-		display flex
+	&{$active-modifier}
+		display: flex
 
-.modal-background
-	@extend $overlay
-	background-color $modal-background-background-color
+	{$modal-background-selector}
+		@extend $overlay
+		background-color: $modal-background-background-color
 
-.modal-content,
-.modal-card
-	margin 0 $modal-content-margin-mobile
-	max-height "calc(100vh - %s)" % $modal-content-spacing-mobile
-	overflow auto
-	position relative
-	width 100%
-	// Responsiveness
-	+tablet()
-		margin 0 auto
-		max-height "calc(100vh - %s)" % $modal-content-spacing-tablet
-		width $modal-content-width
+	{$modal-content-selector},
+	{$modal-card-selector}
+		margin: 0 $modal-content-margin-mobile
+		max-height: 'calc(100vh - %s)' % $modal-content-spacing-mobile
+		overflow: auto
+		position: relative
+		width: 100%
 
-.modal-close
-	@extend $delete
-	background none
-	height $modal-close-dimensions
-	position fixed
-	right $modal-close-right
-	top $modal-close-top
-	width $modal-close-dimensions
+		// Responsiveness
+		+tablet()
+			margin: 0 auto
+			max-height: 'calc(100vh - %s)' % $modal-content-spacing-tablet
+			width: $modal-content-width
 
-.modal-card
-	display flex
-	flex-direction column
-	max-height "calc(100vh - %s)" % $modal-card-spacing
-	overflow hidden
-	-ms-overflow-y visible
+		/{$modal-close-selector}
+			@extend $delete
+			background: none
+			height: $modal-close-dimensions
+			position: fixed
+			right: $modal-close-right
+			top: $modal-close-top
+			width: $modal-close-dimensions
 
-.modal-card-head,
-.modal-card-foot
-	align-items center
-	background-color $modal-card-head-background-color
-	display flex
-	flex-shrink 0
-	justify-content flex-start
-	padding $modal-card-head-padding
-	position relative
+	{$modal-card-selector}
+		display: flex
+		flex-direction: column
+		max-height: 'calc(100vh - %s)' % $modal-card-spacing
+		overflow: hidden
+		-ms-overflow-y: visible
 
-.modal-card-head
-	border-bottom $modal-card-head-border-bottom
-	border-top-left-radius $modal-card-head-radius
-	border-top-right-radius $modal-card-head-radius
+		{$modal-card-head-selector},
+		{$modal-card-foot-selector}
+			align-items: center
+			background-color: $modal-card-head-background-color
+			display: flex
+			flex-shrink: 0
+			justify-content: flex-start
+			padding: $modal-card-head-padding
+			position: relative
 
-.modal-card-title
-	color $modal-card-title-color
-	flex-grow 1
-	flex-shrink 0
-	font-size $modal-card-title-size
-	line-height $modal-card-title-line-height
+		{$modal-card-head-selector}
+			border-bottom: $modal-card-head-border-bottom
+			border-top-left-radius: $modal-card-head-radius
+			border-top-right-radius: $modal-card-head-radius
 
-.modal-card-foot
-	border-bottom-left-radius $modal-card-foot-radius
-	border-bottom-right-radius $modal-card-foot-radius
-	border-top $modal-card-foot-border-top
-	.button
-		&:not(:last-child)
-			margin-right 0.5em
+		{$modal-card-title-selector}
+			color: $modal-card-title-color
+			flex-grow: 1
+			flex-shrink: 0
+			font-size: $modal-card-title-size
+			line-height: $modal-card-title-line-height
 
-.modal-card-body
-	overflow-touch()
-	background-color $modal-card-body-background-color
-	flex-grow 1
-	flex-shrink 1
-	overflow auto
-	padding $modal-card-body-padding
+		{$modal-card-foot-selector}
+			border-bottom-left-radius: $modal-card-foot-radius
+			border-bottom-right-radius: $modal-card-foot-radius
+			border-top: $modal-card-foot-border-top
+			{$button-selector}
+				&:not(:last-child)
+					margin-right: 0.5em
+
+		{$modal-card-body-selector}
+			overflow-touch()
+			background-color: $modal-card-body-background-color
+			flex-grow: 1
+			flex-shrink: 1
+			overflow: auto
+			padding: $modal-card-body-padding
+
+	{block}
+
+if !$silent.components.modal && !$silent-mode
+	{$modal-selector}
+		_modal()

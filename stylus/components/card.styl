@@ -17,63 +17,68 @@ $card-footer-padding ?= 0.75rem
 
 $card-media-margin ?= $block-spacing
 
-.card
-	background-color $card-background-color
-	box-shadow $card-shadow
-	color $card-color
-	max-width 100%
-	position relative
+_card()
+	background-color: $card-background-color
+	box-shadow: $card-shadow
+	color: $card-color
+	max-width: 100%
+	position: relative
 
-.card-header
-	background-color $card-header-background-color
-	align-items stretch
-	box-shadow $card-header-shadow
-	display flex
+	{$card-header-selector}
+		background-color: $card-header-background-color
+		align-items: stretch
+		box-shadow: $card-header-shadow
+		display: flex
 
-.card-header-title
-	align-items center
-	color $card-header-color
-	display flex
-	flex-grow 1
-	font-weight $card-header-weight
-	padding $card-header-padding
-	&.is-centered
-		justify-content center
+		{$card-header-title-selector}
+			align-items: center
+			color: $card-header-color
+			display: flex
+			flex-grow: 1
+			font-weight: $card-header-weight
+			padding: $card-header-padding
+			&{$centered-modifier}
+				justify-content: center
 
-.card-header-icon
-	align-items center
-	cursor pointer
-	display flex
-	justify-content center
-	padding $card-header-padding
+		{$card-header-icon-selector}
+			align-items: center
+			cursor: pointer
+			display: flex
+			justify-content: center
+			padding: $card-header-padding
 
-.card-image
-	display block
-	position relative
+	{$card-image-selector}
+		display: block
+		position: relative
 
-.card-content
-	background-color $card-content-background-color
-	padding $card-content-padding
+	{$card-content-selector}
+		background-color: $card-content-background-color
+		padding: $card-content-padding
 
-.card-footer
-	background-color $card-footer-background-color
-	border-top $card-footer-border-top
-	align-items stretch
-	display flex
+	{$card-footer-selector}
+		background-color: $card-footer-background-color
+		border-top: $card-footer-border-top
+		align-items: stretch
+		display: flex
 
-.card-footer-item
-	align-items center
-	display flex
-	flex-basis 0
-	flex-grow 1
-	flex-shrink 0
-	justify-content center
-	padding $card-footer-padding
-	&:not(:last-child)
-		border-right $card-footer-border-top
+		{$card-footer-item-selector}
+			align-items: center
+			display: flex
+			flex-basis: 0
+			flex-grow: 1
+			flex-shrink: 0
+			justify-content: center
+			padding: $card-footer-padding
+			&:not(:last-child)
+				border-right: $card-footer-border-top
 
-// Combinations
+	// Combinations
 
-.card
-	.media:not(:last-child)
-		margin-bottom $card-media-margin
+	{$media-selector}:not(:last-child)
+		margin-bottom: $card-media-margin
+
+	{block}
+
+if !$silent.components.card && !$silent-mode
+	{$card-selector}
+		_card()

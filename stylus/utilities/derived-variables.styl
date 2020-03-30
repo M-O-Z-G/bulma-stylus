@@ -150,10 +150,289 @@ $default-colors ?= {
 		'3': $danger-light,
 		'4': $danger-dark
 	}}
+
 $custom-colors ?= null
 $custom-shades ?= null
 
 $colors ?= mergeColorMaps($default-colors, $custom-colors)
-$shades ?= mergeColorMaps({"black-bis": $black-bis, "black-ter": $black-ter, "grey-darker": $grey-darker, "grey-dark": $grey-dark, "grey": $grey, "grey-light": $grey-light, "grey-lighter": $grey-lighter, "white-ter": $white-ter, "white-bis": $white-bis}, $custom-shades)
+$shades ?= mergeColorMaps({'black-bis': $black-bis, 'black-ter': $black-ter, 'grey-darker': $grey-darker, 'grey-dark': $grey-dark, 'grey': $grey, 'grey-light': $grey-light, 'grey-lighter': $grey-lighter, 'white-ter': $white-ter, 'white-bis': $white-bis}, $custom-shades)
+
+$message-colors ?= $colors
+$panel-colors ?= $colors
 
 $sizes ?= $size-1 $size-2 $size-3 $size-4 $size-5 $size-6 $size-7
+
+// PLUS FEATURES
+$buttons-colors ?= $colors
+$file-colors ?= $colors
+$help-colors ?= $colors
+$helpers-colors ?= $colors
+$hero-colors ?= $colors
+$input-textarea-colors ?= $colors
+$navbar-colors ?= $colors
+$progress-colors ?= $colors
+$select-colors ?= $colors
+$table-colors ?= $colors
+$tags-colors ?= $colors
+
+$fonts ?= null
+
+$silent ?= null
+$silent = mergeNested({
+	plus: {
+		ratios: true,
+		ratios-portrait: false
+	},
+	sizes: {
+		subtitle: false,
+		title: false,
+		typography: false
+	},
+	colorful: {
+		buttons: false,
+		file: false,
+		help: false,
+		helpers: false,
+		hero: false,
+		input-textarea: false,
+		message: false,
+		navbar: false,
+		notification: false,
+		panel: false,
+		progress: false,
+		select: false,
+		tags: false
+	},
+	shades: {
+		helpers: false
+
+	},
+	css-variables: !$css-variables,
+	reset: false,
+	generic: false,
+	helpers: false,
+	animation: {
+		spinAround: false,
+		moveIndeterminate: false
+	},
+	elements: {
+		banner: false,
+		box: false,
+		button: false,
+		container: false,
+		content: false,
+		icon: false,
+		image: false,
+		notification: false,
+		other: false,
+		progress: false,
+		table: false,
+		tags: false,
+		titles: false
+	},
+	form: {
+		checkbox: false,
+		control: false,
+		field: false,
+		input: false,
+		file: false,
+		help: false,
+		label: false,
+		radio: false,
+		select: false,
+		textarea: false
+	},
+	layout: {
+		footer: false,
+		hero: false,
+		section: false
+	},
+	components: {
+		breadcrumb: false,
+		card: false,
+		dropdown: false,
+		grid: false,
+		level: false,
+		list: false,
+		media: false,
+		menu: false,
+		message: false,
+		modal: false,
+		navbar: false,
+		pagination: false,
+		panel: false,
+		tabs: false,
+		tiles: false
+	}
+}, $silent, 'silent')
+$silent-cache= $silent
+
+// Conversion Ratios
+// Inspired by Andrey Sitnik's conversion script for `postcss-calc`:
+// https://github.com/postcss/postcss-calc/blob/master/src/lib/convertUnit.js
+$conversion-ratios ?= {
+	'scale': {
+		'': {
+			'': 1,
+			'em': 1,
+			'rem': 1,
+			'px': remove-unit(1 / $body-size),
+			'in': remove-unit(1 / $body-size * 96),
+			'cm': remove-unit(1 / $body-size * 96 / 2.54),
+			'mm': remove-unit(1 / $body-size * 96 / 25.4),
+			'pt': remove-unit(1 / $body-size * 96 / 72),
+			'pc': remove-unit(1 / $body-size * 16),
+			'q': remove-unit(1 / $body-size * 96 / 101.6)
+		},
+		'px': {
+			'': remove-unit($body-size),
+			'em': remove-unit($body-size),
+			'rem': remove-unit($body-size),
+			'px': 1,
+			'in': 96,
+			'cm': 96 / 2.54,
+			'mm': 96 / 25.4,
+			'pt': 96 / 72,
+			'pc': 16,
+			'q': 96 / 101.6
+		},
+		'in': {
+			'': remove-unit(1 / 96 * $body-size / $body-font-size),
+			'em': remove-unit(1 / 96 * $body-size / $body-font-size),
+			'rem': remove-unit(1 / 96 * $body-size / $body-font-size),
+			'px': 1 / 96,
+			'in': 1,
+			'cm': 1 / 2.54,
+			'mm': 1 / 25.4,
+			'pt': 1 / 72,
+			'pc': 1 / 6,
+			'q': 1 / 101.6
+		},
+		'cm': {
+			'': remove-unit(2.54 / 96 * $body-size / $body-font-size),
+			'em': remove-unit(2.54 / 96 * $body-size / $body-font-size),
+			'rem': remove-unit(2.54 / 96 * $body-size / $body-font-size),
+			'px': 2.54 / 96,
+			'in': 2.54,
+			'cm': 1,
+			'mm': 0.1,
+			'pt': 2.54 / 72,
+			'pc': 2.54 / 6,
+			'q': 0.025
+		},
+		'mm': {
+			'': remove-unit(25.4 / 96 * $body-size / $body-font-size),
+			'em': remove-unit(25.4 / 96 * $body-size / $body-font-size),
+			'rem': remove-unit(25.4 / 96 * $body-size / $body-font-size),
+			'px': 25.4 / 96,
+			'in': 25.4,
+			'cm': 10,
+			'mm': 1,
+			'pt': 25.4 / 72,
+			'pc': 25.4 / 6,
+			'q': 0.25
+		},
+		'pt': {
+			'': remove-unit(0.75 * $body-size / $body-font-size),
+			'em': remove-unit(0.75 * $body-size / $body-font-size),
+			'rem': remove-unit(0.75 * $body-size / $body-font-size),
+			'px': 0.75,
+			'in': 72,
+			'cm': 72 / 2.54,
+			'mm': 72 / 25.4,
+			'pt': 1,
+			'pc': 12,
+			'q': 72 / 101.6
+		},
+		'pc': {
+			'': remove-unit(0.0625 * $body-size / $body-font-size),
+			'em': remove-unit(0.0625 * $body-size / $body-font-size),
+			'rem': remove-unit(0.0625 * $body-size / $body-font-size),
+			'px': 0.0625,
+			'in': 6,
+			'cm': 6 / 2.54,
+			'mm': 6 / 25.4,
+			'pt': 6 / 72,
+			'pc': 1,
+			'q': 6 / 101.6
+		},
+		'q': {
+			'': remove-unit(101.6 / 96 * $body-size / $body-font-size),
+			'em': remove-unit(101.6 / 96 * $body-size / $body-font-size),
+			'rem': remove-unit(101.6 / 96 * $body-size / $body-font-size),
+			'px': 101.6 / 96,
+			'in': 101.6,
+			'cm': 40,
+			'mm': 4,
+			'pt': 101.6 / 72,
+			'pc': 101.6 / 6
+			'q': 1,
+		}
+	},
+	'angle': {
+		'deg': {
+			'deg': 1,
+			'grad': 0.9,
+			'rad': 180 / PI,
+			'turn': 360
+		},
+		'grad': {
+			'deg': 400 / 360,
+			'grad': 1,
+			'rad': 200 / PI,
+			'turn': 400
+		},
+		'rad': {
+			'deg': PI / 180,
+			'grad': PI / 200,
+			'rad': 1,
+			'turn': PI * 2
+		},
+		'turn': {
+			'deg': 1 / 360,
+			'grad': 0.0025,
+			'rad': 0.5 / PI,
+			'turn': 1
+		}
+	},
+	'time': {
+		's': {
+			's': 1,
+			'ms': 0.001
+		},
+		'ms': {
+			's': 1000,
+			'ms': 1
+		}
+	},
+	'audio': {
+		'hz': {
+			'hz': 1,
+			'khz': 1000
+		},
+		'khz': {
+			'hz': 0.001,
+			'khz': 1
+		}
+	},
+	'resolution': {
+		'dpi': {
+			'dpi': 1,
+			'dpcm': 1 / 2.54,
+			'dppx': 1 / 96
+		},
+		'dpcm': {
+			'dpi': 2.54,
+			'dpcm': 1,
+			'dppx': 2.54 / 96
+		},
+		'dppx': {
+			'dpi': 96,
+			'dpcm': 96 / 2.54,
+			'dppx': 1
+		}
+	}
+}
+
+$conversion-ratios['scale']['em'] = $conversion-ratios['scale'][''];
+$conversion-ratios['scale']['rem'] = $conversion-ratios['scale'][''];

@@ -1,5 +1,9 @@
-@keyframes spinAround
-	from
-		transform rotate(0deg)
-	to
-		transform rotate(359deg)
+_animation-spinAround()
+	@keyframes spinAround
+		from
+			transform rotate(0deg)
+		to
+			transform rotate(359deg)
+
+if !$silent.animation.spinAround && !$silent-mode
+	_animation-spinAround()

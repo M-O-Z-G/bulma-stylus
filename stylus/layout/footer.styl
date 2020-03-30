@@ -2,8 +2,12 @@ $footer-background-color ?= $scheme-main-bis
 $footer-color ?= false
 $footer-padding ?= 3rem 1.5rem 6rem
 
-.footer
-	background-color $footer-background-color
-	padding $footer-padding
+_footer()
+	background-color: $footer-background-color
+	padding: $footer-padding
 	if $footer-color
-		color $footer-color
+		color: $footer-color
+
+if !$silent.layout.footer && !$silent-mode
+	{$footer-selector}
+		_footer()

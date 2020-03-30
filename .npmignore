@@ -118,11 +118,16 @@ temp/
 # User Files
 .DS_Store
 .ruby-version
+.gitlab-ci.yml
+appveyor.yml
+.travis.yml
 
 # User Folders
 _gh_pages
 _site
 dev
 test/output/
+.github/
 .nyc_output/
+.git/
 coverage/

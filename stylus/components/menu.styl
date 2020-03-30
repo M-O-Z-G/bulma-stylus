@@ -16,42 +16,54 @@ $menu-label-font-size ?= 0.75em
 $menu-label-letter-spacing ?= 0.1em
 $menu-label-spacing ?= 1em
 
-.menu
-	font-size $size-normal
+_menu()
+	font-size: $size-normal
+
 	// Sizes
-	&.is-small
-		font-size $size-small
-	&.is-medium
-		font-size $size-medium
-	&.is-large
-		font-size $size-large
+	&{$small-modifier}
+		font-size: $size-small
 
-.menu-list
-	line-height $menu-list-line-height
-	a
-		border-radius $menu-item-radius
-		color $menu-item-color
-		display block
-		padding $menu-list-link-padding
-		&:hover
-			background-color $menu-item-hover-background-color
-			color $menu-item-hover-color
-		// Modifiers
-		&.is-active
-			background-color $menu-item-active-background-color
-			color $menu-item-active-color
-	li
-		ul
-			border-left $menu-list-border-left
-			margin $menu-nested-list-margin
-			padding-left $menu-nested-list-padding-left
+	&{$medium-modifier}
+		font-size: $size-medium
 
-.menu-label
-	color $menu-label-color
-	font-size $menu-label-font-size
-	letter-spacing $menu-label-letter-spacing
-	text-transform uppercase
-	&:not(:first-child)
-		margin-top $menu-label-spacing
-	&:not(:last-child)
-		margin-bottom $menu-label-spacing
+	&{$large-modifier}
+		font-size: $size-large
+
+	{$menu-list-selector}
+		line-height: $menu-list-line-height
+
+		a
+			border-radius: $menu-item-radius
+			color: $menu-item-color
+			display: block
+			padding: $menu-list-link-padding
+
+			&:hover
+				background-color: $menu-item-hover-background-color
+				color: $menu-item-hover-color
+
+			// Modifiers
+			&{$active-modifier}
+				background-color: $menu-item-active-background-color
+				color: $menu-item-active-color
+		li
+			ul
+				border-left: $menu-list-border-left
+				margin: $menu-nested-list-margin
+				padding-left: $menu-nested-list-padding-left
+
+	{$menu-label-selector}
+		color: $menu-label-color
+		font-size: $menu-label-font-size
+		letter-spacing: $menu-label-letter-spacing
+		text-transform: uppercase
+		&:not(:first-child)
+			margin-top: $menu-label-spacing
+		&:not(:last-child)
+			margin-bottom: $menu-label-spacing
+
+	{block}
+
+if !$silent.components.menu && !$silent-mode
+	{$menu-selector}
+		_menu()

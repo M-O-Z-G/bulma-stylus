@@ -1,0 +1,29 @@
+name: npm-publish
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  publish:
+    name: npm-publish
+    runs-on: ubuntu-latest
+    steps:
+      - id: publish
+      - name: Checkout repository
+      - uses: actions/checkout@v1
+      - name: Set up Node.js
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10
+      - run: npm install
+      - run: npm test
+      - name: Publish if version has been updated
+      - uses: pascalgn/npm-publish-action@1.1.0
+        with:
+          tag_name: "v%s"
+          tag_message: "v%s"
+          commit_pattern: "^Release (\\S+)"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

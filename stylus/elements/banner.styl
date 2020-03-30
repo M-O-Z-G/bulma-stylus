@@ -1,0 +1,99 @@
+// Banner Sized
+$banner-sizes ?= {
+	'medrect':    { names: ('medium-rectangle' 'medrect'),
+					size: 300 250 },
+	'sqrpop':     { names: ('square-popup' 'sqrpop'),
+					size: 250 250 },
+	'vertrec':    { names: ('vertical-rectangle' 'vertrec'),
+					size: 240 400 },
+	'lrgrec':     { names: ('large-rectangle' 'lrgrec'),
+					size: 336 280 },
+	'rec':        { names: ('rectangle' 'rec'),
+					size: 180 150 },
+	'pop':        { names: ('pop-under' 'pop'),
+					size: 720 300 },
+	'popup1':     { names: ('pop-up1' 'popup1'),
+					size: 500 350 },
+	'popup2':     { names: ('pop-up2' 'popup2'),
+					size: 550 480 },
+	'fullban':    { names: ('full-banner' 'fullban'),
+					size: 468 60 },
+	'halfban':    { names: ('half-banner' 'halfban'),
+					size: 234 60 },
+	'smallban':   { names: ('small-banner' 'smallban'),
+					size: 230 33 },
+	'mibar':      { names: ('microbar' 'mibar'),
+					size: 88 31 },
+	'but1':       { names: ('button1' 'but1'),
+					size: 120 90 },
+	'but2':       { names: ('button2' 'but2'),
+					size: 120 60 },
+	'but3':       { names: ('button3' 'but3'),
+					size: 120 30 },
+	'blogbut':    { names: ('blog-button' 'blogbut'),
+					size: 94 15 },
+	'vertban':    { names: ('vertical-banner' 'vertban'),
+					size: 120 240 },
+	'sqrbut':     { names: ('square-button' 'sqrbut'),
+					size: 125 125 },
+	'leadbrd':    { names: ('leader-board' 'leadbrd'),
+					size: 728 90 },
+	'leadbrd':    { names: ('large-leader-board' 'lrgleadbrd'),
+					size: 728 210 },
+	'wiskyscrpr': { names: ('wide-skyscraper' 'wiskyscrpr'),
+					size: 160 600 },
+	'skyscrpr':   { names: ('skyscraper' 'skyscrpr'),
+					size: 120 600 },
+	'hpge':       { names: ('half-page' 'hpge'),
+					size: 300 600 },
+}
+
+$_iO64LguT // DO NOT move this block inside any mixin.
+	img
+		@extend $overlay
+
+bannerSizes($preface= '&'+ $is-modifier, $units= 'px')
+	$selectors= ()
+	for $banner in $banner-sizes
+		$selector= ''
+		$names= $banner-sizes[$banner].names
+		$size= $banner-sizes[$banner].size
+		$length= lengthList($names)
+
+		for $name in $names
+			$i= index($names, $name)+1
+			$separator= ($i < $length) ? ',' : ''
+			$selector += $preface + $name + $separator
+			push($selectors, $preface+$name)
+
+		if $selector != ''
+			{$selector}
+				{block}
+				width: convertUnit(unit($size[0], 'px'), $units)
+				height: convertUnit(unit($size[1], 'px'), $units)
+
+	{join(',',$selectors)}
+		@extend $_iO64LguT
+		@extend $_LtKeD6mA
+
+_banner()
+	display: block
+	position: relative
+	img
+		display: block
+		height: auto
+		width: 100%
+
+	/$_LtKeD6mA
+		img
+			height: 100%
+			width: 100%
+
+	// Ratio
+	bannerSizes()
+
+	{block}
+
+if !$silent.elements.banner && !$silent-mode
+	{$banner-selector}
+		_banner()

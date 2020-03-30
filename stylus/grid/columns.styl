@@ -1,29 +1,38 @@
-$columns-max ?= 12
 $column-gap ?= 0.75rem
 
-column-ratios ?= {
+$column-ratios ?= {
 	narrow:        { names: 'narrow' },
-	full:          { names: 'full',                     value: 100%                      }, // 100%
-	threeQuarters: { names: ('three-quarters' '3of4'),  value: round(percentage(3/4), 4) }, // 75%
-	twoThird:      { names: ('two-thirds' '2of3' ),     value: round(percentage(2/3), 4) }, // 66.6667%
-	half:          { names: ('half' '1of2' ),           value: round(percentage(1/2), 4) }, // 50%
-	oneThird:      { names: ('one-third' '1of3' ),      value: round(percentage(1/3), 4) }, // 33.3333%
-	oneQuarter:    { names: ('one-quarter' '1of4' ),    value: round(percentage(1/4), 4) }, // 25%
-	oneFifth:      { names: ('one-fifth' '1of5' ),      value: round(percentage(1/5), 4) }, // 20%
-	twoFifth:      { names: ('two-fifths' '2of5' ),     value: round(percentage(2/5), 4) }, // 40%
-	threeFifth:    { names: ('three-fifths' '3of5' ),   value: round(percentage(3/5), 4) }, // 60%
-	fourFifth:     { names: ('four-fifths' '4of5' ),    value: round(percentage(4/5), 4) }, // 80%
+	full:          { names: 'full',
+		value: 100%                      }, // 100%
+	threeQuarters: { names: ('three-quarters' '3of4'),
+		value: round(percentage(3/4), 4) }, // 75%
+	twoThird:      { names: ('two-thirds' '2of3' ),
+		value: round(percentage(2/3), 4) }, // 66.66667%
+	half:          { names: ('half' '1of2' ),
+		value: round(percentage(1/2), 4) }, // 50%
+	oneThird:      { names: ('one-third' '1of3' ),
+		value: round(percentage(1/3), 4) }, // 33.33333%
+	oneQuarter:    { names: ('one-quarter' '1of4' ),
+		value: round(percentage(1/4), 4) }, // 25%
+	oneFifth:      { names: ('one-fifth' '1of5' ),
+		value: round(percentage(1/5), 4) }, // 20%
+	twoFifth:      { names: ('two-fifths' '2of5' ),
+		value: round(percentage(2/5), 4) }, // 40%
+	threeFifth:    { names: ('three-fifths' '3of5' ),
+		value: round(percentage(3/5), 4) }, // 60%
+	fourFifth:     { names: ('four-fifths' '4of5' ),
+		value: round(percentage(4/5), 4) }, // 80%
 }
-columnWidthRule($preface= '&.is-', $device= false, $leadDevice= tablet, $offset= false)
+columnWidthRule($preface= '&'+ $is-modifier, $device= false, $leadDevice= tablet, $offset= false)
 	$prop= $offset ? 'margin-left' : 'width';
 	$offsetNameSegment= $offset ? 'offset-' : '';
 	$device= sanitizeName($device,'') if $device
 
 	if !match('-only$', sanitizeName($device, ''))
-		for $ratio in column-ratios
+		for $ratio in $column-ratios
 			$selector= ''
-			$names= column-ratios[$ratio].names
-			$length= lengthList($names)-1
+			$names= $column-ratios[$ratio].names
+			$length= lengthList($names)
 			$count= $device and ($device == $leadDevice) ? 1 : 0
 
 			for $name in $names
@@ -32,17 +41,17 @@ columnWidthRule($preface= '&.is-', $device= false, $leadDevice= tablet, $offset=
 					$deviceNameSegment= (($device and $count == 0) or ($device and $count != 0 and $c > 0 )) ? '-' + $device : ''
 					$separator= (($i < $length) or ($count > 0 and $c < $count)) ? ',' : ''
 					if ($offset and $ratio != narrow and $ratio != full) or !$offset
-						$selector= $selector + $preface + $offsetNameSegment + $name + $deviceNameSegment + $separator
+						$selector += $preface + $offsetNameSegment + $name + $deviceNameSegment + $separator
 
 			if $selector != ''
-				$value= column-ratios[$ratio][value]
+				$value= $column-ratios[$ratio][value]
 				{$selector}
 					if !$offset
 						{block}
-						flex none
+						flex: none
 					{$prop}: $value if $value
 
-columnGridRule($preface= '&.is-', $device= false, $leadDevice= tablet)
+columnGridRule($preface= '&'+ $is-modifier, $device= false, $leadDevice= tablet)
 	$deviceNameSegment= $device ? '-' + sanitizeName($device, '') : ''
 	$device= sanitizeName($device,'') if $device
 
@@ -58,23 +67,23 @@ columnGridRule($preface= '&.is-', $device= false, $leadDevice= tablet)
 					$selector-grid= '';
 					$deviceNameSegment= (($device and $count == 0) or ($device and $count != 0 and $c > 0 )) ? '-' + $device : ''
 					$separator= ($count > 0 and $c < $count) ? ',' : ''
-					$selector= $selector + $preface + $offsetNameSegment + $i + $deviceNameSegment + $separator
+					$selector += $preface + $offsetNameSegment + $i + $deviceNameSegment + $separator
 
 				{$selector}
 					if $o <= 0
 						{block}
-						flex none
+						flex: none
 					{$prop}: round(percentage($i / $columns-max), 4)
 
-.column
-	display block
-	flex-basis 0
-	flex-grow 1
-	flex-shrink 1
-	padding $column-gap
+_column()
+	display: block
+	flex-basis: 0
+	flex-grow: 1
+	flex-shrink: 1
+	padding: $column-gap
 	for $device, $i in $devices
 		if $i == 0
-			.columns.is-{$devices[$i]} > &
+			{$columns-selector}{$is-modifier}{$devices[$i]} > &
 				columnWidthRule($leadDevice: 'tablet', $offset: false)
 				columnWidthRule($leadDevice: 'tablet', $offset: true)
 				columnGridRule($device: false, $leadDevice: 'tablet')
@@ -83,55 +92,63 @@ columnGridRule($preface= '&.is-', $device= false, $leadDevice= tablet)
 			columnWidthRule($device: $device, $leadDevice: 'tablet', $offset: true)
 			columnGridRule($device: $device, $leadDevice: 'tablet')
 
-.columns
-	margin-left ($column-gap * -1)
-	margin-right ($column-gap * -1)
-	margin-top ($column-gap * -1)
+_columns()
+	margin-left: ($column-gap * -1)
+	margin-right: ($column-gap * -1)
+	margin-top: ($column-gap * -1)
 	&:last-child
-		margin-bottom ($column-gap * -1)
+		margin-bottom: ($column-gap * -1)
 	&:not(:last-child)
-		margin-bottom "calc(1.5rem - %s)" % $column-gap
+		margin-bottom: 'calc(1.5rem - %s)' % $column-gap
+
 	// Modifiers
-	&.is-centered
-		justify-content center
-	&.is-gapless
-		margin-left 0
-		margin-right 0
-		margin-top 0
-		& > .column
-			margin 0
-			padding 0 !important
+	&{$centered-modifier}
+		justify-content: center
+	&{$gapless-modifier}
+		margin-left: 0
+		margin-right: 0
+		margin-top: 0
+		& > {$column-selector}
+			margin: 0
+			padding: 0 !important
 		&:not(:last-child)
-			margin-bottom 1.5rem
+			margin-bottom: 1.5rem
 		&:last-child
-			margin-bottom 0
-	&.is-mobile
-		display flex
-	&.is-multiline
-		flex-wrap wrap
-	&.is-vcentered
-		align-items center
+			margin-bottom: 0
+	&{$is-modifier}mobile
+		display: flex
+	&{$multiline-modifier}
+		flex-wrap: wrap
+	&{$vcentered-modifier}
+		align-items: center
+
 	// Responsiveness
 	+tablet()
 		&:not(.is-desktop)
-			display flex
+			display: flex
 	+desktop()
 		// Modifiers
-		&.is-desktop
-			display flex
+		&{$is-modifier}desktop
+			display: flex
 
-if $variable-columns
-	.columns.is-variable
-		--columnGap 0.75rem
-		margin-left calc(-1 * var(--columnGap))
-		margin-right calc(-1 * var(--columnGap))
-		.column
-			padding-left var(--columnGap)
-			padding-right var(--columnGap)
-		for $i in 0..8
-			&.is-{$i}
-				--columnGap ($i * 0.25rem)
-			for $device in $devices
-				+$device()
-					&.is-{$i}-{$device}
-						--columnGap ($i * 0.25rem)
+	if $variable-columns
+		&{$variable-modifier}
+			--columnGap: 0.75rem
+			margin-left: calc(-1 * var(--columnGap))
+			margin-right: calc(-1 * var(--columnGap))
+			{$column-selector}
+				padding-left: var(--columnGap)
+				padding-right: var(--columnGap)
+			for $i in 0..8
+				&{$is-modifier}{$i}
+					--columnGap: ($i * 0.25rem)
+				for $device in $devices
+					+$device()
+						&{$is-modifier}{$i}-{$device}
+							--columnGap: ($i * 0.25rem)
+
+if !$silent.components.grid && !$silent-mode
+	{$column-selector}
+		_column()
+	{$columns-selector}
+		_columns()

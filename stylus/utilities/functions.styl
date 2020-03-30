@@ -1,4 +1,22 @@
-$colorContrastFormula ?= 'bulma'
+$color-luminance-formula ?= 'bulma'
+$colorContrastFormula ?= $color-luminance-formula
+
+listReverse($list)
+	$result= ()
+	for $item in $list
+		prepend($result, $item)
+
+	return $result
+
+convertUnit($value, $unit2, $type= 'all')
+	$unit1= unit($value);
+	for $t in $conversion-ratios
+		if $type == $t or $type == 'all'
+			for $u in $conversion-ratios[$t]
+				if $unit1 == $u and $conversion-ratios[$t][$u][$unit2] != null
+					return unit($value / $conversion-ratios[$t][$u][$unit2], $unit2)
+
+	error('`' + $unit1 + ' unit cannot be converted to `' + $unit2 + '`')
 
 // Actual Stylus built-in `length` function works in a weird way with lists
 // that contain one item. This's just a fix for partial cases.
@@ -9,7 +27,7 @@ lengthList()
 
 	return $i
 
-sanitizeName($name, $symbol = '-')
+sanitizeName($name, $symbol = '-', $prefixed= true)
 	return replace('[\.\(\)\,\$#]', $symbol, ""+$name)
 
 
@@ -20,10 +38,31 @@ listTypeofValuesValidator($list, $type= 'rgba|hsla')
 			_void= _void + 1
 
 	if length($list) != _void
-		error("Unexpected type inside the list.")
+		error('Unexpected type inside the list.')
 		return false;
 
 	return true;
+
+mergeNested($arr1, $arr2, $cache= false)
+	for $n in $arr1
+		if $arr2[$n]
+			if typeof($arr2[$n]) == 'object'
+				merge($arr1[$n], $arr2[$n])
+			else
+				$arr1[$n]= $arr2[$n]
+
+	if $cache == 'silent'
+		define('$silent-cache', $arr1, true)
+
+	return $arr1
+
+updateGlobalOptions()
+	if $prefix != $prefix-bsp && $prefixed-selectors
+		$prefix-bsp= $prefix
+	else if !$prefixed-selectors
+		$prefix-bsp= ''
+	if $silent != $silent-cache
+		define('$silent', mergeNested($silent-cache, $silent, 'silent'), true)
 
 mergeColorMaps($bulma-colors, $custom-colors)
 	// We return at least Bulma's hard-coded colors
@@ -38,7 +77,7 @@ mergeColorMaps($bulma-colors, $custom-colors)
 			// and the components either a single color
 			// or a colors list with at least one element
 			// join(",", $component)
-			if typeof($name) == 'string' and (typeof($components) == 'ident' or listTypeofValuesValidator($components, 'rgba|hsla')) and length($components) >= 1
+			if typeof($name) == 'string' and (typeof($components) == 'ident' or listTypeofValuesValidator($components, 'rgba|hsla')) and lengthList($components) >= 1
 				$color-base = null
 				$color-invert = null
 				$color-light = null
@@ -47,12 +86,12 @@ mergeColorMaps($bulma-colors, $custom-colors)
 
 				// The param can either be a single color
 				// or a list of 2 colors
-				if listTypeofValuesValidator($components, 'rgba|hsla') and length($components) == 1
+				if listTypeofValuesValidator($components, 'rgba|hsla') and lengthList($components) == 1
 					$color-base = $components
 					$color-invert = findColorInvert($color-base)
 					$color-light = findLightColor($color-base)
 					$color-dark = findDarkColor($color-base)
-				else if listTypeofValuesValidator($components, 'rgba|hsla') and length($components) > 1
+				else if listTypeofValuesValidator($components, 'rgba|hsla') and lengthList($components) > 1
 					$color-base = $components[0]
 					// If Invert, Light and Dark are provided
 					if length($components) > 3
@@ -89,7 +128,9 @@ mergeColorMaps($bulma-colors, $custom-colors)
 powerNumber($number, $exp)
 	return $number ** $exp
 
-colorLuminance($color, $formula= $colorContrastFormula)
+colorLuminance($color, $formula= $color-luminance-formula)
+	if typeof($color) != 'rgba' && typeof($color) != 'hsla'
+		return 0.55
 	$color-rgb = {'red': red($color),'green': green($color),'blue': blue($color)}
 	if $formula == 'YIQ' or $formula == 'yiq'
 		return (((0.299 * $color-rgb['red']) + (0.587 * $color-rgb['green']) + (0.114 * $color-rgb['blue'])) / 255)
@@ -106,7 +147,7 @@ colorLuminance($color, $formula= $colorContrastFormula)
 		return (($color-rgb['red'] * .2126) + ($color-rgb['green'] * .7152) + ($color-rgb['blue'] * .0722))
 
 findColorInvert($color, $tint= false)
-	$ratio= ($colorContrastFormula == 'YIQ' or $colorContrastFormula == 'yiq') ? 0.5 : 0.55
+	$ratio= ($colorContrastFormula == 'YIQ' || $colorContrastFormula == 'yiq') ? 0.5 : 0.55
 	if colorLuminance($color) > $ratio
 		if $tint
 			return darken($color, 80%)
@@ -119,7 +160,7 @@ findColorInvert($color, $tint= false)
 			return #fff
 
 findLightColor($color)
-	if typeof($color) == 'rgba' or typeof($color) == 'hsla'
+	if typeof($color) == 'rgba' || typeof($color) == 'hsla'
 		$l = 96%
 		if lightness($color) > 96%
 			$l = lightness($color)
@@ -127,7 +168,7 @@ findLightColor($color)
 	return $background
 
 findDarkColor($color)
-	if typeof($color) == 'rgba' or typeof($color) == 'hsla'
+	if typeof($color) == 'rgba' || typeof($color) == 'hsla'
 		$base-l = 29%
 		$luminance = colorLuminance($color)
 		$luminance-delta = (0.53 - $luminance)
@@ -135,10 +176,36 @@ findDarkColor($color)
 		return lightness($color, max($base-l, $target-l))
 	return $text-strong
 
+getLightness($color)
+	$min= 96%
+	if typeof($color) == 'rgba' || typeof($color) == 'hsla'
+		return max($min, lightness($color))
+
+	return $min
+
+getDarkness($color)
+	$min= 29%
+	if typeof($color) == 'rgba' || typeof($color) == 'hsla'
+		$luminance= colorLuminance($color)
+		$luminance-delta= (0.53 - $luminance)
+		$target= round($min + ($luminance-delta * 53))
+		return max($min, $target)
+
+	return $max
+
+bulmaRgba($color, $alpha)
+	if typeof($color) != 'rgba' && typeof($color) != 'hsla'
+		return $color
+	return rgba($color, $alpha)
+
+bulmaDarken($color, $amount)
+	if typeof($color) != 'rgba' && typeof($color) != 'hsla'
+		return $color
+	return lightness($color, lightness($color) - $amount)
+
 /* Bif replacements to match the behaviour of Sass */
 
-bulma-stylus-darken($color, $amount)
-	return lightness($color, lightness($color) - $amount)
+bulma-stylus-darken = bulmaDarken
 
 bulma-stylus-lighten($color, $amount)
 	return lightness($color, lightness($color) + $amount)

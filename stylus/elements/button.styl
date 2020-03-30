@@ -3,31 +3,39 @@ $button-solid ?= false
 $button-solid-background-color ?= $primary
 
 $button-color ?= $button-solid ? findColorInvert($button-solid-background-color) : $text-strong
+$button-color-invert ?= $white
 $button-background-color ?= $button-solid ? $button-solid-background-color : $scheme-main
 $button-family ?= false
 
 $button-border-color ?= $button-solid ? transparent : $border
 $button-border-width ?= $control-border-width
 
-$button-padding-vertical ?= "calc(0.5em - %s)" % $button-border-width
+$button-padding-vertical ?= 'calc(0.5em - %s)' % $button-border-width
 $button-padding-horizontal ?= 1em
 
-$button-hover-background-color ?= $button-solid ? bulma-stylus-darken($button-solid-background-color, 2.5%) : transparent
+$button-hover-background-color ?= $button-solid ? bulmaDarken($button-solid-background-color, 2.5%) : transparent
 $button-hover-color ?= $button-solid ? findColorInvert($button-solid-background-color) : $link-hover
 $button-hover-border-color ?= $button-solid ? transparent : $link-hover-border
 
 $button-focus-color ?= $button-solid ? findColorInvert($button-solid-background-color) : $link-focus
 $button-focus-border-color ?= $button-solid ? transparent : $link-focus-border
 $button-focus-box-shadow-size ?= 0 0 0 0.125em
-$button-focus-box-shadow-color ?= rgba($link, 0.25)
+$button-focus-box-shadow-color ?= bulmaRgba($link, 0.25)
 
 $button-active-color ?= $button-solid ? findColorInvert($button-solid-background-color) : $link-active
-$button-active-background-color ?= $button-solid ? bulma-stylus-darken($button-solid-background-color, 5%) : transparent
+$button-active-background-color ?= $button-solid ? bulmaDarken($button-solid-background-color, 5%) : transparent
 $button-active-border-color ?= $button-solid ? transparent : $link-active-border
 
 $button-text-color ?= $text
+$button-text-decoration ?= underline
 $button-text-hover-background-color ?= $background
 $button-text-hover-color ?= $text-strong
+$button-text-focus-background-color ?= $border-light
+$button-text-focus-border-color ?= $border
+$button-text-focus-color ?= $text-strong
+$button-text-focus-box-shadow-color ?= $border-light
+$button-text-active-background-color ?= $border-light
+$button-text-active-color ?= $text-stron
 
 $button-disabled-background-color ?= $scheme-main
 $button-disabled-border-color ?= $border
@@ -38,294 +46,560 @@ $button-static-color ?= $text-light
 $button-static-background-color ?= $scheme-main-ter
 $button-static-border-color ?= $border
 
-// The button sizes use mixins so they can be used at different breakpoints
-button-small()
-	border-radius $radius-small
-	font-size $size-small
-button-normal()
-	font-size $size-normal
-button-medium()
-	font-size $size-medium
-button-large()
-	font-size $size-large
-
-.button
-	@extend $control
-	@extend $unselectable
-	background-color $button-background-color
-	border-color $button-border-color
-	border-width $button-border-width
-	color $button-color
-	cursor pointer
-	if $button-family
-		font-family $button-family
-	justify-content center
-	padding-bottom $button-padding-vertical
-	padding-left $button-padding-horizontal
-	padding-right $button-padding-horizontal
-	padding-top $button-padding-vertical
-	text-align center
-	white-space nowrap
-	strong
-		color inherit
-	.icon
-		&,
-		&.is-small,
-		&.is-medium,
-		&.is-large
-			height 1.5em
-			width 1.5em
-		&:first-child:not(:last-child)
-			margin-left "calc(%s - %s)" % (-1 / 2 * $button-padding-horizontal $button-border-width)
-			margin-right ($button-padding-horizontal / 4)
-		&:last-child:not(:first-child)
-			margin-left ($button-padding-horizontal / 4)
-			margin-right "calc(%s - %s)" % (-1 / 2 * $button-padding-horizontal $button-border-width)
-		&:first-child:last-child
-			margin-left "calc(%s - %s)" % (-1 / 2 * $button-padding-horizontal $button-border-width)
-			margin-right "calc(%s - %s)" % (-1 / 2 * $button-padding-horizontal $button-border-width)
-	// States
-	&:hover,
-	&.is-hovered
-		background-color: $button-hover-background-color if $button-solid
-		border-color $button-hover-border-color
-		color $button-hover-color
-	&:focus,
-	&.is-focused
-		border-color $button-focus-border-color
-		color $button-focus-color
-		&:not(:active)
-			box-shadow $button-focus-box-shadow-size $button-focus-box-shadow-color
-	&:active,
-	&.is-active
-		background-color: $button-active-background-color if $button-solid
-		border-color $button-active-border-color
-		color $button-active-color
-	// Colors
-	&.is-text
-		background-color transparent
-		border-color transparent
-		color $button-text-color
-		text-decoration underline
-		&:hover,
-		&.is-hovered,
-		&:focus,
-		&.is-focused
-			background-color $button-text-hover-background-color
-			color $button-text-hover-color
-		&:active,
-		&.is-active
-			background-color bulma-stylus-darken($button-text-hover-background-color, 5%)
-			color $button-text-hover-color
-		&[disabled],
-		fieldset[disabled] &
-			_c= $button-solid ? $button-background-color : transparent
-			background-color _c
-			border-color transparent
-			box-shadow none
+colorfulButtons($colors= $colors)
 	for $name, $pair in $colors
 		$color = $pair['1']
 		$color-invert = $pair['2']
-		&.is-{$name}
-			background-color $color
-			border-color transparent
-			color $color-invert
+		&{$is-modifier}{$name}
+			background-color: $color
+			border-color: transparent
+			color: $color-invert
 			&:hover,
-			&.is-hovered
-				background-color bulma-stylus-darken($color, 2.5%)
-				border-color transparent
-				color $color-invert
+			&{$hovered-modifier}
+				background-color: bulmaDarken($color, 2.5%)
+				border-color: transparent
+				color: $color-invert
 			&:focus,
-			&.is-focused
-				border-color transparent
-				color $color-invert
+			&{$focused-modifier}
+				border-color: transparent
+				color: $color-invert
 				&:not(:active)
-					box-shadow $button-focus-box-shadow-size rgba($color, 0.25)
+					box-shadow: $button-focus-box-shadow-size bulmaRgba($color, 0.25)
 			&:active,
-			&.is-active
-				background-color bulma-stylus-darken($color, 5%)
-				border-color transparent
-				color $color-invert
+			&{$active-modifier}
+				background-color: bulmaDarken($color, 5%)
+				border-color: transparent
+				color: $color-invert
 			&[disabled],
 			fieldset[disabled] &
-				background-color $color
-				border-color transparent
-				box-shadow none
-			&.is-inverted
-				background-color $color-invert
-				color $color
+				background-color: $color
+				border-color: transparent
+				box-shadow: none
+			&{$inverted-modifier}
+				background-color: $color-invert
+				color: $color
 				&:hover,
-				&.is-hovered
-					background-color bulma-stylus-darken($color-invert, 5%)
+				&{$hovered-modifier}
+					background-color: bulmaDarken($color-invert, 5%)
 				&[disabled],
 				fieldset[disabled] &
-					background-color $color-invert
-					border-color transparent
-					box-shadow none
-					color $color
-			&.is-loading
+					background-color: $color-invert
+					border-color: transparent
+					box-shadow: none
+					color: $color
+			&{$loading-modifier}
 				&::after
-					border-color transparent transparent $color-invert $color-invert !important
-			&.is-outlined
-				background-color transparent
-				border-color $color
-				color $color
+					border-color: transparent transparent $color-invert $color-invert !important
+			&{$outlined-modifier}
+				background-color: transparent
+				border-color: $color
+				color: $color
 				&:hover,
-				&.is-hovered,
+				&{$hovered-modifier},
 				&:focus,
-				&.is-focused
-					background-color $color
-					border-color $color
-					color $color-invert
-				&.is-loading
+				&{$focused-modifier}
+					background-color: $color
+					border-color: $color
+					color: $color-invert
+				&{$loading-modifier}
 					&::after
-						border-color transparent transparent $color $color !important
+						border-color: transparent transparent $color $color !important
 					&:hover,
-					&.is-hovered,
+					&{$hovered-modifier},
 					&:focus,
-					&.is-focused
+					&{$focused-modifier}
 						&::after
-							border-color transparent transparent $color-invert $color-invert !important
+							border-color: transparent transparent $color-invert $color-invert !important
 				&[disabled],
 				fieldset[disabled] &
-					background-color transparent
-					border-color $color
-					box-shadow none
-					color $color
-			&.is-inverted.is-outlined
-				background-color transparent
-				border-color $color-invert
-				color $color-invert
+					background-color: transparent
+					border-color: $color
+					box-shadow: none
+					color: $color
+			&{$inverted-modifier}{$outlined-modifier}
+				background-color: transparent
+				border-color: $color-invert
+				color: $color-invert
 				&:hover,
-				&.is-hovered,
+				&{$hovered-modifier},
 				&:focus,
-				&.is-focused
-					background-color $color-invert
-					color $color
-				&.is-loading
+				&{$focused-modifier}
+					background-color: $color-invert
+					color: $color
+				&{$loading-modifier}
 					&:hover,
-					&.is-hovered,
+					&{$hovered-modifier},
 					&:focus,
-					&.is-focused
+					&{$focused-modifier}
 						&::after
-							border-color transparent transparent $color $color !important
+							border-color: transparent transparent $color $color !important
 				&[disabled],
 				fieldset[disabled] &
-					background-color transparent
-					border-color $color-invert
-					box-shadow none
-					color $color-invert
+					background-color: transparent
+					border-color: $color-invert
+					box-shadow: none
+					color: $color-invert
 			// If light and dark colors are provided
 			if length($pair) >= 4
 				$color-light = $pair['3']
 				$color-dark = $pair['4']
-				&.is-light
-					background-color $color-light
-					color $color-dark
+				&{$light-modifier}
+					background-color: $color-light
+					color: $color-dark
 					&:hover,
-					&.is-hovered
-						background-color bulma-stylus-darken($color-light, 2.5%)
-						border-color transparent
-						color $color-dark
+					&{$hovered-modifier}
+						background-color: bulmaDarken($color-light, 2.5%)
+						border-color: transparent
+						color: $color-dark
 					&:active,
-					&.is-active
-						background-color bulma-stylus-darken($color-light, 5%)
-						border-color transparent
-						color $color-dark
+					&{$active-modifier}
+						background-color: bulmaDarken($color-light, 5%)
+						border-color: transparent
+						color: $color-dark
+
+// The button sizes use mixins so they can be used at different breakpoints
+button-small()
+	border-radius: $radius-small
+	font-size: $size-small
+button-normal()
+	font-size: $size-normal
+button-medium()
+	font-size: $size-medium
+button-large()
+	font-size: $size-large
+
+_button()
+	@extend $control
+	@extend $unselectable
+	background-color: $button-background-color
+	border-color: $button-border-color
+	border-width: $button-border-width
+	color: $button-color
+	cursor: pointer
+
+	if $button-family
+		font-family: $button-family
+
+	justify-content: center
+	padding-bottom: $button-padding-vertical
+	padding-left: $button-padding-horizontal
+	padding-right: $button-padding-horizontal
+	padding-top: $button-padding-vertical
+	text-align: center
+	white-space: nowrap
+
+	strong
+		color: inherit
+
+	{$icon-selector}
+		&,
+		&{$small-modifier},
+		&{$medium-modifier},
+		&{$large-modifier}
+			height: 1.5em
+			width: 1.5em
+		&:first-child:not(:last-child)
+			margin-left: 'calc(%s - %s)' % (-1 / 2 * $button-padding-horizontal $button-border-width)
+			margin-right: ($button-padding-horizontal / 4)
+		&:last-child:not(:first-child)
+			margin-left: ($button-padding-horizontal / 4)
+			margin-right: 'calc(%s - %s)' % (-1 / 2 * $button-padding-horizontal $button-border-width)
+		&:first-child:last-child
+			margin-left: 'calc(%s - %s)' % (-1 / 2 * $button-padding-horizontal $button-border-width)
+			margin-right: 'calc(%s - %s)' % (-1 / 2 * $button-padding-horizontal $button-border-width)
+	// States
+	&:hover,
+	&{$hovered-modifier}
+		background-color: $button-hover-background-color if $button-solid
+		border-color: $button-hover-border-color
+		color: $button-hover-color
+	&:focus,
+	&{$focused-modifier}
+		border-color: $button-focus-border-color
+		color: $button-focus-color
+		&:not(:active)
+			box-shadow: $button-focus-box-shadow-size $button-focus-box-shadow-color
+	&:active,
+	&{$active-modifier}
+		background-color: $button-active-background-color if $button-solid
+		border-color: $button-active-border-color
+		color: $button-active-color
+	// Colors
+	&{$text-modifier}
+		background-color: transparent
+		border-color: transparent
+		color: $button-text-color
+		text-decoration: $button-text-decoration
+		&:hover,
+		&{$hovered-modifier},
+		&:focus,
+		&{$focused-modifier}
+			background-color: $button-text-hover-background-color
+			color: $button-text-hover-color
+		&:active,
+		&{$active-modifier}
+			background-color: bulmaDarken($button-text-hover-background-color, 5%)
+			color: $button-text-hover-color
+		&[disabled],
+		fieldset[disabled] &
+			_c= $button-solid ? $button-background-color : transparent
+			background-color: _c
+			border-color: transparent
+			box-shadow: none
+
+	updateGlobalOptions()
+	colorfulButtons($buttons-colors) if !$silent.colorful.buttons
+
 	// Sizes
-	&.is-small
+	&{$small-modifier}
 		button-small()
-	&.is-normal
+	&{$normal-modifier}
 		button-normal()
-	&.is-medium
+	&{$medium-modifier}
 		button-medium()
-	&.is-large
+	&{$large-modifier}
 		button-large()
 	// Modifiers
 	&[disabled],
 	fieldset[disabled] &
-		background-color $button-disabled-background-color
-		border-color $button-disabled-border-color
-		box-shadow $button-disabled-shadow
-		opacity $button-disabled-opacity
-	&.is-fullwidth
-		display flex
-		width 100%
-	&.is-loading
-		color transparent !important
-		pointer-events none
+		background-color: $button-disabled-background-color
+		border-color: $button-disabled-border-color
+		box-shadow: $button-disabled-shadow
+		opacity: $button-disabled-opacity
+	&{$fullwidth-modifier}
+		display: flex
+		width: 100%
+	&{$loading-modifier}
+		color: transparent !important
+		pointer-events: none
 		&::after
 			@extend $loader
 			center(1em)
-			position absolute !important
-	&.is-static
-		background-color $button-static-background-color
-		border-color $button-static-border-color
-		color $button-static-color
-		box-shadow none
-		pointer-events none
-	&.is-rounded
-		border-radius $radius-rounded
-		padding-left "calc(%s + 0.25em)" % $button-padding-horizontal
-		padding-right "calc(%s + 0.25em)" % $button-padding-horizontal
+			position: absolute !important
+	&{$static-modifier}
+		background-color: $button-static-background-color
+		border-color: $button-static-border-color
+		color: $button-static-color
+		box-shadow: none
+		pointer-events: none
+	&{$rounded-modifier}
+		border-radius: $radius-rounded
+		padding-left: 'calc(%s + 0.25em)' % $button-padding-horizontal
+		padding-right: 'calc(%s + 0.25em)' % $button-padding-horizontal
 
-.buttons
-	align-items center
-	display flex
-	flex-wrap wrap
-	justify-content flex-start
-	.button
-		margin-bottom 0.5rem
-		&:not(:last-child):not(.is-fullwidth)
-			margin-right 0.5rem
+	{block}
+
+_buttons()
+	align-items: center
+	display: flex
+	flex-wrap: wrap
+	justify-content: flex-start
+	& {$button-selector}
+		margin-bottom: 0.5rem
+		&:not(:last-child):not({$fullwidth-modifier}) // TODO: `not` pseudo-class will be a problem with different naming methodology. Check how we can deal with it.
+			margin-right: 0.5rem
 	&:last-child
-		margin-bottom -0.5rem
+		margin-bottom: -0.5rem
 	&:not(:last-child)
-		margin-bottom 1rem
+		margin-bottom: 1rem
 	// Sizes
-	&.are-small
-		.button:not(.is-normal):not(.is-medium):not(.is-large)
+	&{$are-small-modifier}
+		& {$button-selector}:not({$normal-modifier}):not({$medium-modifier}):not({$large-modifier}) // TODO: `not` pseudo-class will be a problem with different naming methodology. Check how we can deal with it.
 			button-small()
-	&.are-medium
-		.button:not(.is-small):not(.is-normal):not(.is-large)
+	&{$are-medium-modifier}
+		& {$button-selector}:not({$small-modifier}):not({$normal-modifier}):not({$large-modifier}) // TODO: `not` pseudo-class will be a problem with different naming methodology. Check how we can deal with it.
 			button-medium()
-	&.are-large
-		.button:not(.is-small):not(.is-normal):not(.is-medium)
+	&{$are-large-modifier}
+		& {$button-selector}:not({$small-modifier}):not({$normal-modifier}):not({$medium-modifier}) // TODO: `not` pseudo-class will be a problem with different naming methodology. Check how we can deal with it.
 			button-large()
-	&.has-addons
-		.button
+	&{$has-addons-modifier}
+		& {$button-selector}
 			&:not(:first-child)
-				border-bottom-left-radius 0
-				border-top-left-radius 0
+				border-bottom-left-radius: 0
+				border-top-left-radius: 0
 			&:not(:last-child)
-				border-bottom-right-radius 0
-				border-top-right-radius 0
-				margin-right -1px
+				border-bottom-right-radius: 0
+				border-top-right-radius: 0
+				margin-right: -1px
 			&:last-child
-				margin-right 0
+				margin-right: 0
 			&:hover,
-			&.is-hovered
-				z-index 2
+			&{$hovered-modifier}
+				z-index: 2
 			&:focus,
-			&.is-focused,
+			&{$focused-modifier},
 			&:active,
-			&.is-active,
-			&.is-selected
-				z-index 3
+			&{$active-modifier},
+			&{$selected-modifier}
+				z-index: 3
 				&:hover
-					z-index 4
-			&.is-expanded
-				flex-grow 1
-				flex-shrink 1
-	&.is-centered
-		justify-content center
-		&:not(.has-addons)
-			.button:not(.is-fullwidth)
-				margin-left 0.25rem
-				margin-right 0.25rem
-	&.is-right
-		justify-content flex-end
-		&:not(.has-addons)
-			.button:not(.is-fullwidth)
-				margin-left 0.25rem
-				margin-right 0.25rem
+					z-index: 4
+			&{$expanded-modifier}
+				flex-grow: 1
+				flex-shrink: 1
+	&{$centered-modifier}
+		justify-content: center
+		&:not({$has-addons-modifier}) // TODO: `not` pseudo-class will be a problem with different naming methodology. Check how we can deal with it.
+			& ^[0]:not({$fullwidth-modifier}) // TODO: `not` pseudo-class will be a problem with different naming methodology. Check how we can deal with it.
+				margin-left: 0.25rem
+				margin-right: 0.25rem
+	&{$right-modifier}
+		justify-content: flex-end
+		&:not({$has-addons-modifier})
+			& ^[0]:not({$fullwidth-modifier}) // TODO: `not` pseudo-class will be a problem with different naming methodology. Check how we can deal with it.
+				margin-left: 0.25rem
+				margin-right: 0.25rem
+
+	{block}
+
+ // TODO: V-version. Need some additions to the `$silent` hash.
+_vbuttons()
+	align-items: center
+	display: flex
+	flex-wrap: wrap
+	justify-content: flex-start
+
+	&:not(:last-child)
+		margin-bottom: 1rem
+
+	.{$prefix-bsp}v{replace('^([\-\_\+\-\.\(\)\,\$#'+$prefix-bsp+']+)', '', $button-selector)} // TODO: Perhaps we need a variable for `vbutton` and `vbuttons`.
+		margin-right: 1em
+
+	{block}
+
+_vbutton()
+	--background-color: $button-background-color
+	--border-color: $button-border-color
+	--color: $button-color
+	--hover-border-color: $button-hover-border-color
+	--hover-color: $button-hover-color
+	--focus-border-color: $button-focus-border-color
+	--focus-color: $button-focus-color
+	--focus-box-shadow-color: $button-focus-box-shadow-color
+	--active-border-color: $button-active-border-color
+	--active-color: $button-active-color
+	--outlined-color: $button-color
+	--outlined-hover-background-color: $button-color
+	--outlined-hover-color: $button-color-invert
+	--outlined-active-background-color: bulmaDarken( $button-color, 5% )
+	--outlined-active-color: $button-color-invert
+	--outlined-focus-box-shadow-color: $border
+
+	@extend $control
+	@extend $unselectable
+	background-color: var( --background-color )
+	border-color: var( --border-color )
+	border-width: $button-border-width
+	color: var( --color )
+	cursor: pointer
+
+	if $button-family
+		font-family: $button-family
+
+	justify-content: center
+	padding-bottom: $button-padding-vertical
+	padding-left: $button-padding-horizontal
+	padding-right: $button-padding-horizontal
+	padding-top: $button-padding-vertical
+	text-align: center
+	white-space: nowrap
+
+	strong
+		color: inherit
+
+	{$icon-selector}
+		&,
+		&{$small-modifier},
+		&{$medium-modifier},
+		&{$large-modifier}
+			height: 1.5em
+			width: 1.5em
+
+		&:first-child:not(:last-child)
+			margin-left: 'calc(-0.375em - %s)' % $button-border-width
+			margin-right: 0.1875em
+
+		&:last-child:not(:first-child)
+			margin-left: 0.1875em
+			margin-right: 'calc(-0.375em - %s)' % $button-border-width
+
+		&:first-child:last-child
+			margin-left: 'calc(-0.375em - %s)' % $button-border-width
+			margin-right: 'calc(-0.375em - %s)' % $button-border-width
+
+	&:hover,
+	&{$hovered-modifier}
+		background-color: var( --hover-background-color )
+		border-color: var( --hover-border-color )
+		color: var( --hover-color )
+
+	&:focus,
+	&{$focused-modifier}
+		border-color: var( --focus-border-color )
+
+		&:not(:active)
+			box-shadow: $button-focus-box-shadow-size var( --focus-box-shadow-color )
+
+	&:active,
+	&{$active-modifier}
+		background-color: var( --active-background-color )
+		border-color: var( --active-border-color )
+		color: var( --active-color )
+
+	&{$outlined-modifier}
+		--background-color: transparent
+		--border-color: $button-color
+		--color: $button-color
+		--hover-background-color: $button-color
+		--hover-color: $button-color-invert
+		--active-background-color: bulmaDarken( $button-color, 5% )
+		--active-color: $button-color-invert
+		--focus-border-color: $button-color
+		--focus-box-shadow-color: $border
+
+		&:not(:hover):not(.is-hovered):not(:active):not(.is-active) // TODO: `not` pseudo-class will be a problem with different naming methodology. Check how we can deal with it.
+			background-color: transparent
+
+		&:not(.is-inverted):not([disabled]) // TODO: `not` pseudo-class will be a problem with different naming methodology. Check how we can deal with it.
+			&:hover,
+			&.is-hovered,
+			&:active,
+			&.is-active
+				border-color: transparent
+
+	&{$outlined-modifier}{$inverted-modifier}
+		background-color: transparent
+
+	&{$text-modifier}
+		--background-color: transparent
+		--border-color: transparent
+		--color: $text
+		--hover-background-color: $button-text-hover-background-color
+		--hover-border-color: transparent
+		--hover-color: $button-text-hover-color
+		--focus-background-color: $button-text-focus-background-color
+		--focus-border-color: $button-text-focus-border-color
+		--focus-color: $button-text-focus-color
+		--focus-box-shadow-color: $button-text-focus-box-shadow-color
+		--active-background-color: $button-text-active-background-color
+		--active-border-color: transparent
+		--active-color: $button-text-active-color
+		text-decoration: underline
+
+	for $name, $trio in $colors
+		$base = $prefix + $name
+
+		&{$is-modifier}{$name}
+			--background-color: s( 'var(--' + $base + ')' )
+			--border-color: transparent
+			--color: s( 'var(--' + $base + '-invert)' )
+			--hover-background-color: s( 'var(--' + $base + '-hover)' )
+			--hover-border-color: transparent
+			--hover-color: s( 'var(--' + $base + '-invert)' )
+			--focus-background-color: s( 'var(--' + $base + ')' )
+			--focus-border-color: transparent
+			--focus-color: s( 'var(--' + $base + '-invert)' )
+			--focus-box-shadow-color: s( 'hsl(var(--' + $base + '-h), calc(var(--' + $base + '-s)), 86%)' )
+			--active-background-color: s( 'var(--' + $base + '-active)' )
+			--active-border-color: transparent
+			--active-color: s( 'var(--' + $base + '-invert)' )
+			--outlined-color: s( 'var(--' + $base + ')' )
+
+			&{$inverted-modifier}
+				--background-color: s( 'var(--' + $base + '-invert)' )
+				--color: s( 'var(--' + $base + ')' )
+				--hover-background-color: s( 'var(--' + $base + '-invert)' )
+				--hover-color: s( 'var(--' + $base + '-hover)' )
+				--active-background-color: s( 'var(--' + $base + '-invert)' )
+				--active-color: s( 'var(--' + $base + '-active)' )
+
+			&{$outlined-modifier}
+				--background-color: transparent
+				--border-color: s( 'var(--' + $base + ')' )
+				--color: s( 'var(--' + $base + ')' )
+				--hover-background-color: s( 'var(--' + $base + ')' )
+				--focus-border-color: s( 'var(--' + $base + ')' )
+
+			&{$outlined-modifier}{$inverted-modifier}
+				--background-color: transparent
+				--border-color: s( 'var(--' + $base + '-invert)' )
+				--color: s( 'var(--' + $base + '-invert)' )
+				--hover-border-color: s( 'var(--' + $base + '-hover)' )
+				--hover-color: s( 'var(--' + $base + '-invert)' )
+				--active-border-color: s( 'var(--' + $base + '-active)' )
+				--active-color: s( 'var(--' + $base + '-active)' )
+				--focus-box-shadow-color: s( 'hsl(var(--' + $base + '-h), calc(var(--' + $base + '-s)), 14%)' )
+
+			&{$light-modifier}
+				--background-color: s( 'var(--' + $base + '-light)' )
+				--border-color: transparent
+				--color: s( 'var(--' + $base + '-dark)' )
+				--hover-background-color: s( 'var(--' + $base + '-light-hover)' )
+				--hover-border-color: transparent
+				--hover-color: s( 'var(--' + $base + '-dark)' )
+				--focus-background-color: s( 'var(--' + $base + '-light)' )
+				--focus-border-color: transparent
+				--focus-color: s( 'var(--' + $base + '-dark)' )
+				--focus-box-shadow-color: s( 'hsl(var(--' + $base + '-h), calc(var(--' + $base + '-s)), 86%)' )
+				--active-background-color: s( 'var(--' + $base + '-light-active)' )
+				--active-border-color: transparent
+				--active-color: s( 'var(--' + $base + '-dark)' )
+
+	// Sizes
+	&{$small-modifier}
+		button-small()
+
+	&{$normal-modifier}
+		button-normal()
+
+	&{$medium-modifier}
+		button-medium()
+
+	&{$large-modifier}
+		button-large()
+
+	// Modifiers
+	&[disabled],
+	fieldset[disabled] &
+		--hover-background-color: var( --background-color ) !important
+		--hover-border-color: var( --border-color ) !important
+		--hover-color: var( --color ) !important
+		opacity: $button-disabled-opacity
+
+	&{$fullwidth-modifier}
+		display: flex
+		width: 100%
+
+	&{$loading-modifier}
+		color: transparent !important
+		pointer-events: none
+
+		&::after
+			@extend $loader
+			center( 1em )
+			border-color: transparent transparent var( --color ) var( --color ) !important
+			position: absolute !important
+
+	&{$static-modifier}
+		--background-color: $button-static-background-color
+		--border-color: $button-static-border-color
+		--color: $button-static-color
+		box-shadow: none
+		pointer-events: none
+
+	&{$rounded-modifier}
+		border-radius: $radius-rounded
+		padding-left: 1.25em
+		padding-right: 1.25em
+
+	{block}
+
+if !$silent.elements.button && !$silent-mode
+	{$button-selector}
+		_button()
+	{$buttons-selector}
+		_buttons()
+	.{$prefix-bsp}v{replace('^([\-\_\+\-\.\(\)\,\$#'+$prefix-bsp+']+)', '', $buttons-selector)} // TODO: Perhaps we need a variable for `vbutton` and `vbuttons`.
+		_vbuttons()
+	.{$prefix-bsp}v{replace('^([\-\_\+\-\.\(\)\,\$#'+$prefix-bsp+']+)', '', $button-selector)} // TODO: Perhaps we need a variable for `vbutton` and `vbuttons`.
+		_vbutton()

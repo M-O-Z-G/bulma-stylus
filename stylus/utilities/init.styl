@@ -1,0 +1,17 @@
+@import 'initial-variables'
+@import 'mixins'
+s('@charset %s;', $charset) if typeof($charset) == 'string' && $charset != ''
+if !$silent-mode
+	/*! Bulma Stylus Plus 0.8.3b | MIT License | github.com/m-o-z-g/bulma-stylus-plus */
+
+if !$silent.css-variables && !$silent-mode
+	:root
+		for $name, $components in $colors
+			$color= $components['1']
+			$color-invert= $components['2']
+			$cssvar-invert= false
+
+			if length($components) >= 5
+				$cssvar-invert= $components['5']
+
+			css-variable($color, $name, $cssvar-invert)

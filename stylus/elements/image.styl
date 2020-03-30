@@ -1,71 +1,131 @@
 $dimensions ?= 16 24 32 48 64 96 128
 
-.image
-	display block
-	position relative
+// Image Ratios
+$image-ratios ?= {
+	square:   { names: ('square' '1by1'),
+				value: 100% }, // 100%
+	'5by4':   { names: ('major-third' 'major-3rd' '5by4'),
+				value: percentage(4/5) }, // 80%
+	'4by3':   { names: ('perfect-fourth' 'perfect-4th' '4by3'),
+				value: percentage(3/4) }, // 75%
+	'3by2':   { names: ('film' 'perfect-fifth' 'perfect-5th' '3by2'),
+				value: percentage(2/3) }, // 66.6667%
+	'5by3':   { names: ('major-sixths' 'major-6th' '5by3'),
+				value: percentage(3/5) }, // 60%
+	'16by9':  { names: ('fullhd' 'minor-seventh' 'minor-7th' '16by9'),
+				value: percentage(9/16) }, // 56.25%
+	'2by1':   { names: ('octave' '2by1'),
+				value: percentage(1/2) }, // 50%
+	'3by1':   { names: ('major-twelfth' 'major-12th' '3by1'),
+				value: percentage(1/3) }, // 33.3333%
+	// '4by5':   { names: ('4by5'),   value: percentage(5/4) }, // 125%
+	// '3by4':   { names: ('3by4'),   value: percentage(4/3) }, // 133.33333%
+	// '2by3':   { names: ('2by3'),   value: percentage(3/2) }, // 150%
+	// '3by5':   { names: ('3by5' ),  value: percentage(5/3) }, // 166.66667%
+	// '9by16':  { names: ('9by16' ), value: percentage(16/9) }, // 177.77778%
+	// '1by2':   { names: ('1by2' ),  value: percentage(2/1) }, // 200%
+	// '1by3':   { names: ('1by3' ),  value: percentage(3/1) }, // 300%
+}
+// Bulma Stylus Plus Additions
+$custom-ratios ?= {
+	'16by15': { names: ('minor-second' 'minor-2nd' '16by15' ),
+				value: percentage(15/16) }, // 93.75%
+	'9by8':   { names: ('major-second' 'major-2nd' '9by8' ),
+				value: percentage(8/9) }, // 88.8889%
+	'6by5':   { names: ('minor-third' 'minor-3rd' '6by5' ),
+				value: percentage(5/6) }, // 83.3333%
+	// '14by10': { names: ('imax' '14by10' ),
+	// 			value: percentage(10/14) }, // 71.4286%
+	'aug4th': {names: ('augmented-fourth' 'augmented-4th' 'diminished-fifth' 'diminished-5th' ),
+				value: percentage(1/1.4142135623730951) }, // 70.7107%
+	'8by5':   { names: ('minor-sixth' 'minor-6th' '8by5' ),
+				value: percentage(5/8) }, // 62.5%
+	'golden': { names: ('golden-ratio' 'golden-section'),
+				value: percentage(1/1.618) }, // 61.8047%
+	'15by8':  { names: ('major-seventh' 'major-7th' '15by8' ),
+				value: percentage(8/15) }, // 53.3333%
+	// '19by10': { names: ('imax-digital' '19by10' ),
+	// 			value: percentage(10/19) }, // 52.6316%
+	'5by2':   { names: ('major-tenth' 'major-10th' '5by2'),
+				value: percentage(2/5) }, // 40%
+	'8by3':   { names: ('major-eleventh' 'major-11th' '8by3' ),
+				value: percentage(3/8) }, // 37.5%
+	'29by9':  { names: ('cinemascope' '29by9' ),
+				value: percentage(9/29) }, // 31.0345%
+	'4by1':   { names: ('double-octave' '4by1'),
+				value: percentage(1/4) }, // 25%
+}
+
+$ratios = !$silent.plus.ratios ? merge($image-ratios, $custom-ratios) : $image-ratios
+
+$_yPr4nZxI // DO NOT move this block inside any mixin.
+	img, .has-ratio
+		@extend $overlay
+
+imageRatios($preface= '&'+ $is-modifier)
+	$selectors= ()
+	for $ratio in $ratios
+		$selector= ''
+		$selector-portrait= ''
+		$names= $ratios[$ratio].names
+		$value= $ratios[$ratio].value
+		$value-portrait= round(100 / $value * 100, 4)
+		$length= lengthList($names)
+
+		for $name in $names
+			$i= index($names, $name)+1
+			$separator= ($i < $length) ? ',' : ''
+			$selector += $preface + $name + $separator
+			push($selectors, $preface+$name)
+			if $value != '100%' and !$silent.plus.ratios-portrait
+				if match('\d+by\d+', $name) != null
+					$name= replace('(\d+)by(\d+)', '$2by$1', $name);
+				else
+					$name= $name + '-portrait'
+				$selector-portrait += $preface + $name + $separator
+				push($selectors, $preface+$name)
+
+		if $selector != ''
+			{$selector}
+				{block}
+				padding-top: round($value, 4)
+		if $selector-portrait != ''
+			{$selector-portrait}
+				{block}
+				padding-top: $value-portrait
+
+	{join(',',$selectors)}
+		@extend $_yPr4nZxI
+		@extend $_mogFE8Xk
+
+_image()
+	display: block
+	position: relative
 	img
-		display block
-		height auto
-		width 100%
-		&.is-rounded
-			border-radius $radius-rounded
-	&.is-fullwidth
-		width 100%
+		display: block
+		height: auto
+		width: 100%
+		&{$rounded-modifier}
+			border-radius: $radius-rounded
+	&{$fullwidth-modifier}
+		width: 100%
+
+	/$_mogFE8Xk
+		img, .has-ratio
+			height: 100%
+			width: 100%
+
 	// Ratio
-	&.is-square,
-	&.is-1by1,
-	&.is-5by4,
-	&.is-4by3,
-	&.is-3by2,
-	&.is-5by3,
-	&.is-16by9,
-	&.is-2by1,
-	&.is-3by1,
-	&.is-4by5,
-	&.is-3by4,
-	&.is-2by3,
-	&.is-3by5,
-	&.is-9by16,
-	&.is-1by2,
-	&.is-1by3
-		img,
-		.has-ratio
-			@extend $overlay
-			height 100%
-			width 100%
-	&.is-square,
-	&.is-1by1
-		padding-top 100%
-	&.is-5by4
-		padding-top 80%
-	&.is-4by3
-		padding-top 75%
-	&.is-3by2
-		padding-top 66.6666%
-	&.is-5by3
-		padding-top 60%
-	&.is-16by9
-		padding-top 56.25%
-	&.is-2by1
-		padding-top 50%
-	&.is-3by1
-		padding-top 33.3333%
-	&.is-4by5
-		padding-top 125%
-	&.is-3by4
-		padding-top 133.3333%
-	&.is-2by3
-		padding-top 150%
-	&.is-3by5
-		padding-top 166.6666%
-	&.is-9by16
-		padding-top 177.7777%
-	&.is-1by2
-		padding-top 200%
-	&.is-1by3
-		padding-top 300%
+	imageRatios()
+
 	// Sizes
 	for $dimension in $dimensions
-		&.is-{$dimension}x{$dimension}
-			height $dimension * 1px
-			width $dimension * 1px
+		&{$is-modifier}{$dimension}x{$dimension}
+			height: $dimension * 1px
+			width: $dimension * 1px
+
+	{block}
+
+if !$silent.elements.image && !$silent-mode
+	{$image-selector}
+		_image()

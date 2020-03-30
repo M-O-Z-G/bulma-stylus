@@ -1,66 +1,98 @@
 @import "initial-variables"
 
+css-variable($color, $name, $cssvar-invert)
+	$hue= hue($color)
+	$saturation= saturation($color)
+	$lightness= lightness($color)
+	$base= $prefix-vars+$name
+
+	{'--'+$base}-h: $hue
+	{'--'+$base}-s: $saturation
+	{'--'+$base}-l: $lightness
+	{'--'+$base}: s('hsl(var(--'+$base+'-h), calc(var(--'+$base+'-s)), calc(var(--'+$base+'-l)))');
+	{'--'+$base}-hover: s('hsl(var(--'+$base+'-h), calc(var(--'+$base+'-s)), calc(var(--'+$base+'-l) - 5%))');
+	{'--'+$base}-active: s('hsl(var(--'+$base+'-h), calc(var(--'+$base+'-s)), calc(var(--'+$base+'-l) - 10%))');
+
+	$l= getLightness($color)
+	{'--'+$base}-light: s('hsl(var(--'+$base+'-h), calc(var(--'+$base+'-s)), '+$l+')');
+	{'--'+$base}-light-hover: s('hsl(var(--'+$base+'-h), calc(var(--'+$base+'-s)), '+($l - 2%)+')');
+	{'--'+$base}-light-active: s('hsl(var(--'+$base+'-h), calc(var(--'+$base+'-s)), '+($l - 4%)+')');
+
+	$d= getDarkness($color)
+	{'--'+$base}-dark: s('hsl(var(--'+$base+'-h), calc(var(--'+$base+'-s)), '+$d+')');
+	{'--'+$base}-dark-hover: s('hsl(var(--'+$base+'-h), calc(var(--'+$base+'-s)), '+($d - 5%)+')');
+	{'--'+$base}-dark-active: s('hsl(var(--'+$base+'-h), calc(var(--'+$base+'-s)), '+($d - 10%)+')');
+
+	if $cssvar-invert
+		{'--'+$base}-invert: var(unquote('--'+$prefix-vars+$cssvar-invert))
+	else
+		{'--'+$base}-invert: findColorInvert($color)
+
 clearfix()
 	&::after
-		clear both
-		content " "
-		display table
+		clear: both
+		content: " "
+		display: table
 
 center($width, $height = 0)
 	position absolute
 	if $height != 0
-		left "calc(50% - (%s / 2))" % $width
-		top "calc(50% - (%s/ 2))" % $height
+		left: 'calc(50% - (%s / 2))' % $width
+		top: 'calc(50% - (%s/ 2))' % $height
 	else
-		left "calc(50% - (%s / 2))" % $width
-		top "calc(50% - (%s / 2))" % $width
+		left: 'calc(50% - (%s / 2))' % $width
+		top: 'calc(50% - (%s / 2))' % $width
 
 fa($size, $dimensions)
-	display inline-block
-	font-size $size
-	height $dimensions
-	line-height $dimensions
-	text-align center
-	vertical-align top
-	width $dimensions
+	display: inline-block
+	font-size: $size
+	height: $dimensions
+	line-height: $dimensions
+	text-align: center
+	vertical-align: top
+	width: $dimensions
+
+ic = fa
 
 hamburger($dimensions)
-	cursor pointer
-	display block
-	height $dimensions
-	position relative
-	width $dimensions
+	cursor: pointer
+	display: block
+	height: $dimensions
+	position: relative
+	width: $dimensions
+
 	span
-		background-color currentColor
-		display block
-		height 1px
-		left calc(50% - 8px)
-		position absolute
-		transform-origin center
-		transition-duration $speed
-		transition-property background-color, opacity, transform
-		transition-timing-function $easing
-		width 16px
+		background-color: currentColor
+		display: block
+		height: 1px
+		left: calc(50% - 8px)
+		position: absolute
+		transform-origin: center
+		transition-duration: $speed
+		transition-property: background-color, opacity, transform
+		transition-timing-function: $easing
+		width: 16px
 		&:nth-child(1)
-			top calc(50% - 6px)
+			top: calc(50% - 6px)
 		&:nth-child(2)
-			top calc(50% - 1px)
+			top: calc(50% - 1px)
 		&:nth-child(3)
-			top calc(50% + 4px)
+			top: calc(50% + 4px)
 	&:hover
-		background-color rgba(black, 0.05)
+		background-color: bulmaRgba(black, 0.05)
+
 	// Modifers
-	&.is-active
+	&{$active-modifier}
 		span
 			&:nth-child(1)
-				transform translateY(5px) rotate(45deg)
+				transform: translateY(5px) rotate(45deg)
 			&:nth-child(2)
-				opacity 0
+				opacity: 0
 			&:nth-child(3)
-				transform translateY(-5px) rotate(-45deg)
+				transform: translateY(-5px) rotate(-45deg)
 
 overflow-touch()
-	-webkit-overflow-scrolling touch
+	-webkit-overflow-scrolling: touch
 
 placeholder()
 	$placeholders = ':-moz' ':-webkit-input' '-moz' '-ms-input'
@@ -130,134 +162,159 @@ fullhd()
 
 $devices = mobile tablet tablet-only touch desktop desktop-only widescreen widescreen-only fullhd
 
+// External fonts
+fontFace( $name, $filename, $weight = false, $style = false, $formats = local eot woff2 woff truetype svg, $path = $font-path, $version = false, $svg-font-name = false, $local-font-name = false )
+	@font-face
+		font-family: $name
+		if $weight
+			font-weight: $weight
+		if $style
+			font-style: $style
+		$src= ()
+
+		if $version == 'random' || $version == true
+			$hash= '?v='
+			$chars= split('', 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
+			for $i in 0...10
+				$i= $i+1
+				$rndIndex= round(math(1, 'random') * (length($chars) - 1))
+				$hash += $chars[$rndIndex]
+		else if typeof($version) == 'string'
+			$hash= '?v='+$version
+		else
+			$hash= ''
+
+		$font-src= $path+$filename
+
+		if local in $formats
+			$local-name = $local-font-name ? $local-font-name : $name
+			push($src, 'local("' + $local-name + '")')
+		if eot in $formats
+			src: url( $font-src + '.eot' + $hash )
+			push( $src, 'url("' + $font-src + '.eot?#iefix' + replace('^\?', '&', $hash) + '") format("embedded-opentype")' )
+		if woff2 in $formats
+			push( $src, 'url("' + $font-src + '.woff2'+ $hash +'") format("woff2")' )
+		if woff in $formats
+			push( $src, 'url("' + $font-src + '.woff'+ $hash +'") format("woff")' )
+		if opentype in $formats || otf in $formats
+			push( $src, 'url("' + $font-src + '.otf'+ $hash +'") format("opentype")' )
+		if truetype in $formats || ttf in $formats
+			push( $src, 'url("' + $font-src + '.ttf'+ $hash +'") format("truetype")' )
+		if svg in $formats
+			$svg-name = $svg-font-name ? $svg-font-name : $name
+			push( $src, 'url("' + $font-src + '.svg#' + $svg-name + $hash + '") format("svg")' )
+		src: unquote( join( ",\n       ", $src ) )
+
 // Placeholders
 
 unselectable()
-	-webkit-touch-callout none
-	-webkit-user-select none
-	-moz-user-select none
-	-ms-user-select none
-	user-select none
-
-$unselectable
-	unselectable()
+	-webkit-touch-callout: none
+	-webkit-user-select: none
+	-moz-user-select: none
+	-ms-user-select: none
+	user-select: none
 
 arrow($color = transparent)
-	border 3px solid $color
-	border-radius 2px
-	border-right 0
-	border-top 0
-	content " "
-	display block
-	height 0.625em
-	margin-top -0.4375em
-	pointer-events none
-	position absolute
-	top 50%
-	transform rotate(-45deg)
-	transform-origin center
-	width 0.625em
-
-$arrow
-	arrow()
+	border: 3px solid $color
+	border-radius: 2px
+	border-right: 0
+	border-top: 0
+	content: " "
+	display: block
+	height: 0.625em
+	margin-top: -0.4375em
+	pointer-events: none
+	position: absolute
+	top: 50%
+	transform: rotate(-45deg)
+	transform-origin: center
+	width: 0.625em
 
 block($spacing = $block-spacing)
 	&:not(:last-child)
-		margin-bottom $spacing
-
-$block
-	block()
+		margin-bottom: $spacing
 
 delete()
 	@extend $unselectable
-	-moz-appearance none
-	-webkit-appearance none
-	background-color rgba($scheme-invert, 0.2)
-	border none
-	border-radius $radius-rounded
-	cursor pointer
-	pointer-events auto
-	display inline-block
-	flex-grow 0
-	flex-shrink 0
-	font-size 0
-	height 20px
-	max-height 20px
-	max-width 20px
-	min-height 20px
-	min-width 20px
-	outline none
-	position relative
-	vertical-align top
-	width 20px
+	-moz-appearance: none
+	-webkit-appearance: none
+	background-color: bulmaRgba($scheme-invert, 0.2)
+	border: none
+	border-radius: $radius-rounded
+	cursor: pointer
+	pointer-events: auto
+	display: inline-block
+	flex-grow: 0
+	flex-shrink: 0
+	font-size: 0
+	height: 20px
+	max-height: 20px
+	max-width: 20px
+	min-height: 20px
+	min-width: 20px
+	outline: none
+	position: relative
+	vertical-align: top
+	width: 20px
 	&::before,
 	&::after
-		background-color $scheme-main
-		content ""
-		display block
-		left 50%
-		position absolute
-		top 50%
-		transform translateX(-50%) translateY(-50%) rotate(45deg)
-		transform-origin center center
+		background-color: $scheme-main
+		content: ""
+		display: block
+		left: 50%
+		position: absolute
+		top: 50%
+		transform: translateX(-50%) translateY(-50%) rotate(45deg)
+		transform-origin: center center
 	&::before
-		height 2px
-		width 50%
+		height: 2px
+		width: 50%
 	&::after
-		height 50%
-		width 2px
+		height: 50%
+		width: 2px
 	&:hover,
 	&:focus
-		background-color rgba($scheme-invert, 0.3)
+		background-color: bulmaRgba($scheme-invert, 0.3)
 	&:active
-		background-color rgba($scheme-invert, 0.4)
+		background-color: bulmaRgba($scheme-invert, 0.4)
 	// Sizes
-	&.is-small
-		height 16px
-		max-height 16px
-		max-width 16px
-		min-height 16px
-		min-width 16px
-		width 16px
-	&.is-medium
-		height 24px
-		max-height 24px
-		max-width 24px
-		min-height 24px
-		min-width 24px
-		width 24px
-	&.is-large
-		height 32px
-		max-height 32px
-		max-width 32px
-		min-height 32px
-		min-width 32px
-		width 32px
-
-$delete
-	delete()
+	&{$small-modifier}
+		height: 16px
+		max-height: 16px
+		max-width: 16px
+		min-height: 16px
+		min-width: 16px
+		width: 16px
+	&{$medium-modifier}
+		height: 24px
+		max-height: 24px
+		max-width: 24px
+		min-height: 24px
+		min-width: 24px
+		width: 24px
+	&{$large-modifier}
+		height: 32px
+		max-height: 32px
+		max-width: 32px
+		min-height: 32px
+		min-width: 32px
+		width: 32px
 
 loader()
-	animation spinAround 500ms infinite linear
-	border 2px solid $grey-lighter
-	border-radius $radius-rounded
-	border-right-color transparent
-	border-top-color transparent
-	content ""
-	display block
-	height 1em
-	position relative
-	width 1em
-
-$loader
-	loader()
+	animation: spinAround 500ms infinite linear
+	border: 2px solid $grey-lighter
+	border-radius: $radius-rounded
+	border-right-color: transparent
+	border-top-color: transparent
+	content: ""
+	display: block
+	height: 1em
+	position: relative
+	width: 1em
 
 overlay($offset = 0)
-	bottom $offset
-	left $offset
-	position absolute
-	right $offset
-	top $offset
-
-$overlay
-	overlay()
+	bottom: $offset
+	left: $offset
+	position: absolute
+	right: $offset
+	top: $offset

@@ -3,126 +3,174 @@ $tag-color ?= $text
 $tag-radius ?= $radius
 $tag-delete-margin ?= 1px
 
-.tags
-	align-items center
-	display flex
-	flex-wrap wrap
-	justify-content flex-start
-	.tag
-		margin-bottom 0.5rem
-		&:not(:last-child)
-			margin-right 0.5rem
-	&:last-child
-		margin-bottom -0.5rem
-	&:not(:last-child)
-		margin-bottom 1rem
-	// Sizes
-	&.are-medium
-		.tag:not(.is-normal):not(.is-large)
-			font-size $size-normal
-	&.are-large
-		.tag:not(.is-normal):not(.is-medium)
-			font-size $size-medium
-	&.is-centered
-		justify-content center
-		.tag
-			margin-right 0.25rem
-			margin-left 0.25rem
-	&.is-right
-		justify-content flex-end
-		.tag
-			&:not(:first-child)
-				margin-left 0.5rem
-			&:not(:last-child)
-				margin-right 0
-	&.has-addons
-		.tag
-			margin-right 0
-			&:not(:first-child)
-				margin-left 0
-				border-bottom-left-radius 0
-				border-top-left-radius 0
-			&:not(:last-child)
-				border-bottom-right-radius 0
-				border-top-right-radius 0
-
-.tag:not(body)
-	align-items center
-	background-color $tag-background-color
-	border-radius $tag-radius
-	color $tag-color
-	display inline-flex
-	font-size $size-small
-	height 2em
-	justify-content center
-	line-height 1.5
-	padding-left 0.75em
-	padding-right 0.75em
-	white-space nowrap
-	.delete
-		margin-left 0.25rem
-		margin-right -0.375rem
-	// Colors
+colorfulTags($colors= $colors)
 	for $name, $pair in $colors
 		$color = $pair['1']
 		$color-invert = $pair['2']
-		&.is-{$name}
-			background-color $color
-			color $color-invert
+		&{$is-modifier}{$name}
+			background-color: $color
+			color: $color-invert
 			// If a light and dark colors are provided
 			if length($pair) > 3
 				$color-light = $pair['3']
 				$color-dark = $pair['4']
-				&.is-light
-					background-color $color-light
-					color $color-dark
-	// Sizes
-	&.is-normal
-		font-size $size-small
-	&.is-medium
-		font-size $size-normal
-	&.is-large
-		font-size $size-medium
-	.icon
-		&:first-child:not(:last-child)
-			margin-left -0.375em
-			margin-right 0.1875em
-		&:last-child:not(:first-child)
-			margin-left 0.1875em
-			margin-right -0.375em
-		&:first-child:last-child
-			margin-left -0.375em
-			margin-right -0.375em
-	// Modifiers
-	&.is-delete
-		margin-left $tag-delete-margin
-		padding 0
-		position relative
-		width 2em
-		&::before,
-		&::after
-			background-color currentColor
-			content ""
-			display block
-			left 50%
-			position absolute
-			top 50%
-			transform translateX(-50%) translateY(-50%) rotate(45deg)
-			transform-origin center center
-		&::before
-			height 1px
-			width 50%
-		&::after
-			height 50%
-			width 1px
-		&:hover,
-		&:focus
-			background-color bulma-stylus-darken($tag-background-color, 5%)
-		&:active
-			background-color bulma-stylus-darken($tag-background-color, 10%)
-	&.is-rounded
-		border-radius $radius-rounded
+				&{$light-modifier}
+					background-color: $color-light
+					color: $color-dark
 
-a.tag
-	&:hover
-		text-decoration underline
+_tags()
+	align-items: center
+	display: flex
+	flex-wrap: wrap
+	justify-content: flex-start
+	{$tag-selector}
+		margin-bottom: 0.5rem
+		&:not(:last-child)
+			margin-right: 0.5rem
+	&:last-child
+		margin-bottom: -0.5rem
+	&:not(:last-child)
+		margin-bottom: 1rem
+
+	// Sizes
+	&{$are-medium-modifier}
+		{$tag-selector}:not({$normal-modifier}):not({$large-modifier})
+			font-size: $size-normal
+	&{$are-large-modifier}
+		{$tag-selector}:not({$normal-modifier}):not({$medium-modifier})
+			font-size: $size-medium
+	&{$centered-modifier}
+		justify-content: center
+		{$tag-selector}
+			margin-right: 0.25rem
+			margin-left: 0.25rem
+	&{$right-modifier}
+		justify-content: flex-end
+		{$tag-selector}
+			&:not(:first-child)
+				margin-left: 0.5rem
+			&:not(:last-child)
+				margin-right: 0
+	&{$has-addons-modifier}
+		{$tag-selector}
+			margin-right: 0
+			&:not(:first-child)
+				margin-left: 0
+				border-bottom-left-radius: 0
+				border-top-left-radius: 0
+			&:not(:last-child)
+				border-bottom-right-radius: 0
+				border-top-right-radius: 0
+
+	/.{$prefix-bsp}v{replace('^([\-\_\+\-\.\(\)\,\$#'+$prefix-bsp+']+)', '', selector())} // TODO: Perhaps we need a variable for `vtags`.
+		align-items: center
+		display: flex
+		flex-wrap: wrap
+		justify-content: flex-start
+		&:not(:last-child)
+			margin-bottom: 1.5rem
+		.{$prefix-bsp}v{replace('^([\-\_\+\-\.\(\)\,\$#'+$prefix-bsp+']+)', '', $tag-selector)} // TODO: Perhaps we need a variable for `vtag`.
+			&:not(:last-child)
+				margin-right: 0.5rem
+
+	/.{$prefix-bsp}v{replace('^([\-\_\+\-\.\(\)\,\$#'+$prefix-bsp+']+)', '', $tag-selector)} // TODO: Perhaps we need a variable for `vtag`.
+		--background-color: $tag-background-color
+		--color: $tag-color
+		align-items: center
+		background-color: var(--background-color)
+		border-radius: $tag-radius
+		color: var(--color)
+		display: inline-flex
+		font-size: $size-small
+		height: 2em
+		justify-content: center
+		line-height: 1.5
+		padding-left: 0.75em
+		padding-right: 0.75em
+		white-space: nowrap
+		for $name, $trio in $colors
+			$base= $prefix-vars+$name
+			&{$is-modifier}{$name}
+				--background-color: s('var(--'+$base+')')
+				--color: s('var(--'+$base+'-invert)')
+				&{$light-modifier}
+					--background-color: s('var(--'+$base+'-light)')
+					--color: s('var(--'+$base+'-dark)')
+
+	/{$tag-selector}:not(body)
+		align-items: center
+		background-color: $tag-background-color
+		border-radius: $tag-radius
+		color: $tag-color
+		display: inline-flex
+		font-size: $size-small
+		height: 2em
+		justify-content: center
+		line-height: 1.5
+		padding-left: 0.75em
+		padding-right: 0.75em
+		white-space: nowrap
+		{$delete-selector}
+			margin-left: 0.25rem
+			margin-right: -0.375rem
+
+		// Colors
+		updateGlobalOptions()
+		colorfulTags($tags-colors) if !$silent.colorful.tags
+
+		// Sizes
+		&{$normal-modifier}
+			font-size: $size-small
+		&{$medium-modifier}
+			font-size: $size-normal
+		&{$large-modifier}
+			font-size: $size-medium
+		{$icon-selector}
+			&:first-child:not(:last-child)
+				margin-left: -0.375em
+				margin-right: 0.1875em
+			&:last-child:not(:first-child)
+				margin-left: 0.1875em
+				margin-right: -0.375em
+			&:first-child:last-child
+				margin-left: -0.375em
+				margin-right: -0.375em
+		// Modifiers
+		&{$delete-modifier}
+			margin-left: $tag-delete-margin
+			padding: 0
+			position: relative
+			width: 2em
+			&::before,
+			&::after
+				background-color: currentColor
+				content: ""
+				display: block
+				left: 50%
+				position: absolute
+				top: 50%
+				transform: translateX(-50%) translateY(-50%) rotate(45deg)
+				transform-origin: center center
+			&::before
+				height: 1px
+				width: 50%
+			&::after
+				height: 50%
+				width: 1px
+			&:hover,
+			&:focus
+				background-color: bulmaDarken($tag-background-color, 5%)
+			&:active
+				background-color: bulmaDarken($tag-background-color, 10%)
+		&{$rounded-modifier}
+			border-radius: $radius-rounded
+
+	/a{$tag-selector}
+		&:hover
+			text-decoration: underline
+
+	{block}
+
+if !$silent.elements.tags && !$silent-mode
+	{$tags-selector}
+		_tags()

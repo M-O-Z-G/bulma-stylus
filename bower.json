@@ -1,22 +1,29 @@
 {
   "name": "bulma-stylus-plus",
-  "version": "0.8.2",
+  "version": "0.8.3-beta",
   "homepage": "https://github.com/M-O-Z-G/bulma-stylus-plus",
   "authors": [
     "jgthms <bbxdesign@gmail.com>",
     "groenroos <oskari@groenroos.fi>",
-    "m-o-z-g <aleksandrmozgdikov+github@gmail.com>"
+    "m-o-z-g <alexandermozgdikov+github@gmail.com>"
   ],
-  "description": "Modern CSS framework based on Flexbox (Stylus)",
-  "main": "bulma.styl",
+  "description": "Improved and expanded version of Bulma Stylus translation of Bulma, flexbox-based CSS framework.",
+  "main": "bulma-stylus-plus.styl",
   "keywords": [
     "css",
     "stylus",
     "flexbox",
     "responsive",
-    "framework"
+    "framework",
+    "bulma",
+    "components",
+    "css3",
+    "prototyping"
   ],
-  "license": "MIT",
+  "license": {
+	  "type": "MIT",
+	  "url": "https://github.com/M-O-Z-G/bulma-stylus-plus/blob/master/LICENSE"
+  },
   "ignore": [
     "**/.*",
     "node_modules",

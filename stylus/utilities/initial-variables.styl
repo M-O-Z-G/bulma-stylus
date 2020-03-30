@@ -25,6 +25,8 @@ $purple        ?= hsl(271, 100%, 71%)
 $red           ?= hsl(348, 86%, 61%)
 
 // Typography
+$body-size ?= 16px
+$body-font-size ?= 1em
 
 $family-sans-serif ?= BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif
 $family-monospace ?= monospace
@@ -71,7 +73,363 @@ $radius ?= 4px
 $radius-large ?= 6px
 $radius-rounded ?= 290486px
 $speed ?= 86ms
+$prefix ?= 'bulma-'
 
 // Flags
-
 $variable-columns ?= true
+$css-variables ?= true
+
+//PLUS FEATURES
+$charset ?= "utf-8"
+$font-path ?= '/assets/fonts/'
+$columns-max ?= 12
+$silent-mode ?= false
+$bsp-no-conflict ?= false // TODO: Reserved for further errors :)
+
+// Selectors naming
+$prefixed-selectors ?= false
+$prefix-vars ?= $prefix
+$prefix-bsp= !$prefixed-selectors ? '' : $prefix
+
+$is-selector ?= '.'+$prefix-bsp+'is-'
+$is-modifier ?= '.'+$prefix-bsp+'is-'
+$are-selector ?= '.'+$prefix-bsp+'are-'
+$are-modifier ?= '.'+$prefix-bsp+'are-'
+$has-selector ?= '.'+$prefix-bsp+'has-'
+$has-modifier ?= '.'+$prefix-bsp+'has-'
+$fonticon-family-prefix-selector ?= '.'+$prefix-bsp+'fa'
+
+// Helpers
+$util-clearfix-selector ?= $is-selector+'clearfix'
+$util-pulled-left-selector ?= $is-selector+'pulled-left'
+$util-pulled-right-selector ?= $is-selector+'pulled-right'
+$util-clipped-selector ?= $is-selector+'clipped'
+$util-overlay-selector ?= $is-selector+'overlay'
+$util-size-selector ?= $is-selector+'size-'
+$util-capitalized-selector ?= $is-selector+'capitalized'
+$util-lowercase-selector ?= $is-selector+'lowercase'
+$util-uppercase-selector ?= $is-selector+'uppercase'
+$util-italic-selector ?= $is-selector+'italic'
+$util-family-primary-selector ?= $is-selector+'family-primary'
+$util-family-secondary-selector ?= $is-selector+'family-secondary'
+$util-family-sans-serif-selector ?= $is-selector+'family-sans-serif'
+$util-family-monospace-selector ?= $is-selector+'family-monospace'
+$util-family-code-selector ?= $is-selector+'family-code'
+$util-hidden-selector ?= $is-selector+'hidden'
+$util-sr-only-selector ?= $is-selector+'sr-only'
+$util-invisible-selector ?= $is-selector+'invisible'
+$util-marginless-selector ?= $is-selector+'marginless'
+$util-paddingless-selector ?= $is-selector+'paddingless'
+$util-radiusless-selector ?= $is-selector+'radiusless'
+$util-shadowless-selector ?= $is-selector+'shadowless'
+$util-unselectable-selector ?= $is-selector+'unselectable'
+$util-relative-selector ?= $is-selector+'relative'
+
+$util-has-text-selector ?= $has-selector+'text'
+$util-has-background-selector ?= $has-selector+'background'
+$util-has-text-weight-light-selector ?= $util-has-text-selector+'-weight-light'
+$util-has-text-weight-normal-selector ?= $util-has-text-selector+'-weight-normal'
+$util-has-text-weight-medium-selector ?= $util-has-text-selector+'-weight-medium'
+$util-has-text-weight-semibold-selector ?= $util-has-text-selector+'-weight-semibold'
+$util-has-text-weight-bold-selector ?= $util-has-text-selector+'-weight-bold'
+
+// Modifiers
+$text-modifier ?= $is-modifier+'text'
+$wrapped-modifier ?= $is-modifier+'wrapped'
+$centered-modifier ?= $is-modifier+'centered'
+$center-modifier ?= $is-modifier+'center'
+$delete-modifier ?= $is-modifier+'delete'
+$left-modifier ?= $is-modifier+'left'
+$right-modifier ?= $is-modifier+'right'
+$small-modifier ?= $is-modifier+'small'
+$medium-modifier ?= $is-modifier+'medium'
+$large-modifier ?= $is-modifier+'large'
+$are-small-modifier ?= $are-modifier+'small'
+$are-medium-modifier ?= $are-modifier+'medium'
+$are-large-modifier ?= $are-modifier+'large'
+$bold-modifier ?= $is-modifier+'bold'
+$active-modifier ?= $is-modifier+'active'
+$inverted-modifier ?= $is-modifier+'inverted'
+$gapless-modifier ?= $is-modifier+'gapless'
+$multiline-modifier ?= $is-modifier+'multiline'
+$vcentered-modifier ?= $is-modifier+'vcentered'
+$variable-modifier ?= $is-modifier+'variable'
+$fixed-modifier ?= $is-modifier+'fixed'
+$fixed-top-modifier ?= $fixed-modifier+'-top'
+$fixed-bottom-modifier ?= $fixed-modifier+'-bottom'
+$static-modifier ?= $is-modifier+'static'
+$light-modifier ?= $is-modifier+'light'
+$outlined-modifier ?= $is-modifier+'outlined'
+$square-modifier ?= $is-modifier+'square'
+$expanded-modifier ?= $is-modifier+'expanded'
+$grouped-modifier ?= $is-modifier+'grouped'
+$grouped-centered-modifier ?= $grouped-modifier+'-centered'
+$grouped-right-modifier ?= $grouped-modifier+'-right'
+$grouped-multiline-modifier ?= $grouped-modifier+'-multiline'
+$horizontal-modifier ?= $is-modifier+'horizontal'
+$tab-modifier ?= $is-modifier+'tab'
+$arrowless-modifier ?= $is-modifier+'arrowless'
+$spaced-modifier ?= $is-modifier+'spaced'
+$lower-modifier ?= $is-modifier+'lower'
+$lower-alpha-modifier ?= $lower-modifier+'-alpha'
+$lower-roman-modifier ?= $lower-modifier+'-roman'
+$upper-modifier ?= $is-modifier+'upper'
+$upper-alpha-modifier ?= $upper-modifier+'-alpha'
+$upper-roman-modifier ?= $upper-modifier+'-roman'
+$empty-modifier ?= $is-modifier+'empty'
+$boxed-modifier ?= $is-modifier+'boxed'
+$toggle-modifier ?= $is-modifier+'toggle'
+$toggle-rounded-modifier ?= $toggle-modifier+'-rounded'
+$fluid-modifier ?= $is-modifier+'fluid'
+$widescreen-modifier ?= $is-modifier+'widescreen'
+$fullhd-modifier ?= $is-modifier+'fullhd'
+$normal-modifier ?= $is-modifier+'normal'
+$loading-modifier ?= $is-modifier+'loading'
+$inline-modifier ?= $is-modifier+'inline'
+$transparent-modifier ?= $is-modifier+'transparent'
+$hovered-modifier ?= $is-modifier+'hovered'
+$disabled-modifier ?= $is-modifier+'disabled'
+$hoverable-modifier ?= $is-modifier+'hoverable'
+$focused-modifier ?= $is-modifier+'focused'
+$selected-modifier ?= $is-modifier+'selected'
+$rounded-modifier ?= $is-modifier+'rounded'
+$bordered-modifier ?= $is-modifier+'bordered'
+$striped-modifier ?= $is-modifier+'striped'
+$narrow-modifier ?= $is-modifier+'narrow'
+$current-modifier ?= $is-modifier+'current'
+$flexible-modifier ?= $is-modifier+'flexible'
+$up-modifier ?= $is-modifier+'up'
+$ancestor-modifier ?= $is-modifier+'ancestor'
+$multiple-modifier ?= $is-modifier+'multiple'
+$selected-modifier ?= $is-modifier+'selected'
+$child-modifier ?= $is-modifier+'child'
+$parent-modifier ?= $is-modifier+'parent'
+$vertical-modifier ?= $is-modifier+'vertical'
+$fullwidth-modifier ?= $is-modifier+'fullwidth'
+$halfheight-modifier ?= $is-modifier+'halfheight'
+$fullheight-modifier ?= $is-modifier+'fullheight'
+$fullheight-with-navbar-modifier ?= $fullheight-modifier+'-with-navbar'
+$has-arrow-separator-modifier ?= $has-modifier+'arrow-separator'
+$has-addons-modifier ?= $has-modifier+'addons'
+$has-fixed-size-modifier ?= $has-modifier+'fixed-size'
+$has-addons-centered-modifier ?= $has-addons-modifier+'-centered'
+$has-addons-right-modifier ?= $has-addons-modifier+'-right'
+$has-addons-fullwidth-modifier ?= $has-addons-modifier+'-fullwidth'
+$has-bullet-separator-modifier ?= $has-modifier+'bullet-separator'
+$has-dot-separator-modifier ?= $has-modifier+'dot-separator'
+$has-succeeds-separator-modifier ?= $has-modifier+'succeeds-separator'
+$has-dropdown-modifier ?= $has-modifier+'dropdown'
+$has-dropdown-up-modifier ?= $has-dropdown-modifier+'-up'
+$has-shadow-modifier ?= $has-modifier+'shadow'
+$has-navbar-fixed-modifier ?= $has-modifier+'navbar-fixed'
+$has-spaced-navbar-fixed-modifier ?= $has-modifier+'spaced-navbar-fixed'
+$has-name-modifier ?= $has-modifier+'name'
+$has-icons-modifier ?= $has-modifier+'icons'
+$has-icons-left-modifier ?= $has-icons-modifier+'-left'
+$has-icons-right-modifier ?= $has-icons-modifier+'-right'
+
+// COMPONENTS
+// Breadcrumb
+$breadcrumb-selector ?= '.'+$prefix-bsp+'breadcrumb'
+
+// Card
+$card-selector ?= '.'+$prefix-bsp+'card';
+	$card-header-selector ?= '&-header'
+		$card-header-title-selector ?= '&-title'
+		$card-header-icon-selector ?= '&-icon'
+	$card-image-selector ?= '&-image'
+	$card-content-selector ?= '&-content'
+	$card-footer-selector ?= '&-footer'
+		$card-footer-item-selector ?= '&-item'
+
+// Dropdown
+$dropdown-selector ?= '.'+$prefix-bsp+'dropdown'
+	$dropdown-menu-selector ?= '^[0]-menu'
+	$dropdown-content-selector ?= '^[0]-content'
+	$dropdown-item-selector ?= $dropdown-selector+'-item' // Used in multiple places.
+	$dropdown-divider-selector ?= '^[0]-divider'
+
+// Level
+$level-selector ?= '.'+$prefix-bsp+'level'
+	$level-left-selector ?= '^[0]-left'
+	$level-right-selector ?= '^[0]-right'
+	$level-item-selector ?= '^[0]-item'
+
+// List
+$list-selector ?= '.'+$prefix-bsp+'list'
+	$list-item-selector ?= '^[0]-item'
+
+// Media
+$media-selector ?= '.'+$prefix-bsp+'media'
+	$media-item-selector ?= $media-selector
+	$media-left-selector ?= '^[0]-left'
+	$media-right-selector ?= '^[0]-right'
+	$media-content-selector ?= '^[0]-content'
+
+// Menu
+$menu-selector ?= '.'+$prefix-bsp+'menu'
+	$menu-list-selector ?= '^[0]-list'
+	$menu-label-selector ?= '^[0]-label'
+
+// Message
+$message-selector ?= '.'+$prefix-bsp+'message'
+	$message-item-selector ?= '^[0]-item'
+	$message-body-selector ?= '^[0]-body'
+	$message-header-selector ?= '^[0]-header'
+
+// Modal
+$modal-selector ?= '.'+$prefix-bsp+'modal'
+	$modal-background-selector ?= '^[0]-background'
+	$modal-content-selector ?= '^[0]-content'
+	$modal-close-selector ?= '^[0]-close'
+	$modal-card-selector ?= '^[0]-card'
+		$modal-card-head-selector ?= $modal-card-selector+'-head'
+		$modal-card-foot-selector ?= $modal-card-selector+'-foot'
+		$modal-card-title-selector ?= $modal-card-selector+'-title'
+		$modal-card-body-selector ?= $modal-card-selector+'-body'
+
+// Navbar
+$navbar-selector ?= '.'+$prefix-bsp+'navbar'
+	$navbar-brand-selector ?= '^[0]-brand'
+	$navbar-item-selector ?= $navbar-selector+'-item' // Used in multiple places
+	$navbar-link-selector ?= $navbar-selector+'-link' // Used in multiple places
+	$navbar-burger-selector ?= '^[0]-burger'
+	$navbar-start-selector ?= '^[0]-start'
+	$navbar-end-selector ?= '^[0]-end'
+	$navbar-dropdown-selector ?= '^[0]-dropdown'
+	$navbar-tabs-selector ?= '^[0]-tabs'
+	$navbar-menu-selector ?= $navbar-selector+'-menu' // Used in multiple places
+	$navbar-content-selector ?= '^[0]-content'
+	$navbar-divider-selector ?= '^[0]-divider'
+
+// Pagination
+$pagination-selector ?= '.'+$prefix-bsp+'pagination'
+	$pagination-previous-selector ?= '^[0]-previous'
+	$pagination-next-selector ?= '^[0]-next'
+	$pagination-link-selector ?= '^[0]-link'
+	$pagination-list-selector ?= '^[0]-list'
+	$pagination-ellipsis-selector ?= '^[0]-ellipsis'
+
+// Panel
+$panel-selector ?= '.'+$prefix-bsp+'panel'
+	$panel-heading-selector ?= '^[0]-heading'
+	$panel-tabs-selector ?= '^[0]-tabs'
+	$panel-block-selector ?= '^[0]-block'
+	$panel-icon-selector ?= '^[0]-icon'
+	$panel-list-selector ?= '^[0]-list'
+
+// Tabs
+$tabs-selector ?= '.'+$prefix-bsp+'tabs'
+
+// ELEMENTS
+// Box
+$box-selector ?= '.'+$prefix-bsp+'box'
+$box-link-selector ?= $box-selector
+
+// Button
+$button-selector ?= '.'+$prefix-bsp+'button'
+$buttons-selector ?= $button-selector+'s'
+
+// Banner
+$banner-selector ?= '.'+$prefix-bsp+'banner'
+
+// Container
+$container-selector ?= '.'+$prefix-bsp+'container'
+
+// Content
+$content-selector ?= '.'+$prefix-bsp+'content'
+
+// Icon
+$icon-selector ?= '.'+$prefix-bsp+'icon'
+
+// Image
+$image-selector ?= '.'+$prefix-bsp+'image'
+
+// Notification
+$notification-selector ?= '.'+$prefix-bsp+'notification'
+
+// Progress
+$progress-selector ?= '.'+$prefix-bsp+'progress'
+
+// Table
+$table-selector ?= '.'+$prefix-bsp+'table'
+    $table-container-selector ?= '^[0]-container'
+
+// Tags
+$tag-selector ?= '.'+$prefix-bsp+'tag'
+$tags-selector ?= $tag-selector+'s'
+    $table-container-selector ?= '^[0]-container'
+
+// Title
+$title-selector ?= '.'+$prefix-bsp+'title'
+$subtitle-selector ?= '.'+$prefix-bsp+'subtitle'
+
+// Other
+$block-selector ?= '.'+$prefix-bsp+'block'
+$delete-selector ?= '.'+$prefix-bsp+'delete'
+$heading-selector ?= '.'+$prefix-bsp+'heading'
+$highlight-selector ?= '.'+$prefix-bsp+'highlight'
+$loader-selector ?= '.'+$prefix-bsp+'loader'
+$number-selector ?= '.'+$prefix-bsp+'number'
+
+// FORM
+// Input
+$input-selector ?= '.'+$prefix-bsp+'input'
+
+// Textarea
+$textarea-selector ?= '.'+$prefix-bsp+'textarea'
+
+// Checkbox
+$checkbox-selector ?= '.'+$prefix-bsp+'checkbox'
+
+// Radio
+$radio-selector ?= '.'+$prefix-bsp+'radio'
+
+// Select
+$select-selector ?= '.'+$prefix-bsp+'select'
+
+// File
+$file-selector ?= '.'+$prefix-bsp+'file'
+	$file-cta-selector ?= '^[0]-cta'
+	$file-label-selector ?= '^[0]-label'
+	$file-name-selector ?= '^[0]-name'
+	$file-input-selector ?= '^[0]-input'
+$file-icon-selector ?= '.'+$prefix-bsp+'file-icon'
+
+// Label
+$label-selector ?= '.'+$prefix-bsp+'label'
+
+// Help
+$help-selector ?= '.'+$prefix-bsp+'help'
+
+// Field
+$field-selector ?= '.'+$prefix-bsp+'field'
+    $field-label-selector ?= '^[0]-label'
+    $field-body-selector ?= '^[0]-body'
+
+// Control
+$control-selector ?= '.'+$prefix-bsp+'control'
+
+// GRID
+// Columns
+$column-selector ?= '.'+$prefix-bsp+'column'
+$columns-selector ?= $column-selector+'s'
+
+// Tiles
+$tile-selector ?= '.'+$prefix-bsp+'tile'
+
+// LAYOUT
+// Hero
+_void= replace('^\.', '', $buttons-selector)
+$hero-selector ?= '.'+$prefix-bsp+'hero'
+    $hero-body-selector ?= '^[0]-body'
+    $hero-head-selector ?= '^[0]-head'
+    $hero-foot-selector ?= '^[0]-foot'
+    $hero-video-selector ?= '^[0]-video'
+    $hero-buttons-selector ?= '^[0]-'+_void
+
+// Section
+$section-selector ?= '.'+$prefix-bsp+'section'
+
+// Footer
+$footer-selector ?= '.'+$prefix-bsp+'footer'

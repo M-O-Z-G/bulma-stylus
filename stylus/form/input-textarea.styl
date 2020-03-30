@@ -2,63 +2,83 @@ $textarea-padding ?= $control-padding-horizontal
 $textarea-max-height ?= 40em
 $textarea-min-height ?= 8em
 
-$input-textarea
-	@extend $input
-	box-shadow $input-shadow
-	max-width 100%
-	width 100%
-	&[readonly]
-		box-shadow none
-	// Colors
+colorfulInputTextarea($colors= $colors)
 	for $name, $pair in $colors
 		$color = $pair['1']
-		&.is-{$name}
-			border-color $color
+		&{$is-modifier}{$name}
+			border-color: $color
 			&:focus,
-			&.is-focused,
+			&{$focused-modifier},
 			&:active,
-			&.is-active
-				box-shadow $input-focus-box-shadow-size rgba($color, 0.25)
+			&{$active-modifier}
+				box-shadow: $input-focus-box-shadow-size bulmaRgba($color, 0.25)
+
+$input-textarea
+	@extend $input
+	box-shadow: $input-shadow
+	max-width: 100%
+	width: 100%
+	&[readonly]
+		box-shadow: none
+
+	// Colors
+	updateGlobalOptions()
+	colorfulInputTextarea($input-textarea-colors) if !$silent.colorful.input-textarea
+
 	// Sizes
-	&.is-small
+	&{$small-modifier}
 		control-small()
-	&.is-medium
+	&{$medium-modifier}
 		control-medium()
-	&.is-large
+	&{$large-modifier}
 		control-large()
+
 	// Modifiers
-	&.is-fullwidth
-		display block
-		width 100%
-	&.is-inline
-		display inline
-		width auto
+	&{$fullwidth-modifier}
+		display: block
+		width: 100%
+	&{$inline-modifier}
+		display: inline
+		width: auto
 
-.input
+_input()
 	@extend $input-textarea
-	&.is-rounded
-		border-radius $radius-rounded
-		padding-left "calc(%s + 0.375em)" % $control-padding-horizontal
-		padding-right "calc(%s + 0.375em)" % $control-padding-horizontal
-	&.is-static
-		background-color transparent
-		border-color transparent
-		box-shadow none
-		padding-left 0
-		padding-right 0
+	&{$rounded-modifier}
+		border-radius: $radius-rounded
+		padding-left: 'calc(%s + 0.375em)' % $control-padding-horizontal
+		padding-right: 'calc(%s + 0.375em)' % $control-padding-horizontal
+	&{$static-modifier}
+		background-color: transparent
+		border-color: transparent
+		box-shadow: none
+		padding-left: 0
+		padding-right: 0
 
-.textarea
+	{block}
+
+_textarea()
 	@extend $input-textarea
-	display block
-	max-width 100%
-	min-width 100%
-	padding $textarea-padding
-	resize vertical
+	display: block
+	max-width: 100%
+	min-width: 100%
+	padding: $textarea-padding
+	resize: vertical
 	&:not([rows])
-		max-height $textarea-max-height
-		min-height $textarea-min-height
+		max-height: $textarea-max-height
+		min-height: $textarea-min-height
 	&[rows]
-		height initial
+		height: initial
+
 	// Modifiers
-	&.has-fixed-size
-		resize none
+	&{$has-fixed-size-modifier}
+		resize: none
+
+	{block}
+
+if !$silent.form.input && !$silent-mode
+	{$input-selector}
+		_input()
+
+if !$silent.form.textarea && !$silent-mode
+	{$textarea-selector}
+		_textarea()

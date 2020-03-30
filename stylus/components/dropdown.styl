@@ -17,65 +17,71 @@ $dropdown-item-active-background-color ?= $link
 
 $dropdown-divider-background-color ?= $border-light
 
-.dropdown
-	display inline-flex
-	position relative
-	vertical-align top
-	&.is-active,
-	&.is-hoverable:hover
-		.dropdown-menu
-			display block
-	&.is-right
-		.dropdown-menu
-			left auto
-			right 0
-	&.is-up
-		.dropdown-menu
-			bottom 100%
-			padding-bottom $dropdown-content-offset
-			padding-top initial
-			top auto
+_dropdown()
+	display: inline-flex
+	position: relative
+	vertical-align: top
+	&{$active-modifier},
+	&{$hoverable-modifier}:hover
+		& {$dropdown-menu-selector}
+			display: block
+	&{$right-modifier}
+		& {$dropdown-menu-selector}
+			left: auto
+			right: 0
+	&{$up-modifier}
+		& {$dropdown-menu-selector}
+			bottom: 100%
+			padding-bottom: $dropdown-content-offset
+			padding-top: initial
+			top: auto
 
-.dropdown-menu
-	display none
-	left 0
-	min-width $dropdown-menu-min-width
-	padding-top $dropdown-content-offset
-	position absolute
-	top 100%
-	z-index $dropdown-content-z
+	{$dropdown-menu-selector}
+		display: none
+		left: 0
+		min-width: $dropdown-menu-min-width
+		padding-top: $dropdown-content-offset
+		position: absolute
+		top: 100%
+		z-index: $dropdown-content-z
 
-.dropdown-content
-	background-color $dropdown-content-background-color
-	border-radius $dropdown-content-radius
-	box-shadow $dropdown-content-shadow
-	padding-bottom $dropdown-content-padding-bottom
-	padding-top $dropdown-content-padding-top
+	{$dropdown-content-selector}
+		background-color: $dropdown-content-background-color
+		border-radius: $dropdown-content-radius
+		box-shadow: $dropdown-content-shadow
+		padding-bottom: $dropdown-content-padding-bottom
+		padding-top: $dropdown-content-padding-top
 
-.dropdown-item
-	color $dropdown-item-color
-	display block
-	font-size 0.875rem
-	line-height 1.5
-	padding 0.375rem 1rem
-	position relative
+	/{$dropdown-item-selector}
+		color: $dropdown-item-color
+		display: block
+		font-size: 0.875rem
+		line-height: 1.5
+		padding: 0.375rem 1rem
+		position: relative
 
-a.dropdown-item,
-button.dropdown-item
-	padding-right 3rem
-	text-align left
-	white-space nowrap
-	width 100%
-	&:hover
-		background-color $dropdown-item-hover-background-color
-		color $dropdown-item-hover-color
-	&.is-active
-		background-color $dropdown-item-active-background-color
-		color $dropdown-item-active-color
+	/a{$dropdown-item-selector},
+	/button{$dropdown-item-selector}
+		padding-right: 3rem
+		text-align: left
+		white-space: nowrap
+		width: 100%
+		&:hover
+			background-color: $dropdown-item-hover-background-color
+			color: $dropdown-item-hover-color
+		&{$active-modifier}
+			background-color: $dropdown-item-active-background-color
+			color: $dropdown-item-active-color
 
-.dropdown-divider
-	background-color $dropdown-divider-background-color
-	border none
-	display block
-	height 1px
-	margin 0.5rem 0
+	{$dropdown-divider-selector}
+		background-color: $dropdown-divider-background-color
+		border: none
+		display: block
+		height: 1px
+		margin: 0.5rem 0
+
+	{block}
+
+if !$silent.components.dropdown && !$silent-mode
+	{$dropdown-selector}
+		_dropdown()

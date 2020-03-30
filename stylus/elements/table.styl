@@ -23,105 +23,117 @@ $table-row-active-color ?= $primary-invert
 $table-striped-row-even-background-color ?= $scheme-main-bis
 $table-striped-row-even-hover-background-color ?= $scheme-main-ter
 
-.table
+colorfulTable($colors= $colors)
+	for $name, $pair in $colors
+		$color = $pair['1']
+		$color-invert = $pair['2']
+		&{$is-modifier}{$name}
+			background-color: $color
+			border-color: $color
+			color: $color-invert
+
+_table()
 	@extend $block
-	background-color $table-background-color
-	color $table-color
+	background-color: $table-background-color
+	color: $table-color
 	td,
 	th
-		border $table-cell-border
-		border-width $table-cell-border-width
-		padding $table-cell-padding
-		vertical-align top
+		border: $table-cell-border
+		border-width: $table-cell-border-width
+		padding: $table-cell-padding
+		vertical-align: top
+
 		// Colors
-		for $name, $pair in $colors
-			$color = $pair['1']
-			$color-invert = $pair['2']
-			&.is-{$name}
-				background-color $color
-				border-color $color
-				color $color-invert
+		updateGlobalOptions()
+		colorfulTable($table-colors) if !$silent.colorful.table
+
 		// Modifiers
-		&.is-narrow
-			white-space nowrap
-			width 1%
-		&.is-selected
-			background-color $table-row-active-background-color
-			color $table-row-active-color
+		&{$narrow-modifier}
+			white-space: nowrap
+			width: 1%
+		&{$selected-modifier}
+			background-color: $table-row-active-background-color
+			color: $table-row-active-color
 			a,
 			strong
-				color currentColor
+				color: currentColor
 	th
-		color $table-cell-heading-color
+		color: $table-cell-heading-color
 		&:not([align])
-			text-align left
+			text-align: left
 	tr
-		&.is-selected
-			background-color $table-row-active-background-color
-			color $table-row-active-color
+		&{$selected-modifier}
+			background-color: $table-row-active-background-color
+			color: $table-row-active-color
 			a,
 			strong
-				color currentColor
+				color: currentColor
 			td,
 			th
-				border-color $table-row-active-color
-				color currentColor
+				border-color: $table-row-active-color
+				color: currentColor
 	thead
-		background-color $table-head-background-color
+		background-color: $table-head-background-color
 		td,
 		th
-			border-width $table-head-cell-border-width
-			color $table-head-cell-color
+			border-width: $table-head-cell-border-width
+			color: $table-head-cell-color
 	tfoot
-		background-color $table-foot-background-color
+		background-color: $table-foot-background-color
 		td,
 		th
-			border-width $table-foot-cell-border-width
-			color $table-foot-cell-color
+			border-width: $table-foot-cell-border-width
+			color: $table-foot-cell-color
 	tbody
-		background-color $table-body-background-color
+		background-color: $table-body-background-color
 		tr
 			&:last-child
 				td,
 				th
-					border-bottom-width 0
+					border-bottom-width: 0
 	// Modifiers
-	&.is-bordered
+	&{$bordered-modifier}
 		td,
 		th
-			border-width 1px
+			border-width: 1px
 		tr
 			&:last-child
 				td,
 				th
-					border-bottom-width 1px
-	&.is-fullwidth
-		width 100%
-	&.is-hoverable
+					border-bottom-width: 1px
+	&{$fullwidth-modifier}
+		width: 100%
+	&{$hoverable-modifier}
 		tbody
-			tr:not(.is-selected)
+			tr:not({$selected-modifier})
 				&:hover
-					background-color $table-row-hover-background-color
-		&.is-striped
+					background-color: $table-row-hover-background-color
+		&{$striped-modifier}
 			tbody
-				tr:not(.is-selected)
+				tr:not({$selected-modifier})
 					&:hover
-						background-color $table-row-hover-background-color
+						background-color: $table-row-hover-background-color
 						&:nth-child(even)
-							background-color $table-striped-row-even-hover-background-color
-	&.is-narrow
+							background-color: $table-striped-row-even-hover-background-color
+	&{$narrow-modifier}
 		td,
 		th
-			padding 0.25em 0.5em
-	&.is-striped
+			padding: 0.25em 0.5em
+	&{$striped-modifier}
 		tbody
-			tr:not(.is-selected)
+			tr:not({$selected-modifier})
 				&:nth-child(even)
-					background-color $table-striped-row-even-background-color
+					background-color: $table-striped-row-even-background-color
 
-.table-container
-	@extend $block
-	overflow-touch()
-	overflow auto
-	overflow-y hidden
-	max-width 100%
+	/{$table-container-selector}
+		@extend $block
+		overflow-touch()
+		overflow: auto
+		overflow-y: hidden
+		max-width: 100%
+
+	{block}
+
+if !$silent.elements.table && !$silent-mode
+	{$table-selector}
+		_table()

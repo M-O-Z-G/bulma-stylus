@@ -17,54 +17,84 @@ $subtitle-strong-color ?= $text-strong
 $subtitle-strong-weight ?= $weight-semibold
 $subtitle-negative-margin ?= -1.25rem
 
-.title,
-.subtitle
+_titles()
 	@extend $block
-	word-break break-word
+	word-break: break-word
 	em,
 	span
-		font-weight inherit
+		font-weight: inherit
 	sub
-		font-size $title-sub-size
+		font-size: $title-sub-size
 	sup
-		font-size $title-sup-size
+		font-size: $title-sup-size
 	.tag
-		vertical-align middle
+		vertical-align: middle
 
-.title
-	color $title-color
+	{block}
+
+
+_title()
+	color: $title-color
+
 	if $title-family
-		font-family $title-family
-	font-size $title-size
-	font-weight $title-weight
-	line-height $title-line-height
-	strong
-		color $title-strong-color
-		font-weight $title-strong-weight
-	& + .highlight
-		margin-top -0.75rem
-	&:not(.is-spaced) + .subtitle
-		margin-top $subtitle-negative-margin
-	// Sizes
-	for $size in $sizes
-		$i = index($sizes, $size) + 1
-		&.is-{$i}
-			font-size $size
+		font-family: $title-family
 
-.subtitle
-	color $subtitle-color
-	if $subtitle-family
-		font-family $subtitle-family
-	font-size $subtitle-size
-	font-weight $subtitle-weight
-	line-height $subtitle-line-height
+	font-size: $title-size
+	font-weight: $title-weight
+	line-height: $title-line-height
+
 	strong
-		color $subtitle-strong-color
-		font-weight $subtitle-strong-weight
-	&:not(.is-spaced) + .title
-		margin-top $subtitle-negative-margin
-	// Sizes
-	for $size in $sizes
-		$i = index($sizes, $size) + 1
-		&.is-{$i}
-			font-size $size
+		color: $title-strong-color
+		font-weight: $title-strong-weight
+
+	& + {$highlight-selector}
+		margin-top: -0.75rem
+
+	&:not({$spaced-modifier}) + {$subtitle-selector} // TODO: `not` pseudo-class will be a problem with different naming methodology. Check how we can deal with it.
+		margin-top: $subtitle-negative-margin
+
+	updateGlobalOptions()
+	if !$silent.sizes.title
+		// Sizes
+		for $size in $sizes
+			$i = index($sizes, $size) + 1
+			&{$is-modifier}{$i}
+				font-size: $size
+
+	{block}
+
+
+_subtitle()
+	color: $subtitle-color
+
+	if $subtitle-family
+		font-family: $subtitle-family
+
+	font-size: $subtitle-size
+	font-weight: $subtitle-weight
+	line-height: $subtitle-line-height
+
+	strong
+		color: $subtitle-strong-color
+		font-weight: $subtitle-strong-weight
+
+	&:not({$spaced-modifier}) + {$title-selector}
+		margin-top: $subtitle-negative-margin
+
+	updateGlobalOptions()
+	if !$silent.sizes.subtitle
+		// Sizes
+		for $size in $sizes
+			$i = index($sizes, $size) + 1
+			&{$is-modifier}{$i}
+				font-size: $size
+
+	{block}
+
+if !$silent.elements.titles && !$silent-mode
+	{$title-selector}, {$subtitle-selector}
+		_titles()
+	{$title-selector}
+		_title()
+	{$subtitle-selector}
+		_subtitle()

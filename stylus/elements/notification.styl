@@ -3,34 +3,81 @@ $notification-code-background-color ?= $scheme-main
 $notification-radius ?= $radius
 $notification-padding ?= 1.25rem 2.5rem 1.25rem 1.5rem
 
-.notification
-	@extend $block
-	background-color $notification-background-color
-	border-radius $notification-radius
-	padding $notification-padding
-	position relative
-	a:not(.button):not(.dropdown-item)
-		color currentColor
-		text-decoration underline
-	strong
-		color currentColor
-	code,
-	pre
-		background $notification-code-background-color
-	pre code
-		background transparent
-	& > .delete
-		position absolute
-		right 0.5rem
-		top 0.5rem
-	.title,
-	.subtitle,
-	.content
-		color currentColor
-	// Colors
+colorfulNotification($colors= $colors)  // TODO: Some changes was here, recheck please.
 	for $name, $pair in $colors
 		$color = $pair['1']
 		$color-invert = $pair['2']
-		&.is-{$name}
-			background-color $color
-			color $color-invert
+		&{$is-modifier}{$name}
+			background-color: $color
+			color: $color-invert
+			// If light and dark colors are provided
+			if length($pair) >= 4
+				$color-light = $pair['3']
+				$color-dark = $pair['4']
+				&{$light-modifier}
+					background-color: $color-light
+					color: $color-dark
+
+_notification()
+	@extend $block
+	background-color: $notification-background-color
+	border-radius: $notification-radius
+	padding: $notification-padding
+	position: relative
+	a:not({$button-selector}):not({$dropdown-item-selector})
+		color: currentColor
+		text-decoration: underline
+	strong
+		color: currentColor
+	code,
+	pre
+		background: $notification-code-background-color
+	pre code
+		background: transparent
+	& > {$delete-selector}
+		position: absolute
+		right: 0.5rem
+		top: 0.5rem
+	{$title-selector},
+	{$subtitle-selector},
+	{$content-selector}
+		color: currentColor
+
+	// Colors
+	updateGlobalOptions()
+	colorfulNotification($colors) if !$silent.colorful.notification
+
+	{block}
+
+ // TODO: V-version. Need some additions to the `$silent` hash.
+_vnotification()
+	@extend $block
+	background-color: var( --background-color )
+	border-radius: $notification-radius
+	color: var( --color )
+	padding: $notification-padding
+	position: relative
+
+	& > {$delete-selector}
+		position: absolute
+		right: 0.5rem
+		top: 0.5rem
+
+	for $name, $trio in $colors
+		$base = $prefix-vars + $name
+
+		&{$is-modifier}{$name}
+			--background-color: s( 'var(--' + $base + ')' )
+			--color: s( 'var(--' + $base + '-invert)' )
+
+			&{$light-modifier}
+				--background-color: s( 'var(--' + $base + '-light)' )
+				--color: s( 'var(--' + $base + '-dark)' )
+
+	{block}
+
+if !$silent.elements.notification && !$silent-mode
+	{$notification-selector}
+		_notification()
+	.{$prefix-bsp}v{replace('^([\-\_\+\-\.\(\)\,\$#'+$prefix-bsp+']+)', '', $notification-selector)} // TODO: Perhaps we need a variable for `vnotification`.
+		_vnotification()
