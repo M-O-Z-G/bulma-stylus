@@ -3,9 +3,9 @@
   "version": "0.8.3-beta",
   "homepage": "https://github.com/M-O-Z-G/bulma-stylus-plus",
   "authors": [
-    "jgthms <bbxdesign@gmail.com>",
-    "groenroos <oskari@groenroos.fi>",
-    "m-o-z-g <alexandermozgdikov+github@gmail.com>"
+    "Aleksandr Dikov <alexandermozgdikov+github@gmail.com> (https://mozg-studio.org)",
+    "Oskari Groenroos <oskari@groenroos.fi> (http://groenroos.fi)",
+    "Jeremy Thomas <bbxdesign@gmail.com> (http://jgthms.com)"
   ],
   "description": "Improved and expanded version of Bulma Stylus translation of Bulma, flexbox-based CSS framework.",
   "main": "bulma-stylus-plus.styl",
@@ -21,8 +21,8 @@
     "prototyping"
   ],
   "license": {
-	  "type": "MIT",
-	  "url": "https://github.com/M-O-Z-G/bulma-stylus-plus/blob/master/LICENSE"
+    "type": "MIT",
+    "url": "https://github.com/M-O-Z-G/bulma-stylus-plus/blob/master/LICENSE"
   },
   "ignore": [
     "**/.*",

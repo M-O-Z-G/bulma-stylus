@@ -2,12 +2,13 @@
   "name": "bulma-stylus-plus",
   "version": "0.8.3-beta",
   "homepage": "https://github.com/M-O-Z-G/bulma-stylus-plus",
-  "authors": [
-    "Aleksandr Dikov <alexandermozgdikov+github@gmail.com> (https://mozg-studio.org)",
-    "Jeremy Thomas <bbxdesign@gmail.com> (http://jgthms.com)",
-    "Oskari Groenroos <oskari@groenroos.fi> (http://groenroos.fi)"
+  "author": "Aleksandr Dikov <alexandermozgdikov+github@gmail.com> (https://mozg-studio.org)",
+  "contributors": [
+    "Oskari Groenroos <oskari@groenroos.fi> (http://groenroos.fi)",
+    "Jeremy Thomas <bbxdesign@gmail.com> (http://jgthms.com)"
   ],
   "description": "Improved and expanded version of Bulma Stylus translation of Bulma, flexbox-based CSS framework.",
+  "main": "index.js",
   "stylus": "bulma-stylus-plus.styl",
   "unpkg": "css/bulma.css",
   "style": "bulma/css/bulma.min.css",
@@ -15,10 +16,7 @@
     "type": "git",
     "url": "git+https://github.com/M-O-Z-G/bulma-stylus-plus.git"
   },
-  "license": {
-    "type": "MIT",
-    "url": "https://github.com/M-O-Z-G/bulma-stylus-plus/blob/master/LICENSE"
-  },
+  "license": "MIT",
   "keywords": [
     "css",
     "stylus",
@@ -33,6 +31,7 @@
   "bugs": {
     "url": "https://github.com/M-O-Z-G/bulma-stylus-plus/issues"
   },
+  "dependencies": {},
   "devDependencies": {
     "autoprefixer-stylus": "^1.0.0",
     "clean-css-cli": "4.3.0",
