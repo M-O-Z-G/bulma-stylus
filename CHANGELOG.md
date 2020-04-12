@@ -1,7 +1,7 @@
 # Changelog
 
 <details>
-	<summary><h2>U̲N̲R̲E̲L̲E̲A̲S̲E̲D̲</h2></summary>
+	<summary><b>U̲N̲R̲E̲L̲E̲A̲S̲E̲D̲:</b></summary>
 
 ### Added
 
@@ -25,12 +25,23 @@
 
 </details>
 
+## 0.8.4-beta - 2020-04-12
+
+This is a minor release. See [0.8.3-beta release notes](https://github.com/M-O-Z-G/bulma-stylus-plus/releases/tag/v0.8.3-beta) for additional information.
+
+### Bug fixes
+
+* Fix [#2885](https://github.com/jgthms/bulma/issues/2885) -> Revert `$input-color: $text-strong`
+
+
+------
+
 ## 0.8.3-beta - 2020-03-30
 
 ### Added
 
 - `fontFace()` mixin to generate `@font-face` rule for font by their `name`, `path`, `weight` and `style`, `format`, `version`.
-- `$prefix` string variable. **Used always for \*CSS variables\***, optional for selectors with boolean variable `$prefixed-selectors`.
+- `$prefix` string variable. **Used always for _CSS variables_**, optional for selectors with boolean variable `$prefixed-selectors`.
 - `banner` component with predefined banner sizes.
 - 11 new image ratios could be activated with `$silent:= { plus: { ratios: false }}`. *Slows down the generation process*.
 - Units conversion with function `convertUnit()`. Supports next units:
@@ -53,15 +64,15 @@
 - *Components/elements/form/layout/helpers* now has nested structure with [Root Reference](https://stylus-lang.com/docs/selectors.html#root-reference). *(Some exceptions are there for selectors which used in multiple components). Therefore, the main selector name affects children, and you always know the structure of further HTML code. If you want to break the parenting, use any of [available Stylus references](https://stylus-lang.com/docs/selectors.html)*.
 - Each default selector name for *the component*, *element* or *helper* can be redefined manually with variable, *see initial-variables.styl:89 for examples*.
 	**BEWARE! Some \*components\* and \*elements\* contain not CSS pseudo-class. Therefore, it will give an inadequate result, if you will use a dot-free class name for \*modifiers\*. I will try to find how to resolve it in a more-less elegant way. Just keep it in mind about all $XXX-modifier variables.**
-- `$silent`-mode boolean variable. If `true`, any rules will not be generated in the resulted CSS file by default, regardless of their values in `$slient` array.
+- `$silent-mode` boolean variable. If `true`, any rules will not be generated in the resulted CSS file by default, regardless of their values in `$slient` array.
 - Bulma Stylus Plus is an NPM module for now and could be called within Gulp, Grunt, or via CLI. See [README](https://github.com/M-O-Z-G/bulma-stylus-plus/blob/master/README.md) for more info about usage.
 - Auto-generated rules for all default and custom colors now can be turned off/on for partial components/elements with `$silent.colorful.[NAME-OF-COMPONENT-ELEMENT]`.
 - Portrait image ratios are now optional and auto-generated. You could disable it with `$silent:= { plus: { ratios-portrait: true }}`.
 - Generated size rules for all *component* and *elements* (exclude `banner`, because this component is senseless without sizes) are now optional like *colors* with `$silent.sizes.[NAME-OF-COMPONENT]`.
 - Generated color rules now can be redefined with variables for all *components* and *elements*, not only for `message` and `panel`.
-- All selector names now supports custom prefix with variable `$prefix-bsp` to prevent conflicts with anything else. `$prefix` by default if `$prefixed-selectros else ''`.
+- All selector names now supports custom prefix with variable `$prefix-bsp` to prevent conflicts with anything else. `$prefix` by default if `$prefixed-selectors` else `''`.
 - `$columns-max` variable transferred to `initial-variables.styl`.
-- `$message-colors` and `$panel-colors` transfered to `derived-variables.styl`.
+- `$message-colors` and `$panel-colors` transferred to `derived-variables.styl`.
 - `$body-size` and `$body-font-size` variables has moved from `generic` to `initial-variables`. Because now they are essential variables for some functions.
 - For uniformity and improved readability, colons between a property and a value are now required. The Stylus allows you to not use them, however, in the case, when the property name is generated from one or more variables, colons are necessary. Such a mismatch can be confusing for users.
 - *Tiles* now respects `$column-max` variable.

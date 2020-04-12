@@ -1,5 +1,5 @@
 @charset "utf-8";
-/* Bulma Stylus Plus 0.8.3b | MIT License | github.com/m-o-z-g/bulma-stylus-plus */
+/* Bulma Stylus Plus 0.8.4b | MIT License | github.com/m-o-z-g/bulma-stylus-plus */
 :root {
   --bulma-white-h: 0deg;
   --bulma-white-s: 0%;
@@ -5392,27 +5392,27 @@ a.tag:hover {
   background-color: #fff;
   border-color: #dbdbdb;
   border-radius: 4px;
-  color: inherit;
+  color: #363636;
 }
 .input::-moz-placeholder,
 .textarea::-moz-placeholder,
 .select select::-moz-placeholder {
-  color: inherit;
+  color: rgba(54,54,54,0.3);
 }
 .input::-webkit-input-placeholder,
 .textarea::-webkit-input-placeholder,
 .select select::-webkit-input-placeholder {
-  color: inherit;
+  color: rgba(54,54,54,0.3);
 }
 .input:-moz-placeholder,
 .textarea:-moz-placeholder,
 .select select:-moz-placeholder {
-  color: inherit;
+  color: rgba(54,54,54,0.3);
 }
 .input:-ms-input-placeholder,
 .textarea:-ms-input-placeholder,
 .select select:-ms-input-placeholder {
-  color: inherit;
+  color: rgba(54,54,54,0.3);
 }
 .input:hover,
 .textarea:hover,
@@ -8338,10 +8338,6 @@ a.navbar-item.is-active,
   .navbar-link {
     -webkit-align-items: center;
             align-items: center;
-    display: -webkit-flex;
-    display: flex;
-  }
-  .navbar-item {
     display: -webkit-flex;
     display: flex;
   }
