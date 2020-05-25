@@ -101,63 +101,77 @@ placeholder()
 			{block}
 
 // Responsiveness
-
-from($device)
-	@media screen and (min-width $device)
+//TODO: Perhaps we need add here optional `device` sizes insted `screen` for usage with specific devices. See https://gitlab.com/snippets/1955368
+mediaQuery($device, $until= false, $orientation= false, $par= false, $custom= false)
+	_minomax= ($until != false and typeof($until) != 'unit') ? 'max' : 'min'
+	_nms= 'screen and (' + _minomax + '-width ' + $device + ')'
+	$custom= $custom ? ', ' + $custom : '' //TODO: Very simple implementation, just to keep some Bulma feature working.
+	if typeof($until) == 'unit'
+		_nms= _nms + ' and (max-width '+ convertUnit($until, 'px') + ' - 1px)'
+	if $par
+		_nms= _nms + ', (-webkit-device-pixel-ratio: ' + $par + ')'
+	if $orientation
+		_nms= _nms + ', (orientation: ' + $orientation + ')'
+	_nms= _nms + $custom
+	@media _nms
 		{block}
 
-until($device)
-	@media screen and (max-width $device - 1px)
+from($device, $orientation= false, $par= false)
+	+mediaQuery($device, false, $orientation, $par)
+		{block}
+
+until($device, $orientation= false, $par= false)
+	+mediaQuery(convertUnit($device, 'px') - 1px, true, $orientation, $par)
 		{block}
 
 mobile()
-	@media screen and (max-width $tablet - 1px)
+	+until($tablet)
 		{block}
 
 tablet()
-	@media screen and (min-width $tablet), print
+	+mediaQuery($tablet, false, $custom: 'print')
 		{block}
 
 tablet-only()
-	@media screen and (min-width $tablet) and (max-width $desktop - 1px)
+	+mediaQuery($tablet, $desktop)
 		{block}
 
 touch()
-	@media screen and (max-width $desktop - 1px)
+	+until($desktop)
 		{block}
 
 desktop()
-	@media screen and (min-width $desktop)
+	+from($desktop)
 		{block}
 
 desktop-only()
 	if $widescreen-enabled
-		@media screen and (min-width $desktop) and (max-width $widescreen - 1px)
+		+mediaQuery($desktop, $widescreen)
 			{block}
 
 until-widescreen()
 	if $widescreen-enabled
-		@media screen and (max-width $widescreen - 1px)
+		+until($widescreen)
 			{block}
 
 widescreen()
 	if $widescreen-enabled
-		@media screen and (min-width $widescreen)
+		+from($widescreen)
 			{block}
 
 widescreen-only()
 	if $widescreen-enabled and $fullhd-enabled
-		@media screen and (min-width $widescreen) and (max-width $fullhd - 1px)
+		+mediaQuery($widescreen, $fullhd)
 			{block}
 
 until-fullhd()
 	if $fullhd-enabled
-		@media screen and (max-width $fullhd - 1px)
+		+until($fullhd)
 			{block}
 
 fullhd()
 	if $fullhd-enabled
-		@media screen and (min-width $fullhd)
+		+from($fullhd)
 			{block}
 
 $devices = mobile tablet tablet-only touch desktop desktop-only widescreen widescreen-only fullhd
