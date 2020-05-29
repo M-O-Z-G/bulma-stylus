@@ -108,10 +108,10 @@ mediaQuery($device, $until= false, $orientation= false, $par= false, $custom= fa
 	$custom= $custom ? ', ' + $custom : '' //TODO: Very simple implementation, just to keep some Bulma feature working.
 	if typeof($until) == 'unit'
 		_nms= _nms + ' and (max-width '+ convertUnit($until, 'px') + ' - 1px)'
+	if $orientation
+		_nms= _nms + ' and (orientation: ' + $orientation + ')'
 	if $par
 		_nms= _nms + ', (-webkit-device-pixel-ratio: ' + $par + ')'
-	if $orientation
-		_nms= _nms + ', (orientation: ' + $orientation + ')'
 	_nms= _nms + $custom
 	@media _nms
 		{block}
