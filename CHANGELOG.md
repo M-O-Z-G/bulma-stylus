@@ -25,6 +25,18 @@
 
 </details>
 
+## 0.8.5-beta - 2020-XX-XX
+
+### Added
+
+- `mediaQuery` block mixin.
+
+### Changed
+
+- `from` and `until` block mixins now accept `$orientation` and `$par` variables. For orientation of the device, and pixel ratios accordingly.
+
+------
+
 ## 0.8.4-beta - 2020-04-12
 
 This is a minor release. See [0.8.3-beta release notes](https://github.com/M-O-Z-G/bulma-stylus-plus/releases/tag/v0.8.3-beta) for additional information.

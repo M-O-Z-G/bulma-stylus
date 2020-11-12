@@ -2975,6 +2975,11 @@ fieldset[disabled] .button {
   padding-left: calc(1em + 0.25em);
   padding-right: calc(1em + 0.25em);
 }
+.button.is-square {
+  width: 2.5em;
+  padding-left: calc(0.5em - 1px);
+  padding-right: calc(0.5em - 1px);
+}
 .buttons {
   -webkit-align-items: center;
           align-items: center;
@@ -3794,6 +3799,11 @@ fieldset[disabled] .vbutton {
   border-radius: 290486px;
   padding-left: 1.25em;
   padding-right: 1.25em;
+}
+.vbutton.is-square {
+  width: 2.5em;
+  padding-left: calc(0.5em - 1px);
+  padding-right: calc(0.5em - 1px);
 }
 .container {
   -webkit-flex-grow: 1;

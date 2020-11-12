@@ -286,6 +286,10 @@ _button()
 		border-radius: $radius-rounded
 		padding-left: 'calc(%s + 0.25em)' % $button-padding-horizontal
 		padding-right: 'calc(%s + 0.25em)' % $button-padding-horizontal
+	&{$square-modifier}
+		width: $control-height
+		padding-left: $button-padding-vertical
+		padding-right: @padding-left
 
 	{block}
 
@@ -591,6 +595,11 @@ _vbutton()
 		border-radius: $radius-rounded
 		padding-left: 1.25em
 		padding-right: 1.25em
+
+	&{$square-modifier}
+		width: $control-height
+		padding-left: $button-padding-vertical
+		padding-right: @padding-left
 
 	{block}
 
