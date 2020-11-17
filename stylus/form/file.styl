@@ -13,7 +13,7 @@ $file-name-border-style ?= solid
 $file-name-border-width ?= 1px 1px 1px 0
 $file-name-max-width ?= 16em
 
-$file-colors: $form-colors
+$file-colors ?= $form-colors
 
 colorfulFile($colors= $file-colors)
 	for $name, $pair in $colors

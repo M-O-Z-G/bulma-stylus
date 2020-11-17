@@ -35,14 +35,11 @@
   "bugs": {
     "url": "https://github.com/M-O-Z-G/bulma-stylus-plus/issues"
   },
-  "dependencies": {},
   "devDependencies": {
-    "autoprefixer": "9.6.4",
     "autoprefixer-stylus": "^1.0.0",
     "clean-css-cli": "4.3.0",
     "postcss-cli": "^8.2.0",
     "rimraf": "3.0.2",
-    "stylelint": "^13.7.2",
     "stylus": "^0.54.7"
   },
   "optionalDependencies": {
@@ -75,6 +72,7 @@
     "bulma-stylus-plus-rtl.styl",
     "LICENSE",
     "CHANGELOG.md",
+    "CONTRIBUTING.md",
     "README.md"
   ],
   "engines": {
