@@ -1,35 +1,44 @@
+@import "../utilities/mixins"
+
 $media-border-color ?= bulmaRgba($border, 0.5)
+$media-border-size ?= 1px
+$media-spacing ?= 1rem
+$media-spacing-large ?= 1.5rem
+$media-content-spacing ?= 0.75rem
+$media-level-1-spacing ?= 0.75rem
+$media-level-1-content-spacing ?= 0.5rem
+$media-level-2-spacing ?= 0.5rem
 
 _media()
 	align-items: flex-start
 	display: flex
-	text-align: left
+	text-align: inherit
 	{$content-selector}:not(:last-child)
-		margin-bottom: 0.75rem
+		margin-bottom: $media-content-spacing
 	{$media-item-selector}
-		border-top: 1px solid $media-border-color
+		border-top: $media-border-size solid $media-border-color
 		display: flex
-		padding-top: 0.75rem
+		padding-top: $media-level-1-spacing
 
 		{$content-selector}:not(:last-child),
 		{$control-selector}:not(:last-child)
-			margin-bottom: 0.5rem
+			margin-bottom: $media-level-1-content-spacing
 
 		{$media-item-selector}
-			padding-top: 0.5rem
+			padding-top: $media-level-2-spacing
 			& + {$media-item-selector}
-				margin-top: 0.5rem
+				margin-top: $media-level-2-spacing
 
 	& + {$media-item-selector}
-		border-top: 1px solid $media-border-color
-		margin-top: 1rem
-		padding-top: 1rem
+		border-top: $media-border-size solid $media-border-color
+		margin-top: $media-spacing
+		padding-top: $media-spacing
 
 	// Sizes
 	&{$large-modifier}
 		& + {$media-item-selector}
-			margin-top: 1.5rem
-			padding-top: 1.5rem
+			margin-top: $media-spacing-large
+			padding-top: $media-spacing-large
 
 	{$media-left-selector},
 	{$media-right-selector}
@@ -38,16 +47,16 @@ _media()
 		flex-shrink: 0
 
 	{$media-left-selector}
-		margin-right: 1rem
+		ltr-property("margin", $media-spacing)
 
 	{$media-right-selector}
-		margin-left: 1rem
+		ltr-property("margin", $media-spacing, false)
 
 	{$media-content-selector}
 		flex-basis: auto
 		flex-grow: 1
 		flex-shrink: 1
-		text-align: left
+		text-align: inherit
 
 	+mobile()
 		{$media-content-selector}

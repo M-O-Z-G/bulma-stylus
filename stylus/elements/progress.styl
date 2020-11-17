@@ -1,10 +1,14 @@
+@import "../utilities/mixins"
+
 $progress-bar-background-color ?= $border-light
 $progress-value-background-color ?= $text
 $progress-border-radius ?= $radius-rounded
 
 $progress-indeterminate-duration ?= 1.5s
 
-colorfulProgress($colors= $colors)
+$progress-colors ?= $colors
+
+colorfulProgress($colors= $progress-colors)
 	for $name, $pair in $colors
 		$color = $pair['1']
 		&{$is-modifier}{$name}
@@ -56,6 +60,8 @@ _progress()
 			background-color: transparent
 		&::-moz-progress-bar
 			background-color: transparent
+		&::-ms-fill
+			animation-name: none
 
 	// Sizes
 	&{$small-modifier}

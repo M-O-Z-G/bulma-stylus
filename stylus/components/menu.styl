@@ -1,3 +1,5 @@
+@import "../utilities/mixins"
+
 $menu-item-color ?= $text
 $menu-item-radius ?= $radius-small
 $menu-item-hover-color ?= $text-strong
@@ -48,9 +50,10 @@ _menu()
 				color: $menu-item-active-color
 		li
 			ul
-				border-left: $menu-list-border-left
+				ltr-property("border", $menu-list-border-left, false)
 				margin: $menu-nested-list-margin
-				padding-left: $menu-nested-list-padding-left
+				ltr-property("padding", $menu-nested-list-padding-left, false)
+
 
 	{$menu-label-selector}
 		color: $menu-label-color

@@ -1,3 +1,5 @@
+@import "../utilities/mixins"
+
 $panel-margin ?= $block-spacing
 $panel-item-border ?= 1px solid $border-light
 $panel-radius ?= $radius-large
@@ -27,7 +29,7 @@ $panel-block-active-icon-color ?= $link
 
 $panel-icon-color ?= $text-light
 
-colorfulPanel($colors= $colors)
+colorfulPanel($colors= $panel-colors)
 	for $name, $components in $colors
 		$color = $components['1']
 		$color-invert = $components['2']
@@ -93,7 +95,7 @@ _panel()
 		padding: 0.5em 0.75em
 
 		input[type="checkbox"]
-			margin-right: 0.75em
+			ltr-property("margin", 0.75em)
 
 		& > {$control-selector}
 			flex-grow: 1
@@ -122,7 +124,7 @@ _panel()
 	{$panel-icon-selector}
 		fa(14px, 1em)
 		color: $panel-icon-color
-		margin-right: 0.75em
+		ltr-property("margin", 0.75em)
 		& {$fonticon-family-prefix-selector}
 			font-size: inherit
 			line-height: inherit

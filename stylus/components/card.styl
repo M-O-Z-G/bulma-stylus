@@ -1,6 +1,9 @@
+@import "../utilities/mixins"
+
 $card-color ?= $text
 $card-background-color ?= $scheme-main
 $card-shadow ?= 0 0.5em 1em -0.125em rgba($scheme-invert, 0.1), 0 0px 0 1px rgba($scheme-invert, 0.02)
+$card-radius?= 0.25rem
 
 $card-header-background-color ?= transparent
 $card-header-color ?= $text-strong
@@ -17,14 +20,24 @@ $card-footer-padding ?= 0.75rem
 
 $card-media-margin ?= $block-spacing
 
+$card-item
+	&:first-child
+		border-top-left-radius: $card-radius
+		border-top-right-radius: $card-radius
+	&:last-child
+		border-bottom-left-radius: $card-radius
+		border-bottom-right-radius: $card-radius
+
 _card()
 	background-color: $card-background-color
+	border-radius: $card-radius
 	box-shadow: $card-shadow
 	color: $card-color
 	max-width: 100%
 	position: relative
 
 	{$card-header-selector}
+		@extend $card-item
 		background-color: $card-header-background-color
 		align-items: stretch
 		box-shadow: $card-header-shadow
@@ -50,12 +63,22 @@ _card()
 	{$card-image-selector}
 		display: block
 		position: relative
+		&:first-child
+			img
+				border-top-left-radius: $card-radius
+				border-top-right-radius: $card-radius
+		&:last-child
+			img
+				border-bottom-left-radius: $card-radius
+				border-bottom-right-radius: $card-radius
 
 	{$card-content-selector}
+		@extend $card-item
 		background-color: $card-content-background-color
 		padding: $card-content-padding
 
 	{$card-footer-selector}
+		@extend $card-item
 		background-color: $card-footer-background-color
 		border-top: $card-footer-border-top
 		align-items: stretch
@@ -70,7 +93,7 @@ _card()
 			justify-content: center
 			padding: $card-footer-padding
 			&:not(:last-child)
-				border-right: $card-footer-border-top
+				ltr-property("border", $card-footer-border-top)
 
 	// Combinations
 

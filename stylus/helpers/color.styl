@@ -1,0 +1,46 @@
+@import "../utilities/derived-variables"
+
+colorfulHelpers($colors= $colors)
+	for $name, $pair in $colors
+		$color = $pair['1']
+		{$util-has-text-selector}-{$name}
+			color: $color !important
+		a{$util-has-text-selector}-{$name}
+			&:hover,
+			&:focus
+				color: bulmaDarken($color, 10%) !important
+		{$util-has-background-selector}-{$name}
+			background-color: $color !important
+		if length($pair) >= 4
+			$color-light = $pair['3']
+			$color-dark = $pair['4']
+			// Light
+			{$util-has-text-selector}-{$name}-light
+				color: $color-light !important
+			a{$util-has-text-selector}-{$name}-light
+				&:hover,
+				&:focus
+					color: bulmaDarken($color-light, 10%) !important
+			{$util-has-background-selector}-{$name}-light
+				background-color: $color-light !important
+			// Dark
+			{$util-has-text-selector}-{$name}-dark
+				color: $color-dark !important
+			a{$util-has-text-selector}-{$name}-dark
+				&:hover,
+				&:focus
+					color: bulmaLighten($color-dark, 10%) !important
+			{$util-has-background-selector}-{$name}-dark
+				background-color: $color-dark !important
+
+updateGlobalOptions()
+colorfulHelpers($helpers-colors) if !$silent.helpers.color
+
+shadesHelpers($shades= $shades)
+	for $name, $shade in $shades
+		{$util-has-text-selector}-{$name}
+			color: $shade !important
+		{$util-has-background-selector}-{$name}
+			background-color: $shade !important
+
+shadesHelpers($shades) if !$silent.helpers.shades && !$silent-mode

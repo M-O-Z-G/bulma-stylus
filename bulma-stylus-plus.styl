@@ -1,17 +1,28 @@
+/* Bulma Stylus Plus Utilities */
 @import "stylus/utilities/initial-variables"
 @import "stylus/utilities/functions"
 @import "stylus/utilities/derived-variables"
 @import "stylus/utilities/init"
 @import "stylus/utilities/fonts"
-@import "stylus/utilities/animations"
 @import "stylus/utilities/mixins"
 @import "stylus/utilities/placeholders"
 @import "stylus/utilities/controls"
+@import "stylus/utilities/selection"
 
+selection(mintcream, $turquoise)
+
+span
+	selection(white)
+
+.foobar
+	selection(null)
+
+/* Bulma Stylus Plus Base */
 @import "stylus/base/minireset"
 @import "stylus/base/generic"
-@import "stylus/base/helpers"
+@import "stylus/base/animations"
 
+/* Bulma Stylus Plus Elements */
 @import "stylus/elements/box"
 @import "stylus/elements/button"
 @import "stylus/elements/container"
@@ -26,6 +37,7 @@
 @import "stylus/elements/title"
 @import "stylus/elements/other"
 
+/* Bulma Stylus Plus Form */
 @import "stylus/form/shared"
 @import "stylus/form/input-textarea"
 @import "stylus/form/checkbox-radio"
@@ -33,11 +45,11 @@
 @import "stylus/form/file"
 @import "stylus/form/tools"
 
+/* Bulma Stylus Plus Components */
 @import "stylus/components/breadcrumb"
 @import "stylus/components/card"
 @import "stylus/components/dropdown"
 @import "stylus/components/level"
-@import "stylus/components/list"
 @import "stylus/components/media"
 @import "stylus/components/menu"
 @import "stylus/components/message"
@@ -47,9 +59,22 @@
 @import "stylus/components/panel"
 @import "stylus/components/tabs"
 
+/* Bulma Stylus Plus Grid */
 @import "stylus/grid/columns"
 @import "stylus/grid/tiles"
 
+/* Bulma Stylus Plus Helpers */
+@import "stylus/helpers/color"
+@import "stylus/helpers/flexbox"
+@import "stylus/helpers/float"
+@import "stylus/helpers/other"
+@import "stylus/helpers/overflow"
+@import "stylus/helpers/position"
+@import "stylus/helpers/spacing"
+@import "stylus/helpers/typography"
+@import "stylus/helpers/visibility"
+
+/* Bulma Stylus Plus Layout */
 @import "stylus/layout/hero"
 @import "stylus/layout/section"
 @import "stylus/layout/footer"

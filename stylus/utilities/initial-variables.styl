@@ -1,5 +1,4 @@
 // Colors
-
 $black         ?= hsl(0, 0%, 4%)
 $black-bis     ?= hsl(0, 0%, 7%)
 $black-ter     ?= hsl(0, 0%, 14%)
@@ -47,11 +46,9 @@ $weight-semibold ?= 600
 $weight-bold ?= 700
 
 // Spacing
-
 $block-spacing ?= 1.5rem
 
 // Responsiveness
-
 // The container horizontal gap, which acts as the offset for breakpoints
 $gap ?= 32px
 // 960, 1152, and 1344 have been chosen because they are divisible by both 12 and 16
@@ -78,13 +75,30 @@ $prefix ?= 'bulma-'
 // Flags
 $variable-columns ?= true
 $css-variables ?= true
+$rtl ?= false
 
 //PLUS FEATURES
 $charset ?= "utf-8"
 $font-path ?= '/assets/fonts/'
 $columns-max ?= 12
 $silent-mode ?= false
+$redifined-default-colors ?= false
 $bsp-no-conflict ?= false // TODO: Reserved for further errors :)
+
+// Webcolors
+if $redifined-default-colors
+	black                = $black
+	darkgray             = $grey-dark
+	darkgrey             = $grey-dark
+	grey                 = $grey
+	gray                 = $grey
+	orange               = $orange
+	yellow               = $yellow
+	green                = $green
+	turquoise            = $turquoise
+	cyan                 = $cyan
+	blue                 = $blue
+	purple               = $purple
 
 // Selectors naming
 $prefixed-selectors ?= false
@@ -122,8 +136,17 @@ $util-marginless-selector ?= $is-selector+'marginless'
 $util-paddingless-selector ?= $is-selector+'paddingless'
 $util-radiusless-selector ?= $is-selector+'radiusless'
 $util-shadowless-selector ?= $is-selector+'shadowless'
+$util-clickable-selector ?= $is-selector+'clickable'
 $util-unselectable-selector ?= $is-selector+'unselectable'
 $util-relative-selector ?= $is-selector+'relative'
+$util-flex ?= $is-selector+'flex'
+$util-flex-direction ?= $util-flex+'-direction'
+$util-flex-wrap ?= $util-flex+'-wrap'
+$util-justify-content ?= $is-selector+'justify-content'
+$util-align ?= $is-selector+'align'
+$util-align-content ?= $util-align+'-content'
+$util-align-items ?= $util-align+'-items'
+$util-align-self ?= $util-align+'-self'
 
 $util-has-text-selector ?= $has-selector+'text'
 $util-has-background-selector ?= $has-selector+'background'
@@ -183,17 +206,19 @@ $toggle-rounded-modifier ?= $toggle-modifier+'-rounded'
 $fluid-modifier ?= $is-modifier+'fluid'
 $widescreen-modifier ?= $is-modifier+'widescreen'
 $fullhd-modifier ?= $is-modifier+'fullhd'
+$max-desktop-modifier ?= $is-modifier+'max-desktop'
+$max-widescreen-modifier ?= $is-modifier+'max-widescreen'
 $normal-modifier ?= $is-modifier+'normal'
 $loading-modifier ?= $is-modifier+'loading'
 $inline-modifier ?= $is-modifier+'inline'
 $transparent-modifier ?= $is-modifier+'transparent'
+$ghost-modifier ?= $is-modifier+'ghost'
 $hovered-modifier ?= $is-modifier+'hovered'
 $disabled-modifier ?= $is-modifier+'disabled'
 $hoverable-modifier ?= $is-modifier+'hoverable'
 $focused-modifier ?= $is-modifier+'focused'
 $selected-modifier ?= $is-modifier+'selected'
 $rounded-modifier ?= $is-modifier+'rounded'
-$square-modifier ?= $is-modifier+'square'
 $bordered-modifier ?= $is-modifier+'bordered'
 $striped-modifier ?= $is-modifier+'striped'
 $narrow-modifier ?= $is-modifier+'narrow'
@@ -255,10 +280,6 @@ $level-selector ?= '.'+$prefix-bsp+'level'
 	$level-left-selector ?= '^[0]-left'
 	$level-right-selector ?= '^[0]-right'
 	$level-item-selector ?= '^[0]-item'
-
-// List
-$list-selector ?= '.'+$prefix-bsp+'list'
-	$list-item-selector ?= '^[0]-item'
 
 // Media
 $media-selector ?= '.'+$prefix-bsp+'media'

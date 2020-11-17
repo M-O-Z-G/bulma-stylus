@@ -1,3 +1,5 @@
+@import "../utilities/mixins"
+
 $body-background-color ?= $scheme-main
 $body-min-width ?= 300px
 $body-rendering ?= optimizeLegibility
@@ -51,6 +53,7 @@ _generic()
 	body,
 	button,
 	input,
+	optgroup,
 	select,
 	textarea
 		font-family: $body-family
@@ -136,7 +139,7 @@ _generic()
 		th
 			vertical-align: top
 			&:not([align])
-				text-align: left
+				text-align: inherit
 		th
 			color: $text-strong
 

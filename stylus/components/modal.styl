@@ -1,3 +1,5 @@
+@import "../utilities/mixins"
+
 $modal-z ?= 40
 
 $modal-background-background-color ?= bulmaRgba($scheme-invert, 0.86)
@@ -28,6 +30,8 @@ $modal-card-foot-border-top ?= 1px solid $border
 $modal-card-body-background-color ?= $scheme-main
 $modal-card-body-padding ?= 20px
 
+$modal-breakpoint ?= $tablet
+
 _modal()
 	@extend $overlay
 	align-items: center
@@ -55,7 +59,7 @@ _modal()
 		width: 100%
 
 		// Responsiveness
-		+tablet()
+		+from($modal-breakpoint) // +tablet
 			margin: 0 auto
 			max-height: 'calc(100vh - %s)' % $modal-content-spacing-tablet
 			width: $modal-content-width
@@ -65,7 +69,7 @@ _modal()
 			background: none
 			height: $modal-close-dimensions
 			position: fixed
-			right: $modal-close-right
+			ltr-position($modal-close-right)
 			top: $modal-close-top
 			width: $modal-close-dimensions
 
@@ -104,7 +108,7 @@ _modal()
 			border-top: $modal-card-foot-border-top
 			{$button-selector}
 				&:not(:last-child)
-					margin-right: 0.5em
+					ltr-property("margin", 0.5em)
 
 		{$modal-card-body-selector}
 			overflow-touch()

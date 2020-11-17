@@ -1,9 +1,13 @@
+@import "../utilities/mixins"
+
 $tag-background-color ?= $background
 $tag-color ?= $text
 $tag-radius ?= $radius
 $tag-delete-margin ?= 1px
 
-colorfulTags($colors= $colors)
+$tag-colors ?= $tags-$colors // DEPRICATED: Bulm.io team made this too. $tag-colors has-priority for now.
+
+colorfulTags($colors= $tag-colors)
 	for $name, $pair in $colors
 		$color = $pair['1']
 		$color-invert = $pair['2']
@@ -26,7 +30,7 @@ _tags()
 	{$tag-selector}
 		margin-bottom: 0.5rem
 		&:not(:last-child)
-			margin-right: 0.5rem
+			ltr-property("margin", 0.5rem)
 	&:last-child
 		margin-bottom: -0.5rem
 	&:not(:last-child)
@@ -53,14 +57,22 @@ _tags()
 				margin-right: 0
 	&{$has-addons-modifier}
 		{$tag-selector}
-			margin-right: 0
+			ltr-property("margin", 0)
 			&:not(:first-child)
-				margin-left: 0
-				border-bottom-left-radius: 0
-				border-top-left-radius: 0
+				ltr-property("margin", 0, false)
+				+ltr()
+					border-top-left-radius: 0
+					border-bottom-left-radius: 0
+				+rtl()
+					border-top-right-radius: 0
+					border-bottom-right-radius: 0
 			&:not(:last-child)
-				border-bottom-right-radius: 0
-				border-top-right-radius: 0
+				+ltr()
+					border-top-right-radius: 0
+					border-bottom-right-radius: 0
+				+rtl()
+					border-top-left-radius: 0
+					border-bottom-left-radius: 0
 
 	/.{$prefix-bsp}v{replace('^([\-\_\+\-\.\(\)\,\$#'+$prefix-bsp+']+)', '', selector())} // TODO: Perhaps we need a variable for `vtags`.
 		align-items: center
@@ -111,12 +123,12 @@ _tags()
 		padding-right: 0.75em
 		white-space: nowrap
 		{$delete-selector}
-			margin-left: 0.25rem
-			margin-right: -0.375rem
+			ltr-property("margin", 0.25rem, false)
+			ltr-property("margin", -0.375rem)
 
 		// Colors
 		updateGlobalOptions()
-		colorfulTags($tags-colors) if !$silent.colorful.tags
+		colorfulTags($tag-colors) if !$silent.colorful.tags
 
 		// Sizes
 		&{$normal-modifier}
@@ -125,19 +137,19 @@ _tags()
 			font-size: $size-normal
 		&{$large-modifier}
 			font-size: $size-medium
-		{$icon-selector}
+		{$icon-selector}a
 			&:first-child:not(:last-child)
-				margin-left: -0.375em
-				margin-right: 0.1875em
+				ltr-property("margin", -0.375em, false)
+				ltr-property("margin", 0.1875em)
 			&:last-child:not(:first-child)
-				margin-left: 0.1875em
-				margin-right: -0.375em
+				ltr-property("margin", 0.1875em, false)
+				ltr-property("margin", -0.375em)
 			&:first-child:last-child
-				margin-left: -0.375em
-				margin-right: -0.375em
+				ltr-property("margin", -0.375em, false)
+				ltr-property("margin", -0.375em)
 		// Modifiers
 		&{$delete-modifier}
-			margin-left: $tag-delete-margin
+			ltr-property("margin", $tag-delete-margin, false)
 			padding: 0
 			position: relative
 			width: 2em

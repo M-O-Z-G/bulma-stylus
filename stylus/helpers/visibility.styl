@@ -1,0 +1,37 @@
+@import "../utilities/mixins"
+
+$displays = block flex inline inline-block inline-flex
+
+if !$silent.helpers.visibility && !$silent-mode
+	for $display in $displays
+		{$is-selector}{$display}
+			display: $display !important
+		for $device in $devices
+			+$device()
+				{$is-selector}{$display}-{$device}
+					display: $display !important
+
+	{$util-hidden-selector}
+		display: none !important
+
+	{$util-sr-only-selector}
+		border: none !important
+		clip: rect(0, 0, 0, 0) !important
+		height: 0.01em !important
+		overflow: hidden !important
+		padding: 0 !important
+		position: absolute !important
+		white-space: nowrap !important
+		width: 0.01em !important
+
+	for $device in $devices
+		+$device()
+			{$util-hidden-selector}-{$device}
+				display: none !important
+
+	{$util-invisible-selector}
+		visibility: hidden !important
+		for $device in $devices
+			+$device()
+				&-{$device}
+					visibility: hidden !important

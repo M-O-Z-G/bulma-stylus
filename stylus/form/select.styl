@@ -1,4 +1,8 @@
-colorfulSelect($colors= $colors)
+@import "shared"
+
+$select-colors ?= $form-colors
+
+colorfulSelect($colors= $select-colors)
 	for $name, $pair in $colors
 		$color = $pair['1']
 		&{$is-modifier}{$name}
@@ -26,12 +30,12 @@ _select()
 		&::after
 			@extend $arrow
 			border-color: $input-arrow
-			right: 1.125em
+			ltr-position(1.125em)
 			z-index: 4
 	&{$rounded-modifier}
 		select
 			border-radius: $radius-rounded
-			padding-left: 1em
+			ltr-property("padding", 1em, false)
 	select
 		@extend $input
 		cursor: pointer
@@ -45,7 +49,7 @@ _select()
 		fieldset[disabled] &:hover
 			border-color: $input-disabled-border-color
 		&:not([multiple])
-			padding-right: 2.5em
+			ltr-property("padding", 2.5em)
 		&[multiple]
 			height: auto
 			padding: 0
@@ -83,7 +87,7 @@ _select()
 			@extend $loader
 			margin-top: 0
 			position: absolute
-			right: 0.625em
+			ltr-position(0.625em)
 			top: 0.625em
 			transform: none
 		&{$small-modifier}:after

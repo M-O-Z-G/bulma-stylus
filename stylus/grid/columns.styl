@@ -1,7 +1,10 @@
+@import "../utilities/mixins"
+
 $column-gap ?= 0.75rem
 
 $column-ratios ?= {
-	narrow:        { names: 'narrow' },
+	narrow:        { names: 'narrow',
+		value: unset                     }, // unset
 	full:          { names: 'full',
 		value: 100%                      }, // 100%
 	threeQuarters: { names: ('three-quarters' '3of4'),
@@ -24,7 +27,6 @@ $column-ratios ?= {
 		value: round(percentage(4/5), 4) }, // 80%
 }
 columnWidthRule($preface= '&'+ $is-modifier, $device= false, $leadDevice= tablet, $offset= false)
-	$prop= $offset ? 'margin-left' : 'width';
 	$offsetNameSegment= $offset ? 'offset-' : '';
 	$device= sanitizeName($device,'') if $device
 
@@ -49,7 +51,10 @@ columnWidthRule($preface= '&'+ $is-modifier, $device= false, $leadDevice= tablet
 					if !$offset
 						{block}
 						flex: none
-					{$prop}: $value if $value
+						width: $value if $value
+					else if $value
+						ltr-property("margin", $value, false)
+
 
 columnGridRule($preface= '&'+ $is-modifier, $device= false, $leadDevice= tablet)
 	$deviceNameSegment= $device ? '-' + sanitizeName($device, '') : ''
@@ -58,7 +63,6 @@ columnGridRule($preface= '&'+ $is-modifier, $device= false, $leadDevice= tablet)
 	if !match('-only$', sanitizeName($device, ''))
 		for $i in 0..$columns-max
 			for $o in 0..1
-				$prop= $o > 0 ? 'margin-left' : 'width';
 				$offsetNameSegment= $o > 0 ? 'offset-' : '';
 				$count= $device and ($device == $leadDevice) ? 1 : 0;
 				$selector= '';
@@ -73,7 +77,9 @@ columnGridRule($preface= '&'+ $is-modifier, $device= false, $leadDevice= tablet)
 					if $o <= 0
 						{block}
 						flex: none
-					{$prop}: round(percentage($i / $columns-max), 4)
+						width: round(percentage($i / $columns-max), 4)
+					else
+						ltr-property("margin", round(percentage($i / $columns-max), 4), false)
 
 _column()
 	display: block
@@ -93,8 +99,8 @@ _column()
 			columnGridRule($device: $device, $leadDevice: 'tablet')
 
 _columns()
-	margin-left: ($column-gap * -1)
-	margin-right: ($column-gap * -1)
+	ltr-property("margin", ($column-gap * -1), false)
+	ltr-property("margin", ($column-gap * -1))
 	margin-top: ($column-gap * -1)
 	&:last-child
 		margin-bottom: ($column-gap * -1)
@@ -105,8 +111,8 @@ _columns()
 	&{$centered-modifier}
 		justify-content: center
 	&{$gapless-modifier}
-		margin-left: 0
-		margin-right: 0
+		ltr-property("margin", 0, false)
+		ltr-property("margin", 0)
 		margin-top: 0
 		& > {$column-selector}
 			margin: 0
@@ -134,9 +140,9 @@ _columns()
 	if $variable-columns
 		&{$variable-modifier}
 			--columnGap: 0.75rem
-			margin-left: calc(-1 * var(--columnGap))
-			margin-right: calc(-1 * var(--columnGap))
-			{$column-selector}
+			ltr-property("margin", calc(-1 * var(--columnGap)), false)
+			ltr-property("margin", calc(-1 * var(--columnGap)))
+			> {$column-selector}
 				padding-left: var(--columnGap)
 				padding-right: var(--columnGap)
 			for $i in 0..8

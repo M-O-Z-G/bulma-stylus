@@ -1,0 +1,166 @@
+_helpers()
+	// Float
+	{$util-clearfix-selector}
+		clearfix()
+
+	{$util-pulled-left-selector}
+		float: left !important
+
+	{$util-pulled-right-selector}
+		float: right !important
+
+	// Overflow
+	{$util-clipped-selector}
+		overflow: hidden !important
+
+	// Overlay
+	{$util-overlay-selector}
+		@extend $overlay
+
+	// Typography
+	typography-size($target = '')
+		for $size in $sizes
+			$i = index($sizes, $size) + 1
+			$target-suffix = $target == '' ? '' : '-' + sanitizeName($target,'')
+			{$is-selector}size-{$i}{$target-suffix}
+				font-size: $size !important
+
+	if !$silent.sizes.typography && !$silent-mode
+		typography-size()
+
+		for $device in $devices
+			if !match('-only$', sanitizeName($device, ''))
+				+$device()
+					typography-size($device)
+
+	$alignments = {'centered': center, 'justified': justify, 'left': left, 'right': right}
+
+	for $alignment, $text-align in $alignments
+		{$util-has-text-selector}-{$alignment}
+			text-align: $text-align !important
+
+	for $alignment, $text-align in $alignments
+		for $device in $devices
+			+$device()
+				{$util-has-text-selector}-{$alignment}-{$device}
+					text-align: $text-align !important
+
+	{$util-capitalized-selector}
+		text-transform: capitalize !important
+
+	{$util-lowercase-selector}
+		text-transform: lowercase !important
+
+	{$util-uppercase-selector}
+		text-transform: uppercase !important
+
+	{$util-italic-selector}
+		font-style: italic !important
+
+	colorfulHelpers($colors= $colors)
+		for $name, $pair in $colors
+			$color = $pair['1']
+			{$util-has-text-selector}-{$name}
+				color: $color !important
+			a{$util-has-text-selector}-{$name}
+				&:hover,
+				&:focus
+					color: bulmaDarken($color, 10%) !important
+			{$util-has-background-selector}-{$name}
+				background-color: $color !important
+
+	updateGlobalOptions()
+	colorfulHelpers($helpers-colors) if !$silent.colorful.helpers
+
+	shadesHelpers($shades= $shades)
+		for $name, $shade in $shades
+			{$util-has-text-selector}-{$name}
+				color: $shade !important
+			{$util-has-background-selector}-{$name}
+				background-color: $shade !important
+
+	shadesHelpers($shades) if !$silent.shades.helpers && !$silent-mode
+
+	{$util-has-text-weight-light-selector}
+		font-weight: $weight-light !important
+	{$util-has-text-weight-normal-selector}
+		font-weight: $weight-normal !important
+	{$util-has-text-weight-medium-selector}
+		font-weight: $weight-medium !important
+	{$util-has-text-weight-semibold-selector}
+		font-weight: $weight-semibold !important
+	{$util-has-text-weight-bold-selector}
+		font-weight: $weight-bold !important
+
+	{$util-family-primary-selector}
+		font-family: $family-primary !important
+
+	{$util-family-secondary-selector}
+		font-family: $family-secondary !important
+
+	{$util-family-sans-serif-selector}
+		font-family: $family-sans-serif !important
+
+	{$util-family-monospace-selector}
+		font-family: $family-monospace !important
+
+	{$util-family-code-selector}
+		font-family: $family-code !important
+
+	// Visibility
+	$displays = block flex inline inline-block inline-flex
+
+	for $display in $displays
+		{$is-selector}{$display}
+			display: $display !important
+		for $device in $devices
+			+$device()
+				{$is-selector}{$display}-{$device}
+					display: $display !important
+
+	{$util-hidden-selector}
+		display: none !important
+
+	{$util-sr-only-selector}
+		border: none !important
+		clip: rect(0, 0, 0, 0) !important
+		height: 0.01em !important
+		overflow: hidden !important
+		padding: 0 !important
+		position: absolute !important
+		white-space: nowrap !important
+		width: 0.01em !important
+
+	for $device in $devices
+		+$device()
+			{$util-hidden-selector}-{$device}
+				display: none !important
+
+	{$util-invisible-selector}
+		visibility: hidden !important
+		for $device in $devices
+			+$device()
+				&-{$device}
+					visibility: hidden !important
+
+	// Other
+	{$util-marginless-selector}
+		margin: 0 !important
+
+	{$util-paddingless-selector}
+		padding: 0 !important
+
+	{$util-radiusless-selector}
+		border-radius: 0 !important
+
+	{$util-shadowless-selector}
+		box-shadow: none !important
+
+	{$util-unselectable-selector}
+		@extend $unselectable
+
+	{$util-relative-selector}
+		position: relative !important
+
+if !$silent.helpers && !$silent-mode
+	_helpers()

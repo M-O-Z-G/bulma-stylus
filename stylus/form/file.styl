@@ -1,3 +1,5 @@
+@import "shared"
+
 $file-border-color ?= $border
 $file-radius ?= $radius
 
@@ -11,7 +13,9 @@ $file-name-border-style ?= solid
 $file-name-border-width ?= 1px 1px 1px 0
 $file-name-max-width ?= 16em
 
-colorfulFile($colors= $colors)
+$file-colors: $form-colors
+
+colorfulFile($colors= $file-colors)
 	for $name, $pair in $colors
 		$color = $pair['1']
 		$color-invert = $pair['2']
@@ -172,7 +176,7 @@ _file()
 		display: block
 		max-width: $file-name-max-width
 		overflow: hidden
-		text-align: left
+		text-align: inherit
 		text-overflow: ellipsis
 
 	/{$file-icon-selector}
@@ -180,7 +184,7 @@ _file()
 		display: flex
 		height: 1em
 		justify-content: center
-		margin-right: 0.5em
+		ltr-property("margin", 0.5em)
 		width: 1em
 		{$fonticon-family-prefix-selector}
 			font-size: 14px

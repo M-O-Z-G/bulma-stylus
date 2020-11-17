@@ -1,3 +1,5 @@
+@import "../utilities/mixins"
+
 $table-color ?= $text-strong
 $table-background-color ?= $scheme-main
 
@@ -23,7 +25,9 @@ $table-row-active-color ?= $primary-invert
 $table-striped-row-even-background-color ?= $scheme-main-bis
 $table-striped-row-even-hover-background-color ?= $scheme-main-ter
 
-colorfulTable($colors= $colors)
+$table-colors ?= $colors
+
+colorfulTable($colors= $table-colors)
 	for $name, $pair in $colors
 		$color = $pair['1']
 		$color-invert = $pair['2']
@@ -57,10 +61,13 @@ _table()
 			a,
 			strong
 				color: currentColor
+		&{$vcentered-modifier}
+			vertical-align: middle
+
 	th
 		color: $table-cell-heading-color
 		&:not([align])
-			text-align: left
+			text-align: inherit
 	tr
 		&{$selected-modifier}
 			background-color: $table-row-active-background-color

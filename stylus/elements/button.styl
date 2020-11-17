@@ -1,3 +1,6 @@
+@import "../utilities/controls"
+@import "../utilities/mixins"
+
 $button-solid ?= false
 
 $button-solid-background-color ?= $primary
@@ -37,6 +40,13 @@ $button-text-focus-box-shadow-color ?= $border-light
 $button-text-active-background-color ?= $border-light
 $button-text-active-color ?= $text-strong
 
+$button-ghost-background ?= none
+$button-ghost-border-color ?= transparent
+$button-ghost-color ?= $link
+$button-ghost-decoration ?= none
+$button-ghost-hover-color ?= $link
+$button-ghost-hover-decoration ?= underline
+
 $button-disabled-background-color ?= $scheme-main
 $button-disabled-border-color ?= $border
 $button-disabled-shadow ?= none
@@ -46,7 +56,9 @@ $button-static-color ?= $text-light
 $button-static-background-color ?= $scheme-main-ter
 $button-static-border-color ?= $border
 
-colorfulButtons($colors= $colors)
+$button-colors ?= $buttons-$colors // DEPRICATED: Bulm.io team made this too. $button-color has priority for now.
+
+colorfulButtons($colors= $button-colors)
 	for $name, $pair in $colors
 		$color = $pair['1']
 		$color-invert = $pair['2']
@@ -199,14 +211,14 @@ _button()
 			height: 1.5em
 			width: 1.5em
 		&:first-child:not(:last-child)
-			margin-left: 'calc(%s - %s)' % (-1 / 2 * $button-padding-horizontal $button-border-width)
-			margin-right: ($button-padding-horizontal / 4)
+			ltr-property("margin", 'calc(%s - %s)' % (-1 / 2 * $button-padding-horizontal $button-border-width), false)
+			ltr-property("margin", $button-padding-horizontal / 4)
 		&:last-child:not(:first-child)
-			margin-left: ($button-padding-horizontal / 4)
-			margin-right: 'calc(%s - %s)' % (-1 / 2 * $button-padding-horizontal $button-border-width)
+			ltr-property("margin", $button-padding-horizontal / 4, false)
+			ltr-property("margin", 'calc(%s - %s)' % (-1 / 2 * $button-padding-horizontal $button-border-width))
 		&:first-child:last-child
 			margin-left: 'calc(%s - %s)' % (-1 / 2 * $button-padding-horizontal $button-border-width)
-			margin-right: 'calc(%s - %s)' % (-1 / 2 * $button-padding-horizontal $button-border-width)
+			margin-right: @margin-left
 	// States
 	&:hover,
 	&{$hovered-modifier}
@@ -246,9 +258,18 @@ _button()
 			background-color: _c
 			border-color: transparent
 			box-shadow: none
+		&{$ghost-modifier}
+			background: $button-ghost-background
+			border-color: $button-ghost-border-color
+			color: $button-ghost-color
+			text-decoration: $button-ghost-decoration
+			&:hover,
+			&{$hovered-modifier}
+				color: $button-ghost-hover-color
+				text-decoration: $button-ghost-hover-decoration
 
 	updateGlobalOptions()
-	colorfulButtons($buttons-colors) if !$silent.colorful.buttons
+	colorfulButtons($button-colors) if !$silent.colorful.buttons // FIXIT: Bulm.io team made this too, therefore, $buttons-colors should be renamed;
 
 	// Sizes
 	&{$small-modifier}
@@ -301,7 +322,7 @@ _buttons()
 	& {$button-selector}
 		margin-bottom: 0.5rem
 		&:not(:last-child):not({$fullwidth-modifier}) // TODO: `not` pseudo-class will be a problem with different naming methodology. Check how we can deal with it.
-			margin-right: 0.5rem
+			ltr-property("margin", 0.5rem)
 	&:last-child
 		margin-bottom: -0.5rem
 	&:not(:last-child)
@@ -324,9 +345,9 @@ _buttons()
 			&:not(:last-child)
 				border-bottom-right-radius: 0
 				border-top-right-radius: 0
-				margin-right: -1px
+				ltr-property("margin", -1px)
 			&:last-child
-				margin-right: 0
+				ltr-property("margin", 0)
 			&:hover,
 			&{$hovered-modifier}
 				z-index: 2
@@ -429,7 +450,7 @@ _vbutton()
 
 		&:first-child:last-child
 			margin-left: 'calc(-0.375em - %s)' % $button-border-width
-			margin-right: 'calc(-0.375em - %s)' % $button-border-width
+			margin-right: @margin-left
 
 	&:hover,
 	&{$hovered-modifier}

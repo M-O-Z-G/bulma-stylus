@@ -1,0 +1,37 @@
+$flex-direction-values = row, row-reverse, column, column-reverse
+
+if !$silent.helpers.flexbox && !$silent-mode
+	for $value in $flex-direction-values
+		{$util-flex-direction}-{$value}
+			flex-direction: $value !important
+
+	$flex-wrap-values = nowrap, wrap, wrap-reverse
+	for $value in $flex-wrap-values
+		{$util-flex-wrap}-{$value}
+			flex-wrap: $value !important
+
+	$justify-content-values = flex-start, flex-end, center, space-between, space-around, space-evenly, start, end, left, right
+	for $value in $justify-content-values
+		{$util-justify-content}-{$value}
+			justify-content: $value !important
+
+	$align-content-values = flex-start, flex-end, center, space-between, space-around, space-evenly, stretch, start, end, baseline
+	for $value in $align-content-values
+		{$util-align-content}-{$value}
+			align-content: $value !important
+
+	$align-items-values = stretch, flex-start, flex-end, center, baseline, start, end, self-start, self-end
+	for $value in $align-items-values
+		{$util-align-items}-{$value}
+			align-items: $value !important
+
+	$align-self-values = auto, flex-start, flex-end, center, baseline, stretch
+	for $value in $align-self-values
+		{$util-align-self}-{$value}
+			align-self: $value !important
+
+	$flex-operators = grow, shrink
+	for $operator in $flex-operators
+		for $i in 0..5
+			{$util-flex}-{$operator}-{$i}
+				flex-{$operator}: $i !important

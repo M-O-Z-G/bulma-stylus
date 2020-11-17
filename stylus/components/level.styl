@@ -1,3 +1,5 @@
+@import "../utilities/mixins"
+
 $level-item-spacing ?= ($block-spacing / 2)
 
 _level()
@@ -26,7 +28,7 @@ _level()
 		& {$level-item-selector}
 			&:not(:last-child)
 				margin-bottom: 0
-				margin-right: $level-item-spacing
+				ltr-property("margin", $level-item-spacing)
 
 			&:not({$narrow-modifier}) // TODO: `not` pseudo-class will be a problem with different naming methodology. Check how we can deal with it.
 				flex-grow: 1
@@ -70,7 +72,7 @@ _level()
 			// Responsiveness
 			+tablet()
 				&:not(:last-child)
-					margin-right: $level-item-spacing
+					ltr-property("margin", $level-item-spacing)
 
 	{$level-left-selector}
 		align-items: center

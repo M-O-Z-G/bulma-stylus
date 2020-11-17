@@ -1,9 +1,13 @@
+@import "shared"
+
 $label-color ?= $text-strong
 $label-weight ?= $weight-bold
 
 $help-size ?= $size-small
 
-colorfulHelp($colors= $colors)
+$label-colors ?= $form-colors
+
+colorfulHelp($colors= $label-colors)
 	for $name, $pair in $colors
 		$color = $pair['1']
 		&{$is-modifier}{$name}
@@ -49,7 +53,7 @@ _field()
 		justify-content: flex-start
 		{$control-selector}
 			&:not(:last-child)
-				margin-right: -1px
+				ltr-property("margin", -1px)
 			&:not(:first-child):not(:last-child)
 				{$button-selector},
 				{$input-selector},
@@ -59,14 +63,22 @@ _field()
 				{$button-selector},
 				{$input-selector},
 				{$select-selector} select
-					border-bottom-right-radius: 0
-					border-top-right-radius: 0
+					+ltr()
+						border-bottom-right-radius: 0
+						border-top-right-radius: 0
+					+rtl()
+						border-bottom-left-radius: 0
+						border-top-left-radius: 0
 			&:last-child:not(:only-child)
 				{$button-selector},
 				{$input-selector},
 				{$select-selector} select
-					border-bottom-left-radius: 0
-					border-top-left-radius: 0
+					+ltr()
+						border-bottom-left-radius: 0
+						border-top-left-radius: 0
+					+rtl()
+						border-bottom-right-radius: 0
+						border-top-right-radius: 0
 			{$button-selector},
 			{$input-selector},
 			{$select-selector} select
@@ -99,7 +111,7 @@ _field()
 			flex-shrink: 0
 			&:not(:last-child)
 				margin-bottom: 0
-				margin-right: 0.75rem
+				ltr-property("margin", 0.75rem)
 			&{$expanded-modifier}
 				flex-grow: 1
 				flex-shrink: 1
@@ -132,7 +144,7 @@ _field()
 			flex-basis: 0
 			flex-grow: 1
 			flex-shrink: 0
-			margin-right: 1.5rem
+			ltr-property("margin", 1.5rem)
 			text-align: right
 			&{$small-modifier}
 				font-size: $size-small
@@ -162,7 +174,7 @@ _field()
 				&:not({$narrow-modifier})
 					flex-grow: 1
 				&:not(:last-child)
-					margin-right: 0.75rem
+					ltr-property("margin", 0.75rem)
 
 	{block}
 
@@ -171,7 +183,7 @@ _control()
 	clear: both
 	font-size: $size-normal
 	position: relative
-	text-align: left
+	text-align: inherit
 
 	// Modifiers
 	&.has-icons-left,
@@ -213,7 +225,7 @@ _control()
 		&::after
 			@extend $loader
 			position: absolute !important
-			right: 0.625em
+			ltr-position(0.625em)
 			top: 0.625em
 			z-index: 4
 

@@ -1,3 +1,5 @@
+@import "../utilities/mixins"
+
 $tile-spacing ?= 0.75rem
 
 _tile()
@@ -22,7 +24,7 @@ _tile()
 	&{$parent-modifier}
 		padding: $tile-spacing
 	&{$vertical-modifier}
-		flex-direction column
+		flex-direction: column
 		& > {$tile-selector}{$child-modifier}:not(:last-child)
 			margin-bottom: 1.5rem !important
 	// Responsiveness

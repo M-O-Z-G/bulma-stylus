@@ -1,8 +1,12 @@
+@import "shared"
+
 $textarea-padding ?= $control-padding-horizontal
 $textarea-max-height ?= 40em
 $textarea-min-height ?= 8em
 
-colorfulInputTextarea($colors= $colors)
+$textarea-colors ?= $form-colors
+
+colorfulInputTextarea($colors= $textarea-colors)
 	for $name, $pair in $colors
 		$color = $pair['1']
 		&{$is-modifier}{$name}
@@ -23,7 +27,7 @@ $input-textarea
 
 	// Colors
 	updateGlobalOptions()
-	colorfulInputTextarea($input-textarea-colors) if !$silent.colorful.input-textarea
+	colorfulInputTextarea($textarea-colors) if !$silent.colorful.input-textarea
 
 	// Sizes
 	&{$small-modifier}

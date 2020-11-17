@@ -1,4 +1,5 @@
 @import "initial-variables"
+@import "derived-variables"
 
 css-variable($color, $name, $cssvar-invert)
 	$hue= hue($color)
@@ -116,11 +117,11 @@ mediaQuery($device, $until= false, $orientation= false, $par= false, $custom= fa
 	@media _nms
 		{block}
 
-from($device, $orientation= false, $par= false)
+from($device, $orientation= false, $par= false) // @media screen and (min-width $device)
 	+mediaQuery($device, false, $orientation, $par)
 		{block}
 
-until($device, $orientation= false, $par= false)
+until($device, $orientation= false, $par= false) // @media screen and (max-width $device - 1px)
 	+mediaQuery(convertUnit($device, 'px') - 1px, true, $orientation, $par)
 		{block}
 
@@ -128,11 +129,11 @@ mobile()
 	+until($tablet)
 		{block}
 
-tablet()
+tablet() // @media screen and (min-width $tablet), print
 	+mediaQuery($tablet, false, $custom: 'print')
 		{block}
 
-tablet-only()
+tablet-only() // @media screen and (min-width $tablet) and (max-width $desktop - 1px)
 	+mediaQuery($tablet, $desktop)
 		{block}
 
@@ -144,7 +145,7 @@ desktop()
 	+from($desktop)
 		{block}
 
-desktop-only()
+desktop-only() // @media screen and (min-width $desktop) and (max-width $widescreen - 1px)
 	if $widescreen-enabled
 		+mediaQuery($desktop, $widescreen)
 			{block}
@@ -159,7 +160,7 @@ widescreen()
 		+from($widescreen)
 			{block}
 
-widescreen-only()
+widescreen-only() // @media screen and (min-width $widescreen) and (max-width $fullhd - 1px)
 	if $widescreen-enabled and $fullhd-enabled
 		+mediaQuery($widescreen, $fullhd)
 			{block}
@@ -173,6 +174,29 @@ fullhd()
 	if $fullhd-enabled
 		+from($fullhd)
 			{block}
+
+ltr()
+	if !$rtl
+		{block}
+
+rtl()
+	if $rtl
+		{block}
+
+ltrProp($spacing, $property = false, $right = true)
+	$normal = $right ? 'right' : 'left'
+	$opposite = $right ? 'left' : 'right'
+	$property = $property ? $property + '-' : null
+	if $rtl
+		{$property}{$opposite}: $spacing
+	else
+		{$property}{$normal}: $spacing
+
+ltr-property($property, $spacing, $right = true)
+	ltrProp($spacing, $property, $right)
+
+ltr-position($spacing, $right = true)
+	ltrProp($spacing, false, $right)
 
 $devices = mobile tablet tablet-only touch desktop desktop-only widescreen widescreen-only fullhd
 
@@ -332,3 +356,11 @@ overlay($offset = 0)
 	position: absolute
 	right: $offset
 	top: $offset
+
+selection($sc= inherit, $sbgc= inherit)
+	&::selection
+		if $sc != null
+			color: $sc;
+		if $sbgc != null
+			background: $sbgc;
+		{block}

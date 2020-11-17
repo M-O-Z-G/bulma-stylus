@@ -1,3 +1,5 @@
+@import "../utilities/mixins"
+
 $dropdown-menu-min-width ?= 12rem
 
 $dropdown-content-background-color ?= $scheme-main
@@ -38,7 +40,7 @@ _dropdown()
 
 	{$dropdown-menu-selector}
 		display: none
-		left: 0
+		ltr-position(0, false)
 		min-width: $dropdown-menu-min-width
 		padding-top: $dropdown-content-offset
 		position: absolute
@@ -62,8 +64,8 @@ _dropdown()
 
 	/a{$dropdown-item-selector},
 	/button{$dropdown-item-selector}
-		padding-right: 3rem
-		text-align: left
+		ltr-property("padding", 3rem)
+		text-align: inherit
 		white-space: nowrap
 		width: 100%
 		&:hover

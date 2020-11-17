@@ -1,4 +1,7 @@
+@import "../utilities/mixins"
+
 $container-offset ?= (2 * $gap)
+$container-max-width ?= $fullhd
 
 _container()
 	flex-grow: 1
@@ -6,22 +9,26 @@ _container()
 	position: relative
 	width: auto
 	&{$fluid-modifier}
-		max-width: none
+		max-width: none !important
 		padding-left: $gap
 		padding-right: $gap
 		width: 100%
 	+desktop()
 		max-width: $desktop - $container-offset
 	+until-widescreen()
-		&{$widescreen-modifier}
-			max-width: $widescreen - $container-offset
+		&{$widescreen-modifier}:not({$max-desktop-modifier})
+			max-width: min($widescreen, $container-max-width) - $container-offset
 	+until-fullhd()
-		&{$fullhd-modifier}
-			max-width: $fullhd - $container-offset
+		&{$fullhd-modifier}:not({$max-desktop-modifier}):not({$max-widescreen-modifier})
+			max-width: min($fullhd, $container-max-width) - $container-offset
 	+widescreen()
-		max-width: $widescreen - $container-offset
+		&:not({$max-desktop-modifier})
+			max-width: min($widescreen, $container-max-width) - $container-offset
+			max-width: $widescreen - $container-offset
 	+fullhd()
-		max-width: $fullhd - $container-offset
+		&:not({$max-desktop-modifier}):not({$max-widescreen-modifier})
+			max-width: min($fullhd, $container-max-width) - $container-offset
+			max-width: $fullhd - $container-offset
 
 	{block}
 

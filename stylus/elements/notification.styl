@@ -1,9 +1,15 @@
+@import "../utilities/mixins"
+
 $notification-background-color ?= $background
 $notification-code-background-color ?= $scheme-main
 $notification-radius ?= $radius
 $notification-padding ?= 1.25rem 2.5rem 1.25rem 1.5rem
+$notification-padding-ltr ?= 1.25rem 2.5rem 1.25rem 1.5rem
+$notification-padding-rtl ?= 1.25rem 1.5rem 1.25rem 2.5rem
 
-colorfulNotification($colors= $colors)  // TODO: Some changes was here, recheck please.
+$notification-colors ?= $colors
+
+colorfulNotification($colors= $notification-colors)  // TODO: Some changes was here, recheck please.
 	for $name, $pair in $colors
 		$color = $pair['1']
 		$color-invert = $pair['2']
@@ -24,6 +30,10 @@ _notification()
 	border-radius: $notification-radius
 	padding: $notification-padding
 	position: relative
+	+ltr()
+		padding: $notification-padding-ltr
+	+rtl()
+		padding: $notification-padding-rtl
 	a:not({$button-selector}):not({$dropdown-item-selector})
 		color: currentColor
 		text-decoration: underline
@@ -60,7 +70,7 @@ _vnotification()
 
 	& > {$delete-selector}
 		position: absolute
-		right: 0.5rem
+		ltr-position(0.5rem)
 		top: 0.5rem
 
 	for $name, $trio in $colors

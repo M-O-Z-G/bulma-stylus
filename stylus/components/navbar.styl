@@ -1,3 +1,5 @@
+@import "../utilities/mixins"
+
 $navbar-background-color ?= $scheme-main
 $navbar-box-shadow-size ?= 0 2px 0 0
 $navbar-box-shadow-color ?= $background
@@ -46,7 +48,9 @@ $navbar-bottom-box-shadow-size ?= 0 -2px 0 0
 
 $navbar-breakpoint ?= $desktop
 
-colorfulNavbar($colors= $colors)
+$navbar-colors ?= $colors
+
+colorfulNavbar($colors= $navbar-colors)
 	for $name, $pair in $colors
 		$color = $pair['1']
 		$color-invert = $pair['2']
@@ -171,7 +175,7 @@ _navbar()
 	{$navbar-burger-selector}
 		color: $navbar-burger-color
 		hamburger($navbar-height)
-		margin-left: auto
+		ltr-property("margin", auto, false)
 
 	/{$navbar-menu-selector}
 		display: none
@@ -238,13 +242,13 @@ _navbar()
 
 	/{$navbar-link-selector}
 		&:not({$arrowless-modifier}) // TODO: `not` pseuo-class will be a problem with different naming methodology. Check how we can deal with it.
-			padding-right: 2.5em
+			ltr-property("padding", 2.5em)
 
 			&::after
 				@extend $arrow
 				border-color: $navbar-dropdown-arrow
 				margin-top: -0.375em
-				right: 1.125em
+				ltr-position(1.125em)
 
 	{$navbar-dropdown-selector}
 		font-size: 0.875rem
@@ -403,11 +407,11 @@ _navbar()
 
 		/{$navbar-start-selector}
 			justify-content: flex-start
-			margin-right: auto
+			ltr-property("margin", auto)
 
 		/{$navbar-end-selector}
 			justify-content: flex-end
-			margin-left: auto
+			ltr-property("margin", auto, false)
 
 		/{$navbar-dropdown-selector}
 			background-color: $navbar-dropdown-background-color
@@ -417,7 +421,7 @@ _navbar()
 			box-shadow: 0 8px 8px bulmaRgba($scheme-invert, 0.1)
 			display: none
 			font-size: 0.875rem
-			left: 0
+			ltr-position(0, false)
 			min-width: 100%
 			position: absolute
 			top: 100%
@@ -428,7 +432,7 @@ _navbar()
 				white-space: nowrap
 
 			& a{$navbar-item-selector}
-				padding-right: 3rem
+				ltr-property("padding", 3rem)
 
 				&:focus,
 				&:hover
@@ -463,7 +467,8 @@ _navbar()
 		/{$container-selector} > {$navbar-selector}
 			for $t in ((brand left) (menu right))
 				& {convert('$navbar-'+$t[0]+'-selector')}
-					margin-{$t[1]}: -.75rem
+					_lor = $t[1] != left ? true : false;
+					ltr-property("margin", -.75rem, _lor)
 
 		// Fixed navbar
 		&

@@ -1,0 +1,14 @@
+@import "../utilities/mixins"
+if !$silent.helpers.others && !$silent-mode
+	{$util-radiusless-selector}
+		border-radius: 0 !important
+
+	{$util-shadowless-selector}
+		box-shadow: none !important
+
+	{$util-clickable-selector}
+		cursor: pointer !important
+		pointer-events: all !important
+
+	{$util-unselectable-selector}
+		@extend $unselectable

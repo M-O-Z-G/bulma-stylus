@@ -1,3 +1,6 @@
+@import "initial-variables"
+@import "functions"
+
 $primary ?= $turquoise
 
 $info ?= $cyan
@@ -62,7 +65,7 @@ $text-strong ?= $grey-darker
 
 // Code colors
 
-$code ?= $red
+$code ?= bulmaDarken($red, 15%)
 $code-background ?= $background
 
 $pre ?= $text
@@ -157,25 +160,34 @@ $custom-shades ?= null
 $colors ?= mergeColorMaps($default-colors, $custom-colors)
 $shades ?= mergeColorMaps({'black-bis': $black-bis, 'black-ter': $black-ter, 'grey-darker': $grey-darker, 'grey-dark': $grey-dark, 'grey': $grey, 'grey-light': $grey-light, 'grey-lighter': $grey-lighter, 'white-ter': $white-ter, 'white-bis': $white-bis}, $custom-shades)
 
-$message-colors ?= $colors
-$panel-colors ?= $colors
+$buttons-colors        ?= $colors // DEPRICATED: Bulm.io team made this too. $button-color has priority for now.
+$button-colors         ?= $buttons-colors
+$form-colors           ?= $colors
+$file-colors           ?= $form-colors
+$help-colors           ?= $colors
+$helpers-colors        ?= $colors
+$hero-colors           ?= $colors
+$label-colors          ?= $form-colors
+$message-colors        ?= $colors
+$navbar-colors         ?= $colors
+$notification-colors   ?= $colors
+$panel-colors          ?= $colors
+$progress-colors       ?= $colors
+$select-colors         ?= $form-colors
+$table-colors          ?= $colors
+$tags-colors           ?= $colors // DEPRICATED: Bulm.io team made this too. $tag-colors has-priority for now.
+$tag-colors            ?= $tags-colors
+$textarea-colors       ?= $form-colors
 
 $sizes ?= $size-1 $size-2 $size-3 $size-4 $size-5 $size-6 $size-7
 
 // PLUS FEATURES
-$buttons-colors ?= $colors
-$file-colors ?= $colors
-$help-colors ?= $colors
-$helpers-colors ?= $colors
-$hero-colors ?= $colors
-$input-textarea-colors ?= $colors
-$navbar-colors ?= $colors
-$progress-colors ?= $colors
-$select-colors ?= $colors
-$table-colors ?= $colors
-$tags-colors ?= $colors
-
 $fonts ?= null
+
+$selection ?= {
+	"color": null,
+	"background": null
+}
 
 $silent ?= null
 $silent = mergeNested({
@@ -185,14 +197,12 @@ $silent = mergeNested({
 	},
 	sizes: {
 		subtitle: false,
-		title: false,
-		typography: false
+		title: false
 	},
 	colorful: {
 		buttons: false,
 		file: false,
 		help: false,
-		helpers: false,
 		hero: false,
 		input-textarea: false,
 		message: false,
@@ -203,14 +213,21 @@ $silent = mergeNested({
 		select: false,
 		tags: false
 	},
-	shades: {
-		helpers: false
-
-	},
 	css-variables: !$css-variables,
 	reset: false,
 	generic: false,
-	helpers: false,
+	helpers: {
+		color: false,
+		shades: false,
+		flexbox: false,
+		float: false,
+		others: false,
+		overflow: false,
+		position: false,
+		spacing: false,
+		typography: false,
+		visibility: false
+	},
 	animation: {
 		spinAround: false,
 		moveIndeterminate: false

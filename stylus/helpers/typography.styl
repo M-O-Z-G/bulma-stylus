@@ -1,0 +1,66 @@
+@import "../utilities/mixins"
+
+typography-size($target = '')
+	for $size in $sizes
+		$i = index($sizes, $size) + 1
+		$target-suffix = $target == '' ? '' : '-' + sanitizeName($target,'')
+		{$is-selector}size-{$i}{$target-suffix}
+			font-size: $size !important
+
+if !$silent.helpers.typography && !$silent-mode
+	typography-size()
+
+	for $device in $devices
+		if !match('-only$', sanitizeName($device, ''))
+			+$device()
+				typography-size($device)
+
+	$alignments = {'centered': center, 'justified': justify, 'left': left, 'right': right}
+
+	for $alignment, $text-align in $alignments
+		{$util-has-text-selector}-{$alignment}
+			text-align: $text-align !important
+
+	for $alignment, $text-align in $alignments
+		for $device in $devices
+			+$device()
+				{$util-has-text-selector}-{$alignment}-{$device}
+					text-align: $text-align !important
+
+	{$util-capitalized-selector}
+		text-transform: capitalize !important
+
+	{$util-lowercase-selector}
+		text-transform: lowercase !important
+
+	{$util-uppercase-selector}
+		text-transform: uppercase !important
+
+	{$util-italic-selector}
+		font-style: italic !important
+
+	{$util-has-text-weight-light-selector}
+		font-weight: $weight-light !important
+	{$util-has-text-weight-normal-selector}
+		font-weight: $weight-normal !important
+	{$util-has-text-weight-medium-selector}
+		font-weight: $weight-medium !important
+	{$util-has-text-weight-semibold-selector}
+		font-weight: $weight-semibold !important
+	{$util-has-text-weight-bold-selector}
+		font-weight: $weight-bold !important
+
+	{$util-family-primary-selector}
+		font-family: $family-primary !important
+
+	{$util-family-secondary-selector}
+		font-family: $family-secondary !important
+
+	{$util-family-sans-serif-selector}
+		font-family: $family-sans-serif !important
+
+	{$util-family-monospace-selector}
+		font-family: $family-monospace !important
+
+	{$util-family-code-selector}
+		font-family: $family-code !important

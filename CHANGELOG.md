@@ -14,7 +14,7 @@
 - `$naming-methodology` string variable. `'SMACSS'` by default. Any value other than `'BEM'` returns Bulma's default behavior.
 - Shaded and pseudo-3D styles for buttons.
 - Extra animation rules.
-- `mediaQuery()` mixin with options `$deviceName` and `$orientation`.
+- 
 - `bulma-stylus-plus.js` now can be imported to add default script for Bulma's *navbar* (and other interactive features in future)
 
 ### Changed
@@ -25,15 +25,79 @@
 
 </details>
 
-## 0.8.5-beta - 2020-XX-XX
+## 0.9.1-beta - 2020-11-XX
+
+### RTL support
+
+Bulma Stylus Plus now has **RTL support**.
+
+By setting the Stylus variable `$rtl` to `true`, you can create an RTL version of Bulma, thanks to 4 new Stylus mixins:
+
+- `ltr`
+- `rtl`
+- `ltrProp($spacing, $property, $right: true)`
+- `ltr-property($property, $spacing, $right: true)`
+- `ltr-position($spacing, $right: true)`
+
+The Bulma Stylus Plus package now also comes with a `bulma-rtl.css` and `bulma-rtl.min.css` file to be used straight away.
+
+### Spacing helpers
+
+Bulma Stylus Plus now [has **spacing helpers**](https://bulma.io/documentation/helpers/spacing-helpers/).
+
+Bulma Stylus Plus provides **margin** `m*` and **padding** `p*` helpers in all **directions**:
+
+- `*t` for **top**
+- `*r` for **right**
+- `*b` for **bottom**
+- `*l` for **left**
+- `*x` horizontally for both **left** and **right**
+- `*y` vertically for both **top** and **bottom**
+
+You need to **combine** a margin/padding prefix with a direciton suffix. For example:
+
+- for a `margin-top`, use `mt-*`
+- for a `padding-bottom`, use `pb-*`
+- for both `margin-left` and `margin-right`, use `mx-*`
+
+Each of these `property-direction` **combinations** needs to be appended with one of **6 value suffixes**
 
 ### Added
 
-- `mediaQuery` block mixin.
+- `bulmaLighten` color mixin.
+- `mediaQuery()` mixin with options `$deviceName` and `$orientation`.
+- `.is-square` modifier class for buttons.
+- [#3047](https://github.com/jgthms/bulma/pull/3047) Flexbox helpers
+- [#3085](https://github.com/jgthms/bulma/pull/3085) Add `is-clickable` helper
+- New variables `$form-colors`,  `$label-colors`, `$notification-colors`,  `$tag-colors`, `$button-colors`,  `$textarea-colors`,  `$util-clickable-selector`, `$util-flex`,  `$util-flex-direction`, `$util-flex-wrap`, `$util-justify-content`, `$util-align`, `$util-align-content`, `$util-align-items`, `$util-align-self`, `$max-desktop-modifier`, `$max-widescreen-modifier`, `$ghost-modifier`, `$square-modifier`, `$selection`
+
+- [#3088](https://github.com/jgthms/bulma/pull/3088) Adds not allowed cursor to missing inputs
+
+- [#3101](https://github.com/jgthms/bulma/pull/3101) Add `$modal-breakpoint` variable for modal breakpoint
+
+- [#3107](https://github.com/jgthms/bulma/pull/3107) Add `optgroup` to `generic.styl`
+
+- [#2630](https://github.com/jgthms/bulma/pull/2630) Fixes [#2598](https://github.com/jgthms/bulma/issues/2598) -> Add `$card-radius` variable
+
+- [#2925](https://github.com/jgthms/bulma/pull/2925) Center table cell content vertically with `is-vcentered`
+
+- `$card-overflow` variable.
+
+- [#2540](https://github.com/jgthms/bulma/pull/2540) Fixes [#2539](https://github.com/jgthms/bulma/issues/2539) -> Fix indeterminate progress styling in IE11.
 
 ### Changed
 
 - `from` and `until` block mixins now accept `$orientation` and `$par` variables. For orientation of the device, and pixel ratios accordingly.
+- [#2955](https://github.com/jgthms/bulma/pull/2955) Fix issue when there's only one `is-toggle` tag.
+- [#3057](https://github.com/jgthms/bulma/pull/3057) Make the default text color of `$code` listings more accessible. (**The result is not equivalent to Bluma.io with Stylus!**)
+
+### Deprecated
+
+- Variables: `$input-textarea-colors`, `$buttons-colors`, `$tags-colors`, `$list-selector`.
+- The `base/helpers.sass` file. It has moved into its own `/helpers` folder. If you were importing `base/helpers.sass` or `base/_all.sass`, please import `sass/helpers/_all.sass` now.
+	If you were simply importing the whole of Bulma Stylus Plus with `@import "~/bulma/bulma.sass"` or similar, you won't have to change anything, and everything will work as before. All `silent`  options for `helpers` are in separate group for now. If you're using some customized "silent" rendering, please, check it.
+- The `list` component is also **deprecated**: the `components/list.sass` file has been deleted. It was never officialy supported as it was too similar to `panel` component. Use that one instead.
+
 
 ------
 
