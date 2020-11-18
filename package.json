@@ -49,12 +49,10 @@
     "build": "npm run build-stylus && npm run build-cleancss",
     "build-stylus": "stylus bulma-stylus-plus.styl --out css/bulma.css --sourcemap --use autoprefixer-stylus",
     "build-cleancss": "cleancss -o css/bulma.min.css css/bulma.css",
-    "build-stylus": "stylus bulma-stylus-plus.styl --out css/bulma.css --sourcemap",
     "clean": "rimraf css",
     "rtl": "npm run rtl-stylus && npm run rtl-cleancss",
     "rtl-stylus": "stylus bulma-stylus-plus-rtl.styl --out css/bulma-rtl.css --sourcemap --use autoprefixer-stylus",
     "rtl-cleancss": "cleancss -o css/bulma-rtl.min.css css/bulma-rtl.css",
-    "rtl-stylus": "stylus bulma-stylus-plus-rtl.styl --out css/bulma-rtl.css --sourcemap",
     "deploy": "npm run clean && npm run build && npm run rtl",
     "start": "stylus -w bulma-stylus-plus.styl --out css/bulma.css --sourcemap"
   },
