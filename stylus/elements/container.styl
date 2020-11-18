@@ -24,11 +24,9 @@ _container()
 	+widescreen()
 		&:not({$max-desktop-modifier})
 			max-width: min($widescreen, $container-max-width) - $container-offset
-			max-width: $widescreen - $container-offset
 	+fullhd()
 		&:not({$max-desktop-modifier}):not({$max-widescreen-modifier})
 			max-width: min($fullhd, $container-max-width) - $container-offset
-			max-width: $fullhd - $container-offset
 
 	{block}
 

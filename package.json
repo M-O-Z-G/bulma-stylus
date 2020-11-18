@@ -47,21 +47,16 @@
     "synp": "^1.7.0"
   },
   "scripts": {
-    "build": "npm run build-clean && npm run build-autoprefix && npm run build-cleancss",
-    "build-all": "npm run build-autoprefix && npm run build-cleancss && npm run rtl-autoprefix && npm run rtl-cleancss",
-    "build-overwrite": "npm run build-autoprefix && npm run build-cleancss",
-    "build-autoprefix": "stylus bulma-stylus-plus.styl --out css/bulma.css --sourcemap --use autoprefixer-stylus",
-    "build-stylelint": "stylelint css/bulma.css --fix -q --custom-syntax stylelint-plugin-stylus/custom-syntax",
+    "build": "npm run build-stylus && npm run build-cleancss",
+    "build-stylus": "stylus bulma-stylus-plus.styl --out css/bulma.css --sourcemap --use autoprefixer-stylus",
     "build-cleancss": "cleancss -o css/bulma.min.css css/bulma.css",
-    "build-clean": "rimraf css",
     "build-stylus": "stylus bulma-stylus-plus.styl --out css/bulma.css --sourcemap",
-    "rtl": "npm run build-clean && npm run rtl-autoprefix && npm run rtl-cleancss",
-    "rtl-overwrite": "npm run rtl-autoprefix && npm run rtl-cleancss",
-    "rtl-autoprefix": "stylus bulma-stylus-plus-rtl.styl --out css/bulma-rtl.css --sourcemap --use autoprefixer-stylus",
-    "rtl-stylelint": "stylelint css/bulma-rtl.css --fix -q --custom-syntax stylelint-plugin-stylus/custom-syntax",
+    "clean": "rimraf css",
+    "rtl": "npm run rtl-stylus && npm run rtl-cleancss",
+    "rtl-stylus": "stylus bulma-stylus-plus-rtl.styl --out css/bulma-rtl.css --sourcemap --use autoprefixer-stylus",
     "rtl-cleancss": "cleancss -o css/bulma-rtl.min.css css/bulma-rtl.css",
     "rtl-stylus": "stylus bulma-stylus-plus-rtl.styl --out css/bulma-rtl.css --sourcemap",
-    "deploy": "npm run build",
+    "deploy": "npm run clean && npm run build && npm run rtl",
     "start": "stylus -w bulma-stylus-plus.styl --out css/bulma.css --sourcemap"
   },
   "files": [

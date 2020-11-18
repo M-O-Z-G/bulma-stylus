@@ -1,5 +1,5 @@
 @import '../utilities/derived-variables'
 @import "../utilities/mixins"
 
-if $selection.color or $selection.background
+if ($selection.color or $selection.background) && !$silent-mode
 	selection($selection.color, $selection.background)

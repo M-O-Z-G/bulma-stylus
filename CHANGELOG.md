@@ -81,8 +81,6 @@ Each of these `property-direction` **combinations** needs to be appended with on
 
 - [#2925](https://github.com/jgthms/bulma/pull/2925) Center table cell content vertically with `is-vcentered`
 
-- `$card-overflow` variable.
-
 - [#2540](https://github.com/jgthms/bulma/pull/2540) Fixes [#2539](https://github.com/jgthms/bulma/issues/2539) -> Fix indeterminate progress styling in IE11.
 
 ### Changed
@@ -97,6 +95,10 @@ Each of these `property-direction` **combinations** needs to be appended with on
 - The `base/helpers.sass` file. It has moved into its own `/helpers` folder. If you were importing `base/helpers.sass` or `base/_all.sass`, please import `sass/helpers/_all.sass` now.
 	If you were simply importing the whole of Bulma Stylus Plus with `@import "~/bulma/bulma.sass"` or similar, you won't have to change anything, and everything will work as before. All `silent`  options for `helpers` are in separate group for now. If you're using some customized "silent" rendering, please, check it.
 - The `list` component is also **deprecated**: the `components/list.sass` file has been deleted. It was never officialy supported as it was too similar to `panel` component. Use that one instead.
+
+### Fixes
+
+- Typos in`.vbutton.is-text` for `--active-color`
 
 
 ------
