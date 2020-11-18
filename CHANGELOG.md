@@ -69,7 +69,7 @@ Each of these `property-direction` **combinations** needs to be appended with on
 - `.is-square` modifier class for buttons.
 - [#3047](https://github.com/jgthms/bulma/pull/3047) Flexbox helpers
 - [#3085](https://github.com/jgthms/bulma/pull/3085) Add `is-clickable` helper
-- New variables `$form-colors`,  `$label-colors`, `$notification-colors`,  `$tag-colors`, `$button-colors`,  `$textarea-colors`,  `$util-clickable-selector`, `$util-flex`,  `$util-flex-direction`, `$util-flex-wrap`, `$util-justify-content`, `$util-align`, `$util-align-content`, `$util-align-items`, `$util-align-self`, `$max-desktop-modifier`, `$max-widescreen-modifier`, `$ghost-modifier`, `$square-modifier`, `$selection`
+- New variables `$form-colors`,  `$label-colors`, `$notification-colors`,  `$tag-colors`, `$button-colors`,  `$textarea-colors`,  `$util-clickable-selector`, `$util-flex`,  `$util-flex-direction`, `$util-flex-wrap`, `$util-justify-content`, `$util-align`, `$util-align-content`, `$util-align-items`, `$util-align-self`, `$max-desktop-modifier`, `$max-widescreen-modifier`, `$ghost-modifier`, `$square-modifier`, `$selection`, `$redefined-default-colors`
 
 - [#3088](https://github.com/jgthms/bulma/pull/3088) Adds not allowed cursor to missing inputs
 
