@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.9.1-beta - 2020-11-21
+## 0.9.1-beta - 2020-11-24
 
 ### RTL support
 
