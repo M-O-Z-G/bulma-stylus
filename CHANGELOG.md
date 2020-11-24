@@ -1,31 +1,6 @@
 # Changelog
 
-<details>
-	<summary><b>U̲N̲R̲E̲L̲E̲A̲S̲E̲D̲:</b></summary>
-
-### Added
-
-- *No-conflict* aliases for *mixins* and *functions*.
-- New predefined *font family* presets.
-- New default color variables, and optional redefined default CSS color names (**Stylus-only**).
-- [**BEM 101**](http://getbem.com/introduction/) naming methodology for all *components*, *elements,* and *helpers*. It could be set with the variable `$naming-methodology`.
-- Modifiers can now have dot-free selector names.
-- Printer-oriented styles.
-- `$naming-methodology` string variable. `'SMACSS'` by default. Any value other than `'BEM'` returns Bulma's default behavior.
-- Shaded and pseudo-3D styles for buttons.
-- Extra animation rules.
-- 
-- `bulma-stylus-plus.js` now can be imported to add default script for Bulma's *navbar* (and other interactive features in future)
-
-### Changed
-
-- `$family-…` variables now can be overrided with values from `$fonts`, based on node names.
-
-------
-
-</details>
-
-## 0.9.1-beta - 2020-11-XX
+## 0.9.1-beta - 2020-11-21
 
 ### RTL support
 

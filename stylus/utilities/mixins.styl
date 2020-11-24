@@ -241,7 +241,7 @@ fontFace( $name, $filename, $weight = false, $style = false, $formats = local eo
 		if svg in $formats
 			$svg-name = $svg-font-name ? $svg-font-name : $name
 			push( $src, 'url("' + $font-src + '.svg#' + $svg-name + $hash + '") format("svg")' )
-		src: unquote( join( ",\n       ", $src ) )
+		src: convert( join( ",\n       ", $src ) )
 
 // Placeholders
 
