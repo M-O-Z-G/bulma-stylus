@@ -1,0 +1,117 @@
+@require "../base/animations"
+@require "../utilities/initial-variables"
+@require "../utilities/placeholders"
+@require "../utilities/mixins"
+
+if !$silent.helpers.animated && !$silent-mode
+	{$util-animated}
+		@extend $animated
+
+		// for i in 1..5
+		// 	&.delay-{i}s
+		// 		animation-delay: i * 1s;
+
+		// &.faster
+		// 	animation-duration: ($animate-duration / 2);
+
+		// &.fast
+		// 	animation-duration: $animate-duration * 0.8;
+
+		// &.slow
+		// 	animation-duration: $animate-duration * 2;
+
+		// &.slower
+		// 	animation-duration: $animate-duration * 3;
+	{$util-animated-infinite}
+		@extend {$util-animated}
+		animation-iteration-count: infinite;
+
+	for i in 1..3
+		{$util-animated-repeat}-{i}
+			animation-iteration-count: $animate-repeat * i;
+
+
+	@media print, (prefers-reduced-motion: reduce)
+		{$util-animated}
+			animated(false, 1ms !important, false, 1 !important, false, false,
+			false, true)
+
+			&[class*='Out']
+				opacity: 0;
+
+if !$silent.helpers.animation && !$silent.animation.fadeIn && !$silent-mode
+	{$util-faded-in}
+		animation-name: fadeIn;
+		@extend $animated
+		// animated(fadeIn, $duration: false, $delay: false, $direction: false)
+
+if !$silent.helpers.animation && !$silent.animation.fadeOut && !$silent-mode
+	{$util-faded-out}
+		animation-name: fadeOut;
+		@extend $animated
+
+if !$silent.helpers.animation && !$silent.animation.fadeInUp && !$silent-mode
+	{$util-faded-in-up}
+		animation-name: fadeInUp;
+		@extend $animated
+
+if !$silent.helpers.animation && !$silent.animation.fadeInDown && !$silent-mode
+	{$util-faded-in-down}
+		animation-name: fadeInDown;
+		@extend $animated
+
+if !$silent.helpers.animation && !$silent.animation.fadeOutDown && !$silent-mode
+	{$util-faded-out-down}
+		animation-name: fadeOutDown;
+		@extend $animated
+
+if !$silent.helpers.animation && !$silent.animation.fadeOutUp && !$silent-mode
+	{$util-faded-out-up}
+		animation-name: fadeOutUp;
+		@extend $animated
+
+if !$silent.helpers.animation && !$silent.animation.zoomIn && !$silent-mode
+	{$util-zoomed-in}
+		animation-name: zoomIn;
+		@extend $animated
+
+if !$silent.helpers.animation && !$silent.animation.zoomOut && !$silent-mode
+	{$util-zoomed-out}
+		animation-name: zoomOut;
+		@extend $animated
+
+if !$silent.helpers.animation && !$silent.animation.shakeVertical && !$silent-mode
+	{$util-shaked-vertical}
+		animation-name: shakeVertical
+		animation-delay: .3s
+		animation-duration: .4s;
+
+if !$silent.helpers.animation && !$silent.animation.shakeHorizontal && !$silent-mode
+	{$util-shaked-horizontal}
+		animation-name: shakeHorizontal
+		animation-delay: .3s
+		animation-duration: .4s;
+
+if !$silent.helpers.animation && !$silent.animation.vibrateVertical && !$silent-mode
+	{$util-vibrated-vertical}
+		animation-name: vibrateVertical
+		animation-delay: .2s
+		animation-duration: .3s;
+
+if !$silent.helpers.animation && !$silent.animation.vibrateHorizontal && !$silent-mode
+	{$util-vibrated-horizontal}
+		animation-name: vibrateHorizontal
+		animation-delay: .2s
+		animation-duration: .3s;
+
+if !$silent.helpers.animation && !$silent.animation.jumping && !$silent-mode
+	{$util-jumping-invitingly}
+		animation-name: jumping;
+		animation-delay: .5s;
+		animation-duration: 1.5s;
+		animation-iteration-count: 2;
+		&.infinite
+			@extend {$util-animated-infinite}
+		for i in 1..3
+			&-repeat-{i}
+				@extend {$util-animated-repeat}-{i}

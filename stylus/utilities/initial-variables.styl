@@ -85,6 +85,11 @@ $silent-mode ?= false
 $redefined-default-colors ?= false
 $bsp-no-conflict ?= false // TODO: Reserved for further errors :)
 
+// Animation
+$animate-duration ?= 1s;
+$animate-delay ?= 1s;
+$animate-repeat ?= 1;
+
 // Webcolors
 if $redefined-default-colors
 	black                = $black
@@ -147,6 +152,23 @@ $util-align ?= $is-selector+'align'
 $util-align-content ?= $util-align+'-content'
 $util-align-items ?= $util-align+'-items'
 $util-align-self ?= $util-align+'-self'
+
+$util-animated ?= $is-modifier+'animated'
+$util-animated-infinite ?= $util-animated+'-infinite'
+$util-animated-repeat ?= $util-animated+'-repeat'
+$util-faded-in ?= $is-modifier+'faded-in'
+$util-faded-in-up ?= $is-modifier+'faded-in-up'
+$util-faded-in-down ?= $is-modifier+'faded-in-down'
+$util-faded-out ?= $is-modifier+'faded-out'
+$util-faded-out-up ?= $is-modifier+'faded-out-up'
+$util-faded-out-down ?= $is-modifier+'faded-out-down'
+$util-zoomed-in ?= $is-modifier+'zoomed-in'
+$util-zoomed-out ?= $is-modifier+'zoomed-out'
+$util-shaked-vertical ?= $is-modifier+'shaked-vertical'
+$util-shaked-horizontal ?= $is-modifier+'shaked-horizontal'
+$util-vibrated-vertical ?= $is-modifier+'vibrated-vertical'
+$util-vibrated-horizontal ?= $is-modifier+'vibrated-horizontal'
+$util-jumping-invitingly ?= $is-modifier+'jumping-invitingly'
 
 $util-has-text-selector ?= $has-selector+'text'
 $util-has-background-selector ?= $has-selector+'background'

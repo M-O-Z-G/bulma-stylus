@@ -1,5 +1,6 @@
 @require "initial-variables"
 @require "derived-variables"
+@require "functions"
 
 css-variable($color, $name, $cssvar-invert)
 	$hue= hue($color)
@@ -364,3 +365,34 @@ selection($sc= inherit, $sbgc= inherit)
 		if $sbgc != null
 			background: $sbgc;
 		{block}
+
+animated($name, $duration= $animate-duration, $delay= $animate-delay,
+	$repeat= infinite, $direction= normal, $timing= linear, $mode= both,
+	$iteration= false)
+	animation-name: $name if $name;
+	animation-duration: $duration if $duration;
+	transition-duration: $duration if $duration && $iteration;
+	animation-delay: $delay if $delay;
+	animation-iteration-count: $repeat if $repeat;
+	animation-direction: $direction if $direction;
+	animation-timing-function: $timing if $timing;
+	animation-fill-mode: $mode if $mode;
+
+animationBounce($name, $axis, $distance)
+	$keyframesName = sanitizeName($name)
+	$val = 'translate' + $axis
+	@keyframes $keyframesName
+		0%
+			transform: unquote($val + '(' + ($distance * -1) + ')' )
+
+		25%
+			transform: unquote($val + '(' + $distance + ')' )
+
+		50%
+			transform: unquote($val + '(' + ($distance / 2 * -1) + ')' )
+
+		75%
+			transform: unquote($val + '(' + ($distance / 2) + ')' )
+
+		100%
+			transform: unquote($val + '(0)' )

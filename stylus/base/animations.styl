@@ -1,3 +1,14 @@
+@require '../utilities/initial-variables'
+@require '../utilities/derived-variables'
+@require "../utilities/mixins"
+
+_animation-moveIndeterminate()
+	@keyframes moveIndeterminate
+		from
+			background-position: 200% 0
+		to
+			background-position: -200% 0
+
 _animation-spinAround()
 	@keyframes spinAround
 		from
@@ -5,5 +16,142 @@ _animation-spinAround()
 		to
 			transform rotate(359deg)
 
+_animation-fadeIn()
+	@keyframes fadeIn
+		from
+			opacity: 0;
+		to
+			opacity: 1;
+
+_animation-fadeInUp()
+	@keyframes fadeInUp
+		from
+			opacity: 0;
+			transform: translate3d(0, 100%, 0);
+		to
+			opacity: 1;
+			transform: translate3d(0, 0, 0);
+
+_animation-fadeInDown()
+	@keyframes fadeInDown
+		from
+			opacity: 0;
+			transform: translate3d(0, -100%, 0);
+		to
+			opacity: 1;
+			transform: translate3d(0, 0, 0);
+
+_animation-fadeOut()
+	@keyframes fadeOut
+		from
+			opacity: 1;
+		to
+			opacity: 0;
+
+_animation-fadeOutUp()
+	@keyframes fadeOutUp
+		from
+			opacity: 1;
+		to
+			opacity: 0;
+			transform: translate3d(0, -100%, 0);
+
+_animation-fadeOutDown()
+	@keyframes fadeOutDown
+		from
+			opacity: 1;
+		to
+			opacity: 0;
+			transform: translate3d(0, 100%, 0);
+
+_animation-zoomIn()
+	@keyframes zoomIn
+		from
+			opacity: 0
+			transform: scale3d(0.85, 0.85, 0.85)
+		50%
+			opacity: 1
+
+_animation-zoomOut()
+	@keyframes zoomOut
+		from
+			opacity: 1
+		50%
+			opacity: 0
+			transform: scale3d(0.85, 0.85, 0.85)
+		to
+			opacity: 0
+
+_animation-jumping($jumpAmp= 1)
+	@keyframes jumping
+		0%
+			transform: translate(0, 0) rotate(0)
+		10%
+			transform: translate(0, round(1px * $jumpAmp)) rotate(5deg) scaleY(0.9)
+		20%
+			transform: translate(0, round(-12px * $jumpAmp)) rotate(-12deg) scaleY(1.2)
+		30%
+			transform: translate(0, round(-15px * $jumpAmp)) rotate(5deg) scaleY(1.1)
+		40%
+			transform: translate(0, round(-15px * $jumpAmp)) rotate(-5deg) scaleY(1.2)
+		66%
+			transform: translate(0, round(3px * $jumpAmp)) rotate(0deg)  scaleY(0.8)
+		100%
+			transform: translate(0, 0) rotate(0deg)
+
+_animation-shake-vertical()
+	animationBounce('shakeVertical', Y, 6px)
+
+_animation-shake-horizontal()
+	animationBounce('shakeHorizontal', X, 6px)
+
+_animation_vibrate-vertical()
+	animationBounce('vibrateVertical', Y, 2px)
+
+_animation_vibrate-horizontal()
+	animationBounce('vibrateHorizontal', X, 2px)
+
+if !$silent.elements.progress && !$silent.animation.moveIndeterminate && !$silent-mode
+	_animation-moveIndeterminate()
+
 if !$silent.animation.spinAround && !$silent-mode
 	_animation-spinAround()
+
+if !$silent.animation.fadeIn && !$silent-mode
+	_animation-fadeIn()
+
+if !$silent.animation.fadeOut && !$silent-mode
+	_animation-fadeInUp()
+
+if !$silent.animation.fadeInUp && !$silent-mode
+	_animation-fadeInDown()
+
+if !$silent.animation.fadeInDown && !$silent-mode
+	_animation-fadeOut()
+
+if !$silent.animation.fadeOutDown && !$silent-mode
+	_animation-fadeOutUp()
+
+if !$silent.animation.fadeOutUp && !$silent-mode
+	_animation-fadeOutDown()
+
+if !$silent.animation.zoomIn && !$silent-mode
+	_animation-zoomIn()
+
+if !$silent.animation.zoomOut && !$silent-mode
+	_animation-zoomOut()
+
+if !$silent.animation.shakeVertical && !$silent-mode
+	_animation-shake-vertical()
+
+if !$silent.animation.shakeHorizontal && !$silent-mode
+	_animation-shake-horizontal()
+
+if !$silent.animation.vibrateVertical && !$silent-mode
+	_animation_vibrate-vertical()
+
+if !$silent.animation.vibrateHorizontal && !$silent-mode
+	_animation_vibrate-horizontal()
+
+if !$silent.animation.jumping && !$silent-mode
+	_animation-jumping()

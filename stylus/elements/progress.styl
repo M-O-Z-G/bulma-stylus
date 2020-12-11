@@ -71,13 +71,6 @@ _progress()
 	&{$large-modifier}
 		height: $size-large
 
-	if !$silent.animation.moveIndeterminate && !$silent-mode
-		@keyframes moveIndeterminate
-			from
-				background-position: 200% 0
-			to
-				background-position: -200% 0
-
 	{block}
 
 if !$silent.elements.progress && !$silent-mode
