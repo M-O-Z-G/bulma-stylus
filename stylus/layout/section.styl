@@ -1,14 +1,16 @@
 @require "../utilities/mixins"
 
 $section-padding ?= 3rem 1.5rem
-$section-padding-medium ?= 9rem 1.5rem
-$section-padding-large ?= 18rem 1.5rem
+$section-padding-desktop?= 3rem 3rem
+$section-padding-medium ?= 9rem 4.5rem
+$section-padding-large ?= 18rem 6rem
 
 _section()
 	padding: $section-padding
 
 	// Responsiveness
 	+desktop()
+		padding: $section-padding-desktop
 		// Sizes
 		&{$medium-modifier}
 			padding: $section-padding-medium

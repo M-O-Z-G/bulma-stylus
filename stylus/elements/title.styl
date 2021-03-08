@@ -49,9 +49,6 @@ _title()
 		color: $title-strong-color
 		font-weight: $title-strong-weight
 
-	& + {$highlight-selector}
-		margin-top: -0.75rem
-
 	&:not({$spaced-modifier}) + {$subtitle-selector} // TODO: `not` pseudo-class will be a problem with different naming methodology. Check how we can deal with it.
 		margin-top: $subtitle-negative-margin
 

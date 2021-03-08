@@ -99,6 +99,10 @@ $size-normal ?= $size-6
 $size-medium ?= $size-5
 $size-large ?= $size-4
 
+// Effects
+
+$shadow ?= 0 0.5em 1em -0.125em rgba($scheme-invert, 0.1), 0 0px 0 1px rgba($scheme-invert, 0.02)
+
 // Lists and maps
 $default-colors ?= {
 	"white": {
@@ -253,6 +257,7 @@ $silent = mergeNested({
 		container: false,
 		content: false,
 		icon: false,
+		icon-text: false,
 		image: false,
 		notification: false,
 		other: false,

@@ -1,9 +1,10 @@
 @require "../utilities/mixins"
 
 $hero-body-padding ?= 3rem 1.5rem
+$hero-body-padding-tablet ?= 3rem 3rem
 $hero-body-padding-small ?= 1.5rem
-$hero-body-padding-medium ?= 9rem 1.5rem
-$hero-body-padding-large ?= 18rem 1.5rem
+$hero-body-padding-medium ?= 9rem 4.5rem
+$hero-body-padding-large ?= 18rem 6rem
 
 $hero-colors ?= $colors
 
@@ -44,7 +45,8 @@ colorfulHero($colors= hero-colors)
 						opacity: 1
 				li
 					&{$active-modifier} a
-						opacity 1
+						color: $color !important
+						opacity: 1
 				&{$boxed-modifier},
 				&{$toggle-modifier}
 					a
@@ -154,6 +156,8 @@ _hero()
 		flex-grow: 1
 		flex-shrink: 0
 		padding: $hero-body-padding
+		+tablet()
+			padding: $hero-body-padding-tablet
 
 if !$silent.layout.hero && !$silent-mode
 	{$hero-selector}

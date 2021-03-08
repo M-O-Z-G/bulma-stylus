@@ -102,6 +102,18 @@ placeholder()
 		&:{$placeholder}-placeholder
 			{block}
 
+reset()
+	-moz-appearance: none
+	-webkit-appearance: none
+	appearance: none
+	background: none
+	border: none
+	color: currentColor
+	font-family: inherit
+	font-size: 1em
+	margin: 0
+	padding: 0
+
 // Responsiveness
 //TODO: Perhaps we need add here optional `device` sizes insted `screen` for usage with specific devices. See https://gitlab.com/snippets/1955368
 mediaQuery($device, $until= false, $orientation= false, $par= false, $custom= false)
@@ -274,7 +286,7 @@ block($spacing = $block-spacing)
 		margin-bottom: $spacing
 
 delete()
-	@extend $unselectable
+	unselectable()
 	-moz-appearance: none
 	-webkit-appearance: none
 	background-color: bulmaRgba($scheme-invert, 0.2)
